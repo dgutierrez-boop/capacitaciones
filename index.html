@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Capacitaciones - Minerar</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/gif" href="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif">
+    <link rel="shortcut icon" type="image/gif" href="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            background: white;
+            border-radius: 15px;
+            padding: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        .header-text {
+            text-align: left;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid #667eea;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .kpi-card h3 {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .kpi-card .value {
+            color: #667eea;
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .kpi-card .description {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .filters-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .filters-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .filter-group select {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-card h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            text-align: center;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+        }
+
+        .table-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .table-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow-x: auto;
+            display: block;
+        }
+
+        .data-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .badge-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .badge-info {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 1.2em;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .header-text {
+                text-align: center;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .logo-img {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif" alt="Minerar" class="logo-img">
+                <div class="header-text">
+                    <h1>📊 Dashboard de Capacitaciones</h1>
+                    <p>Sistema Interactivo de Seguimiento y Análisis</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <h3>Total Empleados</h3>
+                <div class="value" id="kpi-total-empleados">-</div>
+                <div class="description">Personal registrado</div>
+            </div>
+            <div class="kpi-card">
+                <h3>Total Capacitaciones</h3>
+                <div class="value" id="kpi-total-capacitaciones">-</div>
+                <div class="description">Capacitaciones realizadas</div>
+            </div>
+            <div class="kpi-card">
+                <h3>Promedio por Empleado</h3>
+                <div class="value" id="kpi-promedio">-</div>
+                <div class="description">Capacitaciones por persona</div>
+            </div>
+            <div class="kpi-card">
+                <h3>Horas Totales</h3>
+                <div class="value" id="kpi-horas">-</div>
+                <div class="description">Horas de capacitación</div>
+            </div>
+        </div>
+
+        <div class="filters-section">
+            <h2>🔍 Filtros</h2>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="filter-sector">Sector</label>
+                    <select id="filter-sector">
+                        <option value="">Todos los sectores</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-posicion">Posición</label>
+                    <select id="filter-posicion">
+                        <option value="">Todas las posiciones</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-capacitaciones">Rango de Capacitaciones</label>
+                    <select id="filter-capacitaciones">
+                        <option value="">Todos</option>
+                        <option value="0-3">0-3 capacitaciones</option>
+                        <option value="4-6">4-6 capacitaciones</option>
+                        <option value="7+">7 o más</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>Capacitaciones por Sector</h3>
+                <div class="chart-container">
+                    <canvas id="chart-sector"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>Distribución de Empleados por Sector</h3>
+                <div class="chart-container">
+                    <canvas id="chart-distribucion"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>Top 10 Capacitaciones Más Realizadas</h3>
+                <div class="chart-container">
+                    <canvas id="chart-top-capacitaciones"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>Distribución de Empleados por Cantidad de Capacitaciones</h3>
+                <div class="chart-container">
+                    <canvas id="chart-distribucion-cap"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-section">
+            <h2>📋 Detalle de Empleados</h2>
+            <input type="text" class="search-box" id="search-box" placeholder="Buscar por nombre, legajo o posición...">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Legajo</th>
+                        <th>Nombre</th>
+                        <th>Sector</th>
+                        <th>Posición</th>
+                        <th>Capacitaciones</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 Minerar - Dashboard de Capacitaciones</p>
+        </div>
+    </div>
+
+    <script>
+        let allData = [];
+        let filteredData = [];
+        let charts = {};
+
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSnj-9Xv7Wyfqd3fWLLgKoCh6ghAoaPP4DWEijG0IDPxFQa-Mo7P3ZliYzUfNO2izI6zkguH7ltMeJ-/pub?output=csv';
+
+        // Cargar datos
+        Papa.parse(CSV_URL, {
+            download: true,
+            header: false,
+            complete: function(results) {
+                processData(results.data);
+            }
+        });
+
+        function processData(data) {
+            // Extraer encabezados de capacitaciones (fila 1)
+            const headers = data[1];
+            const capacitacionesHeaders = [];
+            const capacitacionesIndices = [];
+            
+            for (let i = 4; i < headers.length; i++) {
+                if (headers[i] && headers[i].trim()) {
+                    capacitacionesHeaders.push(headers[i].trim());
+                    capacitacionesIndices.push(i);
+                }
+            }
+
+            // Procesar empleados (desde fila 3 en adelante)
+            allData = [];
+            for (let i = 3; i < data.length; i++) {
+                const row = data[i];
+                if (row.length > 4 && row[1] && row[1].trim() && 
+                    row[1] !== 'TOTAL' && row[1] !== 'Mensuales' &&
+                    !row[1].includes('Horas totales')) {
+                    
+                    let totalCapacitaciones = 0;
+                    const capacitacionesRealizadas = [];
+                    
+                    capacitacionesIndices.forEach((idx, capIdx) => {
+                        if (row[idx] && row[idx].trim() === '1') {
+                            totalCapacitaciones++;
+                            capacitacionesRealizadas.push(capacitacionesHeaders[capIdx]);
+                        }
+                    });
+
+                    allData.push({
+                        legajo: row[0] || 'N/A',
+                        nombre: row[1].trim(),
+                        sector: row[2] ? row[2].trim() : 'Sin sector',
+                        posicion: row[3] ? row[3].trim() : 'Sin posición',
+                        totalCapacitaciones: totalCapacitaciones,
+                        capacitacionesRealizadas: capacitacionesRealizadas
+                    });
+                }
+            }
+
+            filteredData = [...allData];
+            populateFilters();
+            updateDashboard();
+        }
+
+        function populateFilters() {
+            // Sectores
+            const sectores = [...new Set(allData.map(d => d.sector))].sort();
+            const sectorSelect = document.getElementById('filter-sector');
+            sectores.forEach(s => {
+                const option = document.createElement('option');
+                option.value = s;
+                option.textContent = s;
+                sectorSelect.appendChild(option);
+            });
+
+            // Posiciones
+            const posiciones = [...new Set(allData.map(d => d.posicion))].sort();
+            const posicionSelect = document.getElementById('filter-posicion');
+            posiciones.forEach(p => {
+                const option = document.createElement('option');
+                option.value = p;
+                option.textContent = p;
+                posicionSelect.appendChild(option);
+            });
+
+            // Event listeners
+            document.getElementById('filter-sector').addEventListener('change', applyFilters);
+            document.getElementById('filter-posicion').addEventListener('change', applyFilters);
+            document.getElementById('filter-capacitaciones').addEventListener('change', applyFilters);
+            document.getElementById('search-box').addEventListener('input', applyFilters);
+        }
+
+        function applyFilters() {
+            const sector = document.getElementById('filter-sector').value;
+            const posicion = document.getElementById('filter-posicion').value;
+            const rango = document.getElementById('filter-capacitaciones').value;
+            const search = document.getElementById('search-box').value.toLowerCase();
+
+            filteredData = allData.filter(d => {
+                if (sector && d.sector !== sector) return false;
+                if (posicion && d.posicion !== posicion) return false;
+                if (rango) {
+                    if (rango === '0-3' && d.totalCapacitaciones > 3) return false;
+                    if (rango === '4-6' && (d.totalCapacitaciones < 4 || d.totalCapacitaciones > 6)) return false;
+                    if (rango === '7+' && d.totalCapacitaciones < 7) return false;
+                }
+                if (search) {
+                    const searchStr = `${d.legajo} ${d.nombre} ${d.posicion}`.toLowerCase();
+                    if (!searchStr.includes(search)) return false;
+                }
+                return true;
+            });
+
+            updateDashboard();
+        }
+
+        function updateDashboard() {
+            updateKPIs();
+            updateCharts();
+            updateTable();
+        }
+
+        function updateKPIs() {
+            const totalEmpleados = filteredData.length;
+            const totalCapacitaciones = filteredData.reduce((sum, d) => sum + d.totalCapacitaciones, 0);
+            const promedio = totalEmpleados > 0 ? (totalCapacitaciones / totalEmpleados).toFixed(1) : 0;
+            const horasTotales = totalCapacitaciones * 2; // Asumiendo 2 horas por capacitación
+
+            document.getElementById('kpi-total-empleados').textContent = totalEmpleados;
+            document.getElementById('kpi-total-capacitaciones').textContent = totalCapacitaciones;
+            document.getElementById('kpi-promedio').textContent = promedio;
+            document.getElementById('kpi-horas').textContent = horasTotales;
+        }
+
+        function updateCharts() {
+            // Destruir gráficos anteriores
+            Object.values(charts).forEach(chart => chart.destroy());
+            charts = {};
+
+            // Gráfico 1: Capacitaciones por Sector
+            const sectorData = {};
+            filteredData.forEach(d => {
+                sectorData[d.sector] = (sectorData[d.sector] || 0) + d.totalCapacitaciones;
+            });
+
+            charts.sector = new Chart(document.getElementById('chart-sector'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(sectorData),
+                    datasets: [{
+                        label: 'Capacitaciones',
+                        data: Object.values(sectorData),
+                        backgroundColor: [
+                            'rgba(102, 126, 234, 0.8)',
+                            'rgba(118, 75, 162, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(245, 158, 11, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(102, 126, 234, 1)',
+                            'rgba(118, 75, 162, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(245, 158, 11, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Gráfico 2: Distribución por Sector
+            const distribucionData = {};
+            filteredData.forEach(d => {
+                distribucionData[d.sector] = (distribucionData[d.sector] || 0) + 1;
+            });
+
+            charts.distribucion = new Chart(document.getElementById('chart-distribucion'), {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(distribucionData),
+                    datasets: [{
+                        data: Object.values(distribucionData),
+                        backgroundColor: [
+                            'rgba(102, 126, 234, 0.8)',
+                            'rgba(118, 75, 162, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(245, 158, 11, 0.8)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Gráfico 3: Top Capacitaciones
+            const capCount = {};
+            filteredData.forEach(d => {
+                d.capacitacionesRealizadas.forEach(cap => {
+                    capCount[cap] = (capCount[cap] || 0) + 1;
+                });
+            });
+
+            const topCaps = Object.entries(capCount)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10);
+
+            charts.topCaps = new Chart(document.getElementById('chart-top-capacitaciones'), {
+                type: 'bar',
+                data: {
+                    labels: topCaps.map(c => c[0]),
+                    datasets: [{
+                        label: 'Realizaciones',
+                        data: topCaps.map(c => c[1]),
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Gráfico 4: Distribución por cantidad de capacitaciones
+            const rangos = {
+                '0-3': 0,
+                '4-6': 0,
+                '7+': 0
+            };
+
+            filteredData.forEach(d => {
+                if (d.totalCapacitaciones <= 3) rangos['0-3']++;
+                else if (d.totalCapacitaciones <= 6) rangos['4-6']++;
+                else rangos['7+']++;
+            });
+
+            charts.distCap = new Chart(document.getElementById('chart-distribucion-cap'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(rangos),
+                    datasets: [{
+                        label: 'Empleados',
+                        data: Object.values(rangos),
+                        backgroundColor: [
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(102, 126, 234, 0.8)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function updateTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            filteredData.forEach(d => {
+                const row = document.createElement('tr');
+                
+                let badgeClass = 'badge-info';
+                let badgeText = 'En progreso';
+                if (d.totalCapacitaciones >= 7) {
+                    badgeClass = 'badge-success';
+                    badgeText = 'Excelente';
+                } else if (d.totalCapacitaciones >= 4) {
+                    badgeClass = 'badge-warning';
+                    badgeText = 'Bueno';
+                }
+
+                row.innerHTML = `
+                    <td>${d.legajo}</td>
+                    <td>${d.nombre}</td>
+                    <td>${d.sector}</td>
+                    <td>${d.posicion}</td>
+                    <td>${d.totalCapacitaciones}</td>
+                    <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
