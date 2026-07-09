@@ -35,22 +35,19 @@
             color: #333;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            padding-top: 140px;
+            padding-top: 80px;
         }
 
         .container { max-width: 1400px; margin: 0 auto; padding: 15px; }
 
-        /* HEADER FIJO */
+        /* HEADER NO FIJO */
         .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
             background: linear-gradient(135deg, var(--inst-naranja) 0%, var(--inst-naranja-claro) 100%);
-            padding: 15px 20px;
+            padding: 20px;
+            margin-bottom: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
             border-bottom: 3px solid var(--inst-beige);
-            z-index: 100;
+            border-radius: 12px;
         }
 
         .header-content {
@@ -70,11 +67,11 @@
         /* FILTROS FIJOS */
         .filters-fixed {
             position: fixed;
-            top: 100px;
+            top: 0;
             left: 0;
             right: 0;
             background: white;
-            padding: 15px 20px;
+            padding: 12px 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             z-index: 99;
             border-bottom: 3px solid var(--inst-naranja);
@@ -85,7 +82,7 @@
             margin: 0 auto;
         }
 
-        .filters-fixed h2 { color: var(--inst-gris-oscuro); margin-bottom: 10px; font-size: 1.2em; text-align: center; }
+        .filters-fixed h2 { color: var(--inst-gris-oscuro); margin-bottom: 8px; font-size: 1.1em; text-align: center; }
         .filters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
         .filter-group { display: flex; flex-direction: column; }
         .filter-group label { color: var(--inst-gris-oscuro); font-weight: 700; margin-bottom: 5px; font-size: 0.85em; }
@@ -358,11 +355,7 @@
         @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         @media (max-width: 968px) {
-            body { padding-top: 180px; }
-            .header { padding: 10px 15px; }
-            .header h1 { font-size: 1.5em; }
-            .logo-img { width: 50px; height: 50px; }
-            .filters-fixed { top: 90px; }
+            body { padding-top: 100px; }
             .charts-container { grid-template-columns: 1fr; }
             .kpi-card { min-width: 150px; padding: 15px 20px; }
             .kpi-card .value { font-size: 1.8em; }
@@ -373,8 +366,7 @@
         }
 
         @media (max-width: 600px) {
-            body { padding-top: 220px; }
-            .filters-fixed { top: 85px; }
+            body { padding-top: 120px; }
             .header h1 { font-size: 1.3em; }
             .filters-grid { grid-template-columns: 1fr; }
             .kpi-grid { flex-wrap: wrap; }
@@ -386,24 +378,13 @@
     </style>
 </head>
 <body>
-    <!-- HEADER FIJO -->
-    <div class="header">
-        <div class="header-content">
-            <img src="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif" alt="Minerar" class="logo-img">
-            <div>
-                <h1>📊 PANEL de Capacitaciones</h1>
-                <p>Sistema Interactivo de Seguimiento - GP Minería</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- FILTROS FIJOS -->
+    <!-- FILTROS FIJOS ARRIBA -->
     <div class="filters-fixed">
         <div class="filters-fixed-content">
             <h2>🔍 Buscar Empleado</h2>
             <div class="filters-grid">
                 <div class="filter-group">
-                    <label for="filter-empleado">👤 Seleccionar Empleado:</label>
+                    <label for="filter-empleado"> Seleccionar Empleado:</label>
                     <select id="filter-empleado">
                         <option value="">Todos los empleados</option>
                     </select>
@@ -423,6 +404,17 @@
     </div>
 
     <div class="container">
+        <!-- HEADER NO FIJO -->
+        <div class="header">
+            <div class="header-content">
+                <img src="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif" alt="Minerar" class="logo-img">
+                <div>
+                    <h1>📊 PANEL de Capacitaciones</h1>
+                    <p>Sistema Interactivo de Seguimiento - GP Minería</p>
+                </div>
+            </div>
+        </div>
+
         <div class="kpi-container">
             <div class="kpi-grid">
                 <div class="kpi-card">
@@ -490,7 +482,7 @@
                         </select>
                     </div>
                     <div class="table-search-group">
-                        <label> Filtrar Estado:</label>
+                        <label>📊 Filtrar Estado:</label>
                         <select id="table-status-filter">
                             <option value="">Todos</option>
                             <option value="rojo">Hasta 3 (Rojo)</option>
@@ -1203,7 +1195,7 @@
                         <p>${empleado.nombre}</p>
                     </div>
                     <div class="employee-header-item">
-                        <h4> Sector</h4>
+                        <h4>🏢 Sector</h4>
                         <p>${empleado.sector}</p>
                     </div>
                     <div class="employee-header-item">
@@ -1222,11 +1214,11 @@
                         <div class="stat-value">${totalPendientes}</div>
                     </div>
                     <div class="stat-card">
-                        <h4> Progreso</h4>
+                        <h4>📊 Progreso</h4>
                         <div class="stat-value">${empleado.porcentajeCompletado}%</div>
                     </div>
                     <div class="stat-card">
-                        <h4>⏱️ Horas Totales</h4>
+                        <h4>️ Horas Totales</h4>
                         <div class="stat-value">${totalHoras}h</div>
                     </div>
                 </div>
@@ -1247,17 +1239,17 @@
                                 <span class="training-badge" style="background: #28a745; color: white;">Completada</span>
                             </div>
                             <div class="training-details">
-                                <div class="training-detail-item">📅 ${c.fecha}</div>
-                                <div class="training-detail-item">‍🏫 ${c.instructor}</div>
+                                <div class="training-detail-item"> ${c.fecha}</div>
+                                <div class="training-detail-item">👨‍ ${c.instructor}</div>
                                 <div class="training-detail-item">⏱️ ${c.duracion} horas</div>
-                                <div class="training-detail-item"> ${c.participantes} participantes</div>
+                                <div class="training-detail-item">👥 ${c.participantes} participantes</div>
                             </div>
                         </div>
                     `).join('')}
                 </div>
 
                 <div class="info-section">
-                    <h3>⏳ Capacitaciones Pendientes (${totalPendientes})</h3>
+                    <h3> Capacitaciones Pendientes (${totalPendientes})</h3>
                     ${empleado.capacitacionesPendientes.length > 0 ? 
                         empleado.capacitacionesPendientes.map(c => `
                             <div class="training-item pending">
