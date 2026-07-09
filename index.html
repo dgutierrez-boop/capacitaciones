@@ -32,29 +32,67 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, var(--inst-gris-oscuro) 0%, #2c2a26 100%);
             min-height: 100vh;
-            padding: 15px;
             color: #333;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            padding-top: 140px;
         }
 
-        .container { max-width: 1400px; margin: 0 auto; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 15px; }
 
+        /* HEADER FIJO */
         .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
             background: linear-gradient(135deg, var(--inst-naranja) 0%, var(--inst-naranja-claro) 100%);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-            text-align: center;
-            border: 3px solid var(--inst-beige);
+            padding: 15px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            border-bottom: 3px solid var(--inst-beige);
+            z-index: 100;
         }
 
-        .logo-container { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .logo-img { width: 70px; height: 70px; object-fit: contain; background: white; border-radius: 12px; padding: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .header h1 { color: white; font-size: 2.2em; text-shadow: 2px 2px 4px rgba(82, 81, 73, 0.5); font-weight: 800; }
-        .header p { color: rgba(255,255,255,0.95); font-size: 1.1em; margin-top: 5px; font-weight: 600; }
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
 
+        .logo-img { width: 60px; height: 60px; object-fit: contain; background: white; border-radius: 12px; padding: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .header h1 { color: white; font-size: 2em; text-shadow: 2px 2px 4px rgba(82, 81, 73, 0.5); font-weight: 800; }
+        .header p { color: rgba(255,255,255,0.95); font-size: 1em; margin-top: 5px; font-weight: 600; }
+
+        /* FILTROS FIJOS */
+        .filters-fixed {
+            position: fixed;
+            top: 100px;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 99;
+            border-bottom: 3px solid var(--inst-naranja);
+        }
+
+        .filters-fixed-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .filters-fixed h2 { color: var(--inst-gris-oscuro); margin-bottom: 10px; font-size: 1.2em; text-align: center; }
+        .filters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+        .filter-group { display: flex; flex-direction: column; }
+        .filter-group label { color: var(--inst-gris-oscuro); font-weight: 700; margin-bottom: 5px; font-size: 0.85em; }
+        .filter-group select, .filter-group input { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95em; background: white; cursor: pointer; transition: all 0.3s ease; }
+        .filter-group select:focus, .filter-group input:focus { outline: none; border-color: var(--inst-naranja); box-shadow: 0 0 10px rgba(241, 139, 0, 0.3); }
+
+        /* KPIs */
         .kpi-container { background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; margin-bottom: 20px; border: 2px solid var(--inst-beige); }
         .kpi-grid { display: flex; gap: 15px; min-width: max-content; justify-content: center; }
         .kpi-card { border-radius: 15px; padding: 20px 30px; box-shadow: 0 6px 20px rgba(0,0,0,0.3); text-align: center; min-width: 200px; transition: transform 0.3s ease; color: white; border: 2px solid rgba(255,255,255,0.3); }
@@ -66,20 +104,11 @@
         .kpi-card h3 { font-size: 0.9em; text-transform: uppercase; margin-bottom: 10px; opacity: 0.95; font-weight: 700; }
         .kpi-card .value { font-size: 2.5em; font-weight: 900; }
 
-        .filters-container { background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-top: 5px solid var(--inst-naranja); }
-        .filters-container h2 { color: var(--inst-gris-oscuro); margin-bottom: 15px; font-size: 1.4em; text-align: center; }
-        .filters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .filter-group { display: flex; flex-direction: column; }
-        .filter-group label { color: var(--inst-gris-oscuro); font-weight: 700; margin-bottom: 5px; font-size: 0.9em; }
-        .filter-group select, .filter-group input { padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95em; background: white; cursor: pointer; transition: all 0.3s ease; }
-        .filter-group select:focus, .filter-group input:focus { outline: none; border-color: var(--inst-naranja); box-shadow: 0 0 10px rgba(241, 139, 0, 0.3); }
-
         .charts-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 20px; }
         .chart-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-left: 5px solid var(--inst-naranja); }
         .chart-card h3 { color: var(--inst-gris-oscuro); margin-bottom: 15px; font-size: 1.2em; text-align: center; font-weight: 700; }
         .chart-container { position: relative; height: 350px; }
 
-        /* NUEVO LAYOUT: BARRAS VERTICALES + LEYENDA */
         .participacion-card { 
             background: white; 
             border-radius: 12px; 
@@ -226,25 +255,23 @@
         @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         @media (max-width: 968px) {
-            .charts-container { grid-template-columns: 1fr; }
+            body { padding-top: 180px; }
+            .header { padding: 10px 15px; }
             .header h1 { font-size: 1.5em; }
+            .logo-img { width: 50px; height: 50px; }
+            .filters-fixed { top: 90px; }
+            .charts-container { grid-template-columns: 1fr; }
             .kpi-card { min-width: 150px; padding: 15px 20px; }
             .kpi-card .value { font-size: 1.8em; }
             .modal-content { margin: 3% auto; width: 95%; padding: 20px; }
-            .participacion-layout {
-                grid-template-columns: 1fr;
-            }
-            .participacion-chart-area {
-                border-right: none;
-                border-bottom: 2px solid #f0f0f0;
-                padding-right: 0;
-                padding-bottom: 20px;
-            }
+            .participacion-layout { grid-template-columns: 1fr; }
+            .participacion-chart-area { border-right: none; border-bottom: 2px solid #f0f0f0; padding-right: 0; padding-bottom: 20px; }
         }
 
         @media (max-width: 600px) {
+            body { padding-top: 220px; }
+            .filters-fixed { top: 85px; }
             .header h1 { font-size: 1.3em; }
-            .logo-img { width: 50px; height: 50px; }
             .filters-grid { grid-template-columns: 1fr; }
             .kpi-grid { flex-wrap: wrap; }
             .data-table { font-size: 0.8em; }
@@ -254,17 +281,43 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo-container">
-                <img src="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif" alt="Minerar" class="logo-img">
-                <div>
-                    <h1> PANEL de Capacitaciones</h1>
-                    <p>Sistema Interactivo de Seguimiento - GP Minería</p>
+    <!-- HEADER FIJO -->
+    <div class="header">
+        <div class="header-content">
+            <img src="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif" alt="Minerar" class="logo-img">
+            <div>
+                <h1>📊 PANEL de Capacitaciones</h1>
+                <p>Sistema Interactivo de Seguimiento - GP Minería</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FILTROS FIJOS -->
+    <div class="filters-fixed">
+        <div class="filters-fixed-content">
+            <h2>🔍 Buscar Empleado</h2>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="filter-empleado">👤 Seleccionar Empleado:</label>
+                    <select id="filter-empleado">
+                        <option value="">Todos los empleados</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-sector">🏢 Sector:</label>
+                    <select id="filter-sector">
+                        <option value="">Todos los sectores</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="search-box">🔎 Búsqueda rápida:</label>
+                    <input type="text" id="search-box" placeholder="Buscar por nombre o legajo...">
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="container">
         <div class="kpi-container">
             <div class="kpi-grid">
                 <div class="kpi-card">
@@ -286,28 +339,6 @@
             </div>
         </div>
 
-        <div class="filters-container">
-            <h2>🔍 Buscar Empleado</h2>
-            <div class="filters-grid">
-                <div class="filter-group">
-                    <label for="filter-empleado"> Seleccionar Empleado:</label>
-                    <select id="filter-empleado">
-                        <option value="">Todos los empleados</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="filter-sector">🏢 Sector:</label>
-                    <select id="filter-sector">
-                        <option value="">Todos los sectores</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="search-box">🔎 Búsqueda rápida:</label>
-                    <input type="text" id="search-box" placeholder="Buscar por nombre o legajo...">
-                </div>
-            </div>
-        </div>
-
         <div class="charts-container">
             <div class="chart-card">
                 <h3>📊 Capacitaciones por Sector</h3>
@@ -316,14 +347,13 @@
                 </div>
             </div>
             <div class="chart-card">
-                <h3>🥧 Distribución de Empleados</h3>
+                <h3> Distribución de Empleados</h3>
                 <div class="chart-container">
                     <canvas id="chart-distribucion"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- NUEVO LAYOUT: BARRAS VERTICALES + LEYENDA LATERAL -->
         <div class="participacion-card">
             <div class="participacion-header">
                 <div class="participacion-title">📈 Participación en Capacitaciones (Cantidad y Porcentaje)</div>
@@ -334,7 +364,6 @@
                     <canvas id="chart-participacion"></canvas>
                 </div>
                 <div class="participacion-legend" id="participacion-legend">
-                    <!-- Se llena dinámicamente -->
                 </div>
             </div>
         </div>
@@ -364,6 +393,7 @@
         </div>
     </div>
 
+    <!-- MODAL DETALLE EMPLEADO -->
     <div id="employeeModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -382,6 +412,7 @@
         let allTemas = [];
         let capacitacionesData = [];
         let totalCapacitacionesDisponibles = 0;
+        let selectedEmployee = null;
 
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSnj-9Xv7Wyfqd3fWLLgKoCh6ghAoaPP4DWEijG0IDPxFQa-Mo7P3ZliYzUfNO2izI6zkguH7ltMeJ-/pub?output=csv';
 
@@ -529,7 +560,11 @@
 
             document.getElementById('filter-empleado').addEventListener('change', function() {
                 if (this.value) {
-                    showEmployeeDetail(this.value);
+                    selectedEmployee = allData.find(e => e.legajo === this.value);
+                    updateDashboardForEmployee(selectedEmployee);
+                } else {
+                    selectedEmployee = null;
+                    applyFilters();
                 }
             });
             
@@ -553,6 +588,475 @@
             updateDashboard();
         }
 
+        function updateDashboardForEmployee(empleado) {
+            // Actualizar KPIs con datos del empleado
+            document.getElementById('kpi-total-empleados').textContent = '1';
+            document.getElementById('kpi-total-capacitaciones').textContent = empleado.totalCapacitaciones;
+            document.getElementById('kpi-promedio').textContent = empleado.totalCapacitaciones;
+            const horasTotales = empleado.capacitacionesRealizadas.reduce((sum, c) => sum + c.duracion, 0);
+            document.getElementById('kpi-horas').textContent = horasTotales + 'h';
+            document.getElementById('total-empleados-label').textContent = '1';
+
+            // Actualizar gráficos con datos del empleado
+            updateChartsForEmployee(empleado);
+            updateTableForEmployee(empleado);
+        }
+
+        function updateDashboard() {
+            updateKPIs();
+            updateCharts();
+            updateTable();
+        }
+
+        function updateKPIs() {
+            const totalEmpleados = filteredData.length;
+            const totalCapacitaciones = filteredData.reduce((sum, d) => sum + d.totalCapacitaciones, 0);
+            const promedio = totalEmpleados > 0 ? (totalCapacitaciones / totalEmpleados).toFixed(1) : 0;
+            const horasTotales = totalCapacitaciones * 4;
+
+            document.getElementById('kpi-total-empleados').textContent = totalEmpleados;
+            document.getElementById('kpi-total-capacitaciones').textContent = totalCapacitaciones;
+            document.getElementById('kpi-promedio').textContent = promedio;
+            document.getElementById('kpi-horas').textContent = horasTotales;
+            document.getElementById('total-empleados-label').textContent = totalEmpleados;
+        }
+
+        function updateChartsForEmployee(empleado) {
+            Object.values(charts).forEach(chart => chart.destroy());
+            charts = {};
+
+            const dpr = window.devicePixelRatio || 1;
+
+            // Gráfico 1: Capacitaciones del empleado por tema
+            const temaData = {};
+            empleado.capacitacionesRealizadas.forEach(c => {
+                temaData[c.tema] = (temaData[c.tema] || 0) + 1;
+            });
+
+            const temas = Object.keys(temaData);
+            const cantidades = Object.values(temaData);
+            const totalCaps = cantidades.reduce((a, b) => a + b, 0);
+
+            charts.sector = new Chart(document.getElementById('chart-sector'), {
+                type: 'bar',
+                data: {
+                    labels: temas,
+                    datasets: [{
+                        label: 'Capacitaciones',
+                        data: cantidades,
+                        backgroundColor: coloresGraficos.slice(0, temas.length),
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    devicePixelRatio: dpr,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 13 },
+                            anchor: 'center',
+                            align: 'center',
+                            formatter: function(value) {
+                                const percentage = ((value / totalCaps) * 100).toFixed(1);
+                                return value + '\n(' + percentage + '%)';
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // Gráfico 2: Distribución por duración
+            const duracionData = {};
+            empleado.capacitacionesRealizadas.forEach(c => {
+                duracionData[c.duracion + 'h'] = (duracionData[c.duracion + 'h'] || 0) + 1;
+            });
+
+            charts.distribucion = new Chart(document.getElementById('chart-distribucion'), {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(duracionData),
+                    datasets: [{
+                        data: Object.values(duracionData),
+                        backgroundColor: coloresGraficos.slice(0, Object.keys(duracionData).length),
+                        borderWidth: 3,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    devicePixelRatio: dpr,
+                    cutout: '50%',
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: { padding: 10, font: { size: 12, weight: 'bold' } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                    return `${context.label}: ${context.parsed} capacitaciones (${percentage}%)`;
+                                }
+                            }
+                        },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 14 },
+                            formatter: function(value, context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return percentage + '%';
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico 3: Participación (mostrar solo temas del empleado)
+            const participacionData = {};
+            empleado.capacitacionesRealizadas.forEach(c => {
+                participacionData[c.tema] = (participacionData[c.tema] || 0) + c.duracion;
+            });
+
+            const temasPart = Object.keys(participacionData);
+            const duraciones = Object.values(participacionData);
+            const maxDuracion = Math.max(...duraciones);
+
+            const temasOrdenados = temasPart.map((tema, index) => ({
+                tema,
+                duracion: duraciones[index],
+                color: coloresGraficos[index % coloresGraficos.length]
+            })).sort((a, b) => b.duracion - a.duracion);
+
+            charts.participacion = new Chart(document.getElementById('chart-participacion'), {
+                type: 'bar',
+                data: {
+                    labels: temasOrdenados.map(t => t.tema),
+                    datasets: [{
+                        label: 'Horas',
+                        data: temasOrdenados.map(t => t.duracion),
+                        backgroundColor: temasOrdenados.map(t => t.color),
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    devicePixelRatio: dpr,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const index = context.dataIndex;
+                                    return `Duración: ${temasOrdenados[index].duracion} horas`;
+                                }
+                            }
+                        },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 12 },
+                            anchor: 'end',
+                            align: 'top',
+                            offset: 4,
+                            formatter: function(value) {
+                                return value + 'h';
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Horas de Capacitación', color: '#525149', font: { weight: 'bold', size: 13 } },
+                            grid: { color: '#f0f0f0' }
+                        },
+                        x: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            updateParticipacionLegend(temasOrdenados, 'horas');
+        }
+
+        function updateParticipacionLegend(temasOrdenados, tipo = 'cantidad') {
+            const legendContainer = document.getElementById('participacion-legend');
+            legendContainer.innerHTML = '';
+
+            temasOrdenados.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'legend-item';
+                
+                if (tipo === 'horas') {
+                    div.innerHTML = `
+                        <div class="legend-color-box" style="background: ${item.color};"></div>
+                        <div class="legend-text">${item.tema}</div>
+                        <div class="legend-stats">
+                            <span class="legend-count">${item.duracion}h</span>
+                        </div>
+                    `;
+                } else {
+                    div.innerHTML = `
+                        <div class="legend-color-box" style="background: ${item.color};"></div>
+                        <div class="legend-text">${item.tema}</div>
+                        <div class="legend-stats">
+                            <span class="legend-count">${item.cantidad} pers.</span>
+                            <span class="legend-percentage">${item.porcentaje}%</span>
+                        </div>
+                    `;
+                }
+                legendContainer.appendChild(div);
+            });
+        }
+
+        function updateCharts() {
+            Object.values(charts).forEach(chart => chart.destroy());
+            charts = {};
+
+            const dpr = window.devicePixelRatio || 1;
+
+            const sectorData = {};
+            filteredData.forEach(d => {
+                sectorData[d.sector] = (sectorData[d.sector] || 0) + d.totalCapacitaciones;
+            });
+            const totalSector = Object.values(sectorData).reduce((a, b) => a + b, 0);
+
+            charts.sector = new Chart(document.getElementById('chart-sector'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(sectorData),
+                    datasets: [{
+                        label: 'Capacitaciones',
+                        data: Object.values(sectorData),
+                        backgroundColor: coloresGraficos.slice(0, Object.keys(sectorData).length),
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    devicePixelRatio: dpr,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 13 },
+                            anchor: 'center',
+                            align: 'center',
+                            formatter: function(value) {
+                                const percentage = ((value / totalSector) * 100).toFixed(1);
+                                return value + '\n(' + percentage + '%)';
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            const distribucionData = {};
+            filteredData.forEach(d => {
+                distribucionData[d.sector] = (distribucionData[d.sector] || 0) + 1;
+            });
+
+            charts.distribucion = new Chart(document.getElementById('chart-distribucion'), {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(distribucionData),
+                    datasets: [{
+                        data: Object.values(distribucionData),
+                        backgroundColor: coloresGraficos.slice(0, Object.keys(distribucionData).length),
+                        borderWidth: 3,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    devicePixelRatio: dpr,
+                    cutout: '50%',
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: { padding: 10, font: { size: 12, weight: 'bold' } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                    return `${context.label}: ${context.parsed} empleados (${percentage}%)`;
+                                }
+                            }
+                        },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 14 },
+                            formatter: function(value, context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return percentage + '%';
+                            }
+                        }
+                    }
+                }
+            });
+
+            const participacionData = {};
+            capacitacionesData.forEach(c => {
+                participacionData[c.tema] = (participacionData[c.tema] || 0) + 1;
+            });
+
+            const totalEmpleadosGeneral = allData.length || 1;
+            const temas = Object.keys(participacionData);
+            const cantidades = Object.values(participacionData);
+            const porcentajes = cantidades.map(c => ((c / totalEmpleadosGeneral) * 100).toFixed(1));
+
+            const temasOrdenados = temas.map((tema, index) => ({
+                tema,
+                cantidad: cantidades[index],
+                porcentaje: porcentajes[index],
+                color: coloresGraficos[index % coloresGraficos.length]
+            })).sort((a, b) => b.cantidad - a.cantidad);
+
+            charts.participacion = new Chart(document.getElementById('chart-participacion'), {
+                type: 'bar',
+                data: {
+                    labels: temasOrdenados.map(t => t.tema),
+                    datasets: [{
+                        label: 'Participantes',
+                        data: temasOrdenados.map(t => t.cantidad),
+                        backgroundColor: temasOrdenados.map(t => t.color),
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    devicePixelRatio: dpr,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const index = context.dataIndex;
+                                    return [
+                                        `Tema: ${temasOrdenados[index].tema}`,
+                                        `Participantes: ${context.parsed.y}`,
+                                        `Porcentaje: ${temasOrdenados[index].porcentaje}%`
+                                    ];
+                                }
+                            }
+                        },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 12 },
+                            anchor: 'end',
+                            align: 'top',
+                            offset: 4,
+                            formatter: function(value) {
+                                return value;
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Cantidad de Participantes', color: '#525149', font: { weight: 'bold', size: 13 } },
+                            grid: { color: '#f0f0f0' }
+                        },
+                        x: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            updateParticipacionLegend(temasOrdenados, 'cantidad');
+        }
+
+        function updateTableForEmployee(empleado) {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            let badgeClass = 'badge-rojo';
+            let badgeText = 'Pendiente';
+            
+            if (empleado.totalCapacitaciones <= 3) {
+                badgeClass = 'badge-rojo';
+                badgeText = `Hasta 3 (${empleado.totalCapacitaciones})`;
+            } else if (empleado.totalCapacitaciones === 4) {
+                badgeClass = 'badge-naranja';
+                badgeText = `Igual a 4`;
+            } else if (empleado.totalCapacitaciones > 4) {
+                badgeClass = 'badge-verde';
+                badgeText = `Mayor a 4 (${empleado.totalCapacitaciones})`;
+            }
+
+            const row = document.createElement('tr');
+            row.onclick = () => showEmployeeDetail(empleado.legajo);
+            row.innerHTML = `
+                <td>${empleado.legajo}</td>
+                <td>${empleado.nombre}</td>
+                <td>${empleado.sector}</td>
+                <td>${empleado.puesto}</td>
+                <td>${empleado.totalCapacitaciones} / ${totalCapacitacionesDisponibles}</td>
+                <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        function updateTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            filteredData.forEach(d => {
+                const row = document.createElement('tr');
+                row.onclick = () => showEmployeeDetail(d.legajo);
+                
+                let badgeClass = 'badge-rojo';
+                let badgeText = 'Pendiente';
+                
+                if (d.totalCapacitaciones <= 3) {
+                    badgeClass = 'badge-rojo';
+                    badgeText = `Hasta 3 (${d.totalCapacitaciones})`;
+                } else if (d.totalCapacitaciones === 4) {
+                    badgeClass = 'badge-naranja';
+                    badgeText = `Igual a 4`;
+                } else if (d.totalCapacitaciones > 4) {
+                    badgeClass = 'badge-verde';
+                    badgeText = `Mayor a 4 (${d.totalCapacitaciones})`;
+                }
+
+                row.innerHTML = `
+                    <td>${d.legajo}</td>
+                    <td>${d.nombre}</td>
+                    <td>${d.sector}</td>
+                    <td>${d.puesto}</td>
+                    <td>${d.totalCapacitaciones} / ${totalCapacitacionesDisponibles}</td>
+                    <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
         function showEmployeeDetail(legajo) {
             const empleado = allData.find(e => e.legajo === legajo);
             if (!empleado) return;
@@ -570,7 +1074,7 @@
                         <p>${empleado.legajo}</p>
                     </div>
                     <div class="employee-header-item">
-                        <h4> Apellido y Nombre</h4>
+                        <h4>👤 Apellido y Nombre</h4>
                         <p>${empleado.nombre}</p>
                     </div>
                     <div class="employee-header-item">
@@ -578,7 +1082,7 @@
                         <p>${empleado.sector}</p>
                     </div>
                     <div class="employee-header-item">
-                        <h4> Puesto</h4>
+                        <h4>💼 Puesto</h4>
                         <p>${empleado.puesto}</p>
                     </div>
                 </div>
@@ -589,7 +1093,7 @@
                         <div class="stat-value">${totalRealizadas}</div>
                     </div>
                     <div class="stat-card">
-                        <h4> Pendientes</h4>
+                        <h4>⏳ Pendientes</h4>
                         <div class="stat-value">${totalPendientes}</div>
                     </div>
                     <div class="stat-card">
@@ -618,8 +1122,8 @@
                                 <span class="training-badge" style="background: #28a745; color: white;">Completada</span>
                             </div>
                             <div class="training-details">
-                                <div class="training-detail-item">📅 ${c.fecha}</div>
-                                <div class="training-detail-item">👨‍🏫 ${c.instructor}</div>
+                                <div class="training-detail-item"> ${c.fecha}</div>
+                                <div class="training-detail-item">👨‍ ${c.instructor}</div>
                                 <div class="training-detail-item">⏱️ ${c.duracion} horas</div>
                                 <div class="training-detail-item">👥 ${c.participantes} participantes</div>
                             </div>
@@ -714,254 +1218,6 @@
                 event.target.style.display = 'none';
                 document.body.style.overflow = 'auto';
             }
-        }
-
-        function updateDashboard() {
-            updateKPIs();
-            updateCharts();
-            updateTable();
-        }
-
-        function updateKPIs() {
-            const totalEmpleados = filteredData.length;
-            const totalCapacitaciones = filteredData.reduce((sum, d) => sum + d.totalCapacitaciones, 0);
-            const promedio = totalEmpleados > 0 ? (totalCapacitaciones / totalEmpleados).toFixed(1) : 0;
-            const horasTotales = totalCapacitaciones * 4;
-
-            document.getElementById('kpi-total-empleados').textContent = totalEmpleados;
-            document.getElementById('kpi-total-capacitaciones').textContent = totalCapacitaciones;
-            document.getElementById('kpi-promedio').textContent = promedio;
-            document.getElementById('kpi-horas').textContent = horasTotales;
-            document.getElementById('total-empleados-label').textContent = totalEmpleados;
-        }
-
-        function updateCharts() {
-            Object.values(charts).forEach(chart => chart.destroy());
-            charts = {};
-
-            const dpr = window.devicePixelRatio || 1;
-
-            // GRÁFICO 1: Capacitaciones por Sector
-            const sectorData = {};
-            filteredData.forEach(d => {
-                sectorData[d.sector] = (sectorData[d.sector] || 0) + d.totalCapacitaciones;
-            });
-            const totalSector = Object.values(sectorData).reduce((a, b) => a + b, 0);
-
-            charts.sector = new Chart(document.getElementById('chart-sector'), {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(sectorData),
-                    datasets: [{
-                        label: 'Capacitaciones',
-                        data: Object.values(sectorData),
-                        backgroundColor: coloresGraficos.slice(0, Object.keys(sectorData).length),
-                        borderWidth: 2,
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    devicePixelRatio: dpr,
-                    plugins: {
-                        legend: { display: false },
-                        datalabels: {
-                            color: '#fff',
-                            font: { weight: 'bold', size: 13 },
-                            anchor: 'center',
-                            align: 'center',
-                            formatter: function(value) {
-                                const percentage = ((value / totalSector) * 100).toFixed(1);
-                                return value + '\n(' + percentage + '%)';
-                            }
-                        }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
-                        x: { grid: { display: false } }
-                    }
-                }
-            });
-
-            // GRÁFICO 2: Distribución de Empleados (DONA)
-            const distribucionData = {};
-            filteredData.forEach(d => {
-                distribucionData[d.sector] = (distribucionData[d.sector] || 0) + 1;
-            });
-
-            charts.distribucion = new Chart(document.getElementById('chart-distribucion'), {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(distribucionData),
-                    datasets: [{
-                        data: Object.values(distribucionData),
-                        backgroundColor: coloresGraficos.slice(0, Object.keys(distribucionData).length),
-                        borderWidth: 3,
-                        borderColor: '#fff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    devicePixelRatio: dpr,
-                    cutout: '50%',
-                    plugins: {
-                        legend: { 
-                            position: 'bottom',
-                            labels: { padding: 10, font: { size: 12, weight: 'bold' } }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                    return `${context.label}: ${context.parsed} empleados (${percentage}%)`;
-                                }
-                            }
-                        },
-                        datalabels: {
-                            color: '#fff',
-                            font: { weight: 'bold', size: 14 },
-                            formatter: function(value, context) {
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((value / total) * 100).toFixed(1);
-                                return percentage + '%';
-                            }
-                        }
-                    }
-                }
-            });
-
-            // GRÁFICO 3: Participación en Capacitaciones (BARRAS VERTICALES)
-            const participacionData = {};
-            capacitacionesData.forEach(c => {
-                participacionData[c.tema] = (participacionData[c.tema] || 0) + 1;
-            });
-
-            const totalEmpleadosGeneral = allData.length || 1;
-            const temas = Object.keys(participacionData);
-            const cantidades = Object.values(participacionData);
-            const porcentajes = cantidades.map(c => ((c / totalEmpleadosGeneral) * 100).toFixed(1));
-
-            // Ordenar por cantidad descendente
-            const temasOrdenados = temas.map((tema, index) => ({
-                tema,
-                cantidad: cantidades[index],
-                porcentaje: porcentajes[index],
-                color: coloresGraficos[index % coloresGraficos.length]
-            })).sort((a, b) => b.cantidad - a.cantidad);
-
-            charts.participacion = new Chart(document.getElementById('chart-participacion'), {
-                type: 'bar',
-                data: {
-                    labels: temasOrdenados.map(t => t.tema),
-                    datasets: [{
-                        label: 'Participantes',
-                        data: temasOrdenados.map(t => t.cantidad),
-                        backgroundColor: temasOrdenados.map(t => t.color),
-                        borderWidth: 2,
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    devicePixelRatio: dpr,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const index = context.dataIndex;
-                                    return [
-                                        `Tema: ${temasOrdenados[index].tema}`,
-                                        `Participantes: ${context.parsed.y}`,
-                                        `Porcentaje: ${temasOrdenados[index].porcentaje}%`
-                                    ];
-                                }
-                            }
-                        },
-                        datalabels: {
-                            color: '#fff',
-                            font: { weight: 'bold', size: 12 },
-                            anchor: 'end',
-                            align: 'top',
-                            offset: 4,
-                            formatter: function(value) {
-                                return value;
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: { display: true, text: 'Cantidad de Participantes', color: '#525149', font: { weight: 'bold', size: 13 } },
-                            grid: { color: '#f0f0f0' }
-                        },
-                        x: {
-                            display: false  // OCULTAMOS los labels del eje X (los nombres)
-                        }
-                    }
-                }
-            });
-
-            // ACTUALIZAR LEYENDA LATERAL
-            updateParticipacionLegend(temasOrdenados);
-        }
-
-        function updateParticipacionLegend(temasOrdenados) {
-            const legendContainer = document.getElementById('participacion-legend');
-            legendContainer.innerHTML = '';
-
-            temasOrdenados.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'legend-item';
-                div.innerHTML = `
-                    <div class="legend-color-box" style="background: ${item.color};"></div>
-                    <div class="legend-text">${item.tema}</div>
-                    <div class="legend-stats">
-                        <span class="legend-count">${item.cantidad} pers.</span>
-                        <span class="legend-percentage">${item.porcentaje}%</span>
-                    </div>
-                `;
-                legendContainer.appendChild(div);
-            });
-        }
-
-        function updateTable() {
-            const tbody = document.getElementById('table-body');
-            tbody.innerHTML = '';
-
-            filteredData.forEach(d => {
-                const row = document.createElement('tr');
-                row.onclick = () => showEmployeeDetail(d.legajo);
-                
-                let badgeClass = 'badge-rojo';
-                let badgeText = 'Pendiente';
-                
-                if (d.totalCapacitaciones <= 3) {
-                    badgeClass = 'badge-rojo';
-                    badgeText = `Hasta 3 (${d.totalCapacitaciones})`;
-                } else if (d.totalCapacitaciones === 4) {
-                    badgeClass = 'badge-naranja';
-                    badgeText = `Igual a 4`;
-                } else if (d.totalCapacitaciones > 4) {
-                    badgeClass = 'badge-verde';
-                    badgeText = `Mayor a 4 (${d.totalCapacitaciones})`;
-                }
-
-                row.innerHTML = `
-                    <td>${d.legajo}</td>
-                    <td>${d.nombre}</td>
-                    <td>${d.sector}</td>
-                    <td>${d.puesto}</td>
-                    <td>${d.totalCapacitaciones} / ${totalCapacitacionesDisponibles}</td>
-                    <td><span class="badge ${badgeClass}">${badgeText}</span></td>
-                `;
-                
-                tbody.appendChild(row);
-            });
         }
     </script>
 </body>
