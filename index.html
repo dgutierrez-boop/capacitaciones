@@ -35,12 +35,11 @@
             color: #333;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            padding-top: 80px;
         }
 
         .container { max-width: 1400px; margin: 0 auto; padding: 15px; }
 
-        /* HEADER NO FIJO */
+        /* HEADER NORMAL - NO FIJO */
         .header {
             background: linear-gradient(135deg, var(--inst-naranja) 0%, var(--inst-naranja-claro) 100%);
             padding: 20px;
@@ -64,25 +63,17 @@
         .header h1 { color: white; font-size: 2em; text-shadow: 2px 2px 4px rgba(82, 81, 73, 0.5); font-weight: 800; }
         .header p { color: rgba(255,255,255,0.95); font-size: 1em; margin-top: 5px; font-weight: 600; }
 
-        /* FILTROS FIJOS */
-        .filters-fixed {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+        /* FILTROS NORMALES - NO FIJOS */
+        .filters-section {
             background: white;
-            padding: 12px 20px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            z-index: 99;
-            border-bottom: 3px solid var(--inst-naranja);
+            border-radius: 12px;
+            border-top: 3px solid var(--inst-naranja);
         }
 
-        .filters-fixed-content {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .filters-fixed h2 { color: var(--inst-gris-oscuro); margin-bottom: 8px; font-size: 1.1em; text-align: center; }
+        .filters-section h2 { color: var(--inst-gris-oscuro); margin-bottom: 10px; font-size: 1.2em; text-align: center; }
         .filters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
         .filter-group { display: flex; flex-direction: column; }
         .filter-group label { color: var(--inst-gris-oscuro); font-weight: 700; margin-bottom: 5px; font-size: 0.85em; }
@@ -344,6 +335,28 @@
         .training-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; font-size: 0.9em; color: #666; }
         .training-detail-item { display: flex; align-items: center; gap: 5px; }
 
+        .pending-summary {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            border: 2px dashed #dc3545;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .pending-summary h4 {
+            color: #dc3545;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .pending-count {
+            font-size: 2em;
+            font-weight: 900;
+            color: #dc3545;
+            text-align: center;
+            margin: 10px 0;
+        }
+
         .footer { text-align: center; padding: 20px; color: var(--inst-beige); font-size: 0.9em; margin-top: 20px; font-weight: 600; }
 
         ::-webkit-scrollbar { width: 12px; height: 12px; }
@@ -355,7 +368,6 @@
         @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         @media (max-width: 968px) {
-            body { padding-top: 100px; }
             .charts-container { grid-template-columns: 1fr; }
             .kpi-card { min-width: 150px; padding: 15px 20px; }
             .kpi-card .value { font-size: 1.8em; }
@@ -366,7 +378,6 @@
         }
 
         @media (max-width: 600px) {
-            body { padding-top: 120px; }
             .header h1 { font-size: 1.3em; }
             .filters-grid { grid-template-columns: 1fr; }
             .kpi-grid { flex-wrap: wrap; }
@@ -378,9 +389,20 @@
     </style>
 </head>
 <body>
-    <!-- FILTROS FIJOS ARRIBA -->
-    <div class="filters-fixed">
-        <div class="filters-fixed-content">
+    <div class="container">
+        <!-- HEADER NO FIJO -->
+        <div class="header">
+            <div class="header-content">
+                <img src="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif" alt="Minerar" class="logo-img">
+                <div>
+                    <h1>📊 PANEL de Capacitaciones</h1>
+                    <p>Sistema Interactivo de Seguimiento - GP Minería</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FILTROS NO FIJOS -->
+        <div class="filters-section">
             <h2>🔍 Buscar Empleado</h2>
             <div class="filters-grid">
                 <div class="filter-group">
@@ -390,7 +412,7 @@
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label for="filter-sector"> Sector:</label>
+                    <label for="filter-sector">🏢 Sector:</label>
                     <select id="filter-sector">
                         <option value="">Todos los sectores</option>
                     </select>
@@ -398,19 +420,6 @@
                 <div class="filter-group">
                     <label for="search-box">🔎 Búsqueda rápida:</label>
                     <input type="text" id="search-box" placeholder="Buscar por nombre o legajo...">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <!-- HEADER NO FIJO -->
-        <div class="header">
-            <div class="header-content">
-                <img src="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif" alt="Minerar" class="logo-img">
-                <div>
-                    <h1>📊 PANEL de Capacitaciones</h1>
-                    <p>Sistema Interactivo de Seguimiento - GP Minería</p>
                 </div>
             </div>
         </div>
@@ -438,7 +447,7 @@
 
         <div class="charts-container">
             <div class="chart-card">
-                <h3>📊 Capacitaciones por Sector</h3>
+                <h3> Capacitaciones por Sector</h3>
                 <div class="chart-container">
                     <canvas id="chart-sector"></canvas>
                 </div>
@@ -476,7 +485,7 @@
                         <input type="text" id="table-search" placeholder="Nombre, legajo, sector o puesto...">
                     </div>
                     <div class="table-search-group">
-                        <label>🏢 Filtrar Sector:</label>
+                        <label> Filtrar Sector:</label>
                         <select id="table-sector-filter">
                             <option value="">Todos</option>
                         </select>
@@ -1218,7 +1227,7 @@
                         <div class="stat-value">${empleado.porcentajeCompletado}%</div>
                     </div>
                     <div class="stat-card">
-                        <h4>️ Horas Totales</h4>
+                        <h4>⏱️ Horas Totales</h4>
                         <div class="stat-value">${totalHoras}h</div>
                     </div>
                 </div>
@@ -1239,27 +1248,38 @@
                                 <span class="training-badge" style="background: #28a745; color: white;">Completada</span>
                             </div>
                             <div class="training-details">
-                                <div class="training-detail-item"> ${c.fecha}</div>
-                                <div class="training-detail-item">👨‍ ${c.instructor}</div>
+                                <div class="training-detail-item">📅 ${c.fecha}</div>
+                                <div class="training-detail-item">‍🏫 ${c.instructor}</div>
                                 <div class="training-detail-item">⏱️ ${c.duracion} horas</div>
-                                <div class="training-detail-item">👥 ${c.participantes} participantes</div>
+                                <div class="training-detail-item"> ${c.participantes} participantes</div>
                             </div>
                         </div>
                     `).join('')}
                 </div>
 
                 <div class="info-section">
-                    <h3> Capacitaciones Pendientes (${totalPendientes})</h3>
-                    ${empleado.capacitacionesPendientes.length > 0 ? 
-                        empleado.capacitacionesPendientes.map(c => `
-                            <div class="training-item pending">
-                                <div class="training-header">
-                                    <span class="training-title">${c.tema}</span>
-                                    <span class="training-badge" style="background: #dc3545; color: white;">Pendiente</span>
+                    <h3>⏳ Capacitaciones Pendientes (${totalPendientes})</h3>
+                    ${totalPendientes > 0 ? `
+                        <div class="pending-summary">
+                            <h4>⚠️ Total de Capacitaciones Pendientes</h4>
+                            <div class="pending-count">${totalPendientes}</div>
+                            <p style="text-align: center; color: #666;">
+                                Le faltan ${totalPendientes} de ${totalCapacitacionesDisponibles} capacitaciones
+                            </p>
+                        </div>
+                        <div style="margin-top: 15px; max-height: 300px; overflow-y: auto;">
+                            ${empleado.capacitacionesPendientes.slice(0, 10).map(c => `
+                                <div class="training-item pending">
+                                    <div class="training-header">
+                                        <span class="training-title">${c.tema}</span>
+                                        <span class="training-badge" style="background: #dc3545; color: white;">Pendiente</span>
+                                    </div>
                                 </div>
-                            </div>
-                        `).join('') : 
-                        '<p style="color: #28a745; font-weight: 700; padding: 15px;">¡Felicitaciones! No tiene capacitaciones pendientes.</p>'
+                            `).join('')}
+                            ${totalPendientes > 10 ? `<p style="text-align: center; color: #666; margin-top: 10px;">... y ${totalPendientes - 10} más</p>` : ''}
+                        </div>
+                    ` : 
+                        '<p style="color: #28a745; font-weight: 700; padding: 15px; text-align: center;">¡Felicitaciones! No tiene capacitaciones pendientes. ✅</p>'
                     }
                 </div>
             `;
