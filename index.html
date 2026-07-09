@@ -79,93 +79,94 @@
         .chart-card h3 { color: var(--inst-gris-oscuro); margin-bottom: 15px; font-size: 1.2em; text-align: center; font-weight: 700; }
         .chart-container { position: relative; height: 350px; }
 
-        /* NUEVO ESTILO PARA GRÁFICO DE PARTICIPACIÓN */
-        .participacion-card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-left: 5px solid var(--inst-naranja); margin-bottom: 20px; }
-        .participacion-header { text-align: center; margin-bottom: 10px; }
+        /* NUEVO LAYOUT: BARRAS VERTICALES + LEYENDA */
+        .participacion-card { 
+            background: white; 
+            border-radius: 12px; 
+            padding: 25px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+            border-left: 5px solid var(--inst-naranja); 
+            margin-bottom: 20px; 
+        }
+        .participacion-header { text-align: center; margin-bottom: 20px; }
         .participacion-title { color: var(--inst-gris-oscuro); font-size: 1.4em; font-weight: 800; margin-bottom: 5px; }
         .participacion-subtitle { color: var(--inst-gris-medio); font-size: 0.95em; }
         .participacion-subtitle strong { color: var(--inst-naranja); }
-        
-        .participacion-list {
+
+        .participacion-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .participacion-chart-area {
+            position: relative;
+            height: 500px;
+            border-right: 2px solid #f0f0f0;
+            padding-right: 20px;
+        }
+
+        .participacion-legend {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            max-height: 700px;
+            gap: 6px;
+            max-height: 500px;
             overflow-y: auto;
-            padding-right: 10px;
+            padding-left: 10px;
         }
-        
-        .participacion-item {
+
+        .legend-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             padding: 8px 12px;
             border-radius: 8px;
-            transition: all 0.2s ease;
             background: #fafafa;
+            transition: all 0.2s ease;
+            cursor: pointer;
         }
-        
-        .participacion-item:hover {
+
+        .legend-item:hover {
             background: #fff8f0;
             transform: translateX(3px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        
-        .participacion-bar-container {
-            flex: 1;
-            height: 28px;
-            background: #f0f0f0;
-            border-radius: 14px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .participacion-bar {
-            height: 100%;
-            border-radius: 14px;
-            transition: width 0.8s ease;
-            display: flex;
-            align-items: center;
-            padding-left: 10px;
-            min-width: 40px;
-        }
-        
-        .participacion-bar-value {
-            color: white;
-            font-weight: 700;
-            font-size: 0.85em;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-        
-        .participacion-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            min-width: 220px;
-            justify-content: flex-end;
-        }
-        
-        .participacion-color-box {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
+
+        .legend-color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
             flex-shrink: 0;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        
-        .participacion-label-text {
-            font-size: 0.9em;
+
+        .legend-text {
+            flex: 1;
+            font-size: 0.88em;
             font-weight: 600;
             color: var(--inst-gris-oscuro);
-            text-align: right;
-            white-space: nowrap;
+            line-height: 1.2;
         }
-        
-        .participacion-percentage {
-            font-weight: 800;
-            font-size: 0.95em;
+
+        .legend-stats {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+            min-width: 70px;
+        }
+
+        .legend-count {
+            font-size: 0.85em;
+            font-weight: 700;
             color: var(--inst-gris-oscuro);
-            min-width: 55px;
-            text-align: right;
+        }
+
+        .legend-percentage {
+            font-size: 0.8em;
+            font-weight: 800;
+            color: var(--inst-naranja);
         }
 
         .table-container { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-top: 5px solid var(--inst-naranja); max-height: 500px; overflow-y: auto; }
@@ -230,8 +231,15 @@
             .kpi-card { min-width: 150px; padding: 15px 20px; }
             .kpi-card .value { font-size: 1.8em; }
             .modal-content { margin: 3% auto; width: 95%; padding: 20px; }
-            .participacion-label { min-width: 150px; }
-            .participacion-label-text { font-size: 0.8em; }
+            .participacion-layout {
+                grid-template-columns: 1fr;
+            }
+            .participacion-chart-area {
+                border-right: none;
+                border-bottom: 2px solid #f0f0f0;
+                padding-right: 0;
+                padding-bottom: 20px;
+            }
         }
 
         @media (max-width: 600px) {
@@ -242,8 +250,6 @@
             .data-table { font-size: 0.8em; }
             .data-table th, .data-table td { padding: 8px; }
             .modal-content { margin: 2% auto; width: 98%; padding: 15px; }
-            .participacion-item { flex-wrap: wrap; }
-            .participacion-label { min-width: 100%; justify-content: flex-start; order: -1; }
         }
     </style>
 </head>
@@ -253,7 +259,7 @@
             <div class="logo-container">
                 <img src="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif" alt="Minerar" class="logo-img">
                 <div>
-                    <h1>📊 PANEL de Capacitaciones</h1>
+                    <h1> PANEL de Capacitaciones</h1>
                     <p>Sistema Interactivo de Seguimiento - GP Minería</p>
                 </div>
             </div>
@@ -317,14 +323,19 @@
             </div>
         </div>
 
-        <!-- NUEVO GRÁFICO DE PARTICIPACIÓN PERSONALIZADO -->
+        <!-- NUEVO LAYOUT: BARRAS VERTICALES + LEYENDA LATERAL -->
         <div class="participacion-card">
             <div class="participacion-header">
-                <div class="participacion-title"> Participación en Capacitaciones (Cantidad y Porcentaje)</div>
+                <div class="participacion-title">📈 Participación en Capacitaciones (Cantidad y Porcentaje)</div>
                 <div class="participacion-subtitle">Porcentaje calculado sobre un total de <strong id="total-empleados-label">0</strong> empleados</div>
             </div>
-            <div class="participacion-list" id="participacion-list">
-                <!-- Se llena dinámicamente -->
+            <div class="participacion-layout">
+                <div class="participacion-chart-area">
+                    <canvas id="chart-participacion"></canvas>
+                </div>
+                <div class="participacion-legend" id="participacion-legend">
+                    <!-- Se llena dinámicamente -->
+                </div>
             </div>
         </div>
 
@@ -559,7 +570,7 @@
                         <p>${empleado.legajo}</p>
                     </div>
                     <div class="employee-header-item">
-                        <h4>👤 Apellido y Nombre</h4>
+                        <h4> Apellido y Nombre</h4>
                         <p>${empleado.nombre}</p>
                     </div>
                     <div class="employee-header-item">
@@ -567,7 +578,7 @@
                         <p>${empleado.sector}</p>
                     </div>
                     <div class="employee-header-item">
-                        <h4>💼 Puesto</h4>
+                        <h4> Puesto</h4>
                         <p>${empleado.puesto}</p>
                     </div>
                 </div>
@@ -578,7 +589,7 @@
                         <div class="stat-value">${totalRealizadas}</div>
                     </div>
                     <div class="stat-card">
-                        <h4>⏳ Pendientes</h4>
+                        <h4> Pendientes</h4>
                         <div class="stat-value">${totalPendientes}</div>
                     </div>
                     <div class="stat-card">
@@ -586,7 +597,7 @@
                         <div class="stat-value">${empleado.porcentajeCompletado}%</div>
                     </div>
                     <div class="stat-card">
-                        <h4>️ Horas Totales</h4>
+                        <h4>⏱️ Horas Totales</h4>
                         <div class="stat-value">${totalHoras}h</div>
                     </div>
                 </div>
@@ -708,7 +719,6 @@
         function updateDashboard() {
             updateKPIs();
             updateCharts();
-            updateParticipacionList();
             updateTable();
         }
 
@@ -723,50 +733,6 @@
             document.getElementById('kpi-promedio').textContent = promedio;
             document.getElementById('kpi-horas').textContent = horasTotales;
             document.getElementById('total-empleados-label').textContent = totalEmpleados;
-        }
-
-        // NUEVA FUNCIÓN PARA ACTUALIZAR LA LISTA DE PARTICIPACIÓN
-        function updateParticipacionList() {
-            const participacionData = {};
-            capacitacionesData.forEach(c => {
-                participacionData[c.tema] = (participacionData[c.tema] || 0) + 1;
-            });
-
-            const totalEmpleadosGeneral = allData.length || 1;
-            const temas = Object.keys(participacionData);
-            const cantidades = Object.values(participacionData);
-            const maxCantidad = Math.max(...cantidades);
-            
-            // Ordenar por cantidad descendente
-            const temasOrdenados = temas.map((tema, index) => ({
-                tema,
-                cantidad: cantidades[index],
-                porcentaje: ((cantidades[index] / totalEmpleadosGeneral) * 100).toFixed(1),
-                color: coloresGraficos[index % coloresGraficos.length]
-            })).sort((a, b) => b.cantidad - a.cantidad);
-
-            const listContainer = document.getElementById('participacion-list');
-            listContainer.innerHTML = '';
-
-            temasOrdenados.forEach(item => {
-                const barWidth = (item.cantidad / maxCantidad) * 100;
-                
-                const div = document.createElement('div');
-                div.className = 'participacion-item';
-                div.innerHTML = `
-                    <div class="participacion-bar-container">
-                        <div class="participacion-bar" style="width: ${barWidth}%; background: ${item.color};">
-                            <span class="participacion-bar-value">${item.cantidad}</span>
-                        </div>
-                    </div>
-                    <div class="participacion-label">
-                        <div class="participacion-color-box" style="background: ${item.color};"></div>
-                        <span class="participacion-label-text">${item.tema}</span>
-                    </div>
-                    <div class="participacion-percentage">${item.porcentaje}%</div>
-                `;
-                listContainer.appendChild(div);
-            });
         }
 
         function updateCharts() {
@@ -865,6 +831,101 @@
                         }
                     }
                 }
+            });
+
+            // GRÁFICO 3: Participación en Capacitaciones (BARRAS VERTICALES)
+            const participacionData = {};
+            capacitacionesData.forEach(c => {
+                participacionData[c.tema] = (participacionData[c.tema] || 0) + 1;
+            });
+
+            const totalEmpleadosGeneral = allData.length || 1;
+            const temas = Object.keys(participacionData);
+            const cantidades = Object.values(participacionData);
+            const porcentajes = cantidades.map(c => ((c / totalEmpleadosGeneral) * 100).toFixed(1));
+
+            // Ordenar por cantidad descendente
+            const temasOrdenados = temas.map((tema, index) => ({
+                tema,
+                cantidad: cantidades[index],
+                porcentaje: porcentajes[index],
+                color: coloresGraficos[index % coloresGraficos.length]
+            })).sort((a, b) => b.cantidad - a.cantidad);
+
+            charts.participacion = new Chart(document.getElementById('chart-participacion'), {
+                type: 'bar',
+                data: {
+                    labels: temasOrdenados.map(t => t.tema),
+                    datasets: [{
+                        label: 'Participantes',
+                        data: temasOrdenados.map(t => t.cantidad),
+                        backgroundColor: temasOrdenados.map(t => t.color),
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    devicePixelRatio: dpr,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const index = context.dataIndex;
+                                    return [
+                                        `Tema: ${temasOrdenados[index].tema}`,
+                                        `Participantes: ${context.parsed.y}`,
+                                        `Porcentaje: ${temasOrdenados[index].porcentaje}%`
+                                    ];
+                                }
+                            }
+                        },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 12 },
+                            anchor: 'end',
+                            align: 'top',
+                            offset: 4,
+                            formatter: function(value) {
+                                return value;
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Cantidad de Participantes', color: '#525149', font: { weight: 'bold', size: 13 } },
+                            grid: { color: '#f0f0f0' }
+                        },
+                        x: {
+                            display: false  // OCULTAMOS los labels del eje X (los nombres)
+                        }
+                    }
+                }
+            });
+
+            // ACTUALIZAR LEYENDA LATERAL
+            updateParticipacionLegend(temasOrdenados);
+        }
+
+        function updateParticipacionLegend(temasOrdenados) {
+            const legendContainer = document.getElementById('participacion-legend');
+            legendContainer.innerHTML = '';
+
+            temasOrdenados.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'legend-item';
+                div.innerHTML = `
+                    <div class="legend-color-box" style="background: ${item.color};"></div>
+                    <div class="legend-text">${item.tema}</div>
+                    <div class="legend-stats">
+                        <span class="legend-count">${item.cantidad} pers.</span>
+                        <span class="legend-percentage">${item.porcentaje}%</span>
+                    </div>
+                `;
+                legendContainer.appendChild(div);
             });
         }
 
