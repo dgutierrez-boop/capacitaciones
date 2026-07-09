@@ -12,6 +12,25 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <style>
+        :root {
+            /* Colores Institucionales (Para la página/UI) */
+            --inst-naranja: #f18b00;
+            --inst-naranja-claro: #ffa543;
+            --inst-beige: #f9c68f;
+            --inst-gris-oscuro: #525149;
+            --inst-gris-medio: #727270;
+            
+            /* Colores Vibrantes (Para gráficos y tarjetas) */
+            --vib-rosa: #FF6384;
+            --vib-azul: #36A2EB;
+            --vib-amarillo: #FFCE56;
+            --vib-verde: #4BC0C0;
+            --vib-morado: #9966FF;
+            --vib-naranja: #FF9F40;
+            --vib-rojo: #F7464A;
+            --vib-cian: #46BFBD;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -20,9 +39,10 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* Fondo institucional oscuro */
+            background: linear-gradient(135deg, var(--inst-gris-oscuro) 0%, #2c2a26 100%);
             min-height: 100vh;
-            padding: 10px;
+            padding: 15px;
             color: #333;
         }
 
@@ -31,14 +51,15 @@
             margin: 0 auto;
         }
 
+        /* HEADER INSTITUCIONAL */
         .header {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, var(--inst-naranja) 0%, var(--inst-naranja-claro) 100%);
             border-radius: 15px;
             padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
             text-align: center;
-            border: 3px solid rgba(255,255,255,0.3);
+            border: 3px solid var(--inst-beige);
         }
 
         .logo-container {
@@ -56,28 +77,30 @@
             background: white;
             border-radius: 12px;
             padding: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         .header h1 {
             color: white;
-            font-size: 2em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(82, 81, 73, 0.5);
+            font-weight: 800;
         }
 
         .header p {
             color: rgba(255,255,255,0.95);
-            font-size: 1em;
+            font-size: 1.1em;
             margin-top: 5px;
+            font-weight: 600;
         }
 
+        /* KPIs COLORIDOS */
         .kpi-container {
-            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: 3px solid #667eea;
+            margin-bottom: 20px;
+            border: 2px solid var(--inst-beige);
         }
 
         .kpi-grid {
@@ -88,52 +111,59 @@
         }
 
         .kpi-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 10px;
-            padding: 15px 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-radius: 15px;
+            padding: 20px 30px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
             text-align: center;
-            min-width: 180px;
+            min-width: 200px;
             transition: transform 0.3s ease;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
         }
 
+        .kpi-card:nth-child(1) { background: linear-gradient(135deg, var(--vib-rosa) 0%, var(--vib-naranja) 100%); }
+        .kpi-card:nth-child(2) { background: linear-gradient(135deg, var(--vib-azul) 0%, var(--vib-verde) 100%); }
+        .kpi-card:nth-child(3) { background: linear-gradient(135deg, var(--vib-morado) 0%, var(--vib-rosa) 100%); }
+        .kpi-card:nth-child(4) { background: linear-gradient(135deg, var(--vib-amarillo) 0%, var(--vib-naranja) 100%); color: var(--inst-gris-oscuro); }
+
         .kpi-card:hover {
-            transform: translateY(-5px) scale(1.05);
+            transform: translateY(-8px) scale(1.03);
         }
 
         .kpi-card h3 {
-            font-size: 0.85em;
+            font-size: 0.9em;
             text-transform: uppercase;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             opacity: 0.95;
+            font-weight: 700;
         }
 
         .kpi-card .value {
-            font-size: 2.2em;
-            font-weight: bold;
+            font-size: 2.5em;
+            font-weight: 900;
         }
 
+        /* FILTROS (Fondo claro para contraste) */
         .filters-container {
             background: white;
             border-radius: 12px;
             padding: 20px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: 3px solid #f093fb;
+            border-top: 5px solid var(--inst-naranja);
         }
 
         .filters-container h2 {
-            color: #764ba2;
+            color: var(--inst-gris-oscuro);
             margin-bottom: 15px;
-            font-size: 1.3em;
+            font-size: 1.4em;
             text-align: center;
         }
 
         .filters-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
+            gap: 15px;
         }
 
         .filter-group {
@@ -142,16 +172,16 @@
         }
 
         .filter-group label {
-            color: #555;
-            font-weight: 600;
+            color: var(--inst-gris-oscuro);
+            font-weight: 700;
             margin-bottom: 5px;
             font-size: 0.9em;
         }
 
         .filter-group select,
         .filter-group input {
-            padding: 10px;
-            border: 2px solid #ddd;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
             border-radius: 8px;
             font-size: 0.95em;
             background: white;
@@ -162,29 +192,32 @@
         .filter-group select:focus,
         .filter-group input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+            border-color: var(--inst-naranja);
+            box-shadow: 0 0 10px rgba(241, 139, 0, 0.3);
         }
 
+        /* BOTONES */
         .btn {
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
             border-radius: 8px;
             font-size: 1em;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--inst-naranja) 0%, var(--inst-naranja-claro) 100%);
             color: white;
+            box-shadow: 0 4px 10px rgba(241, 139, 0, 0.4);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 15px rgba(241, 139, 0, 0.6);
         }
 
         .btn-success {
@@ -192,56 +225,43 @@
             color: white;
         }
 
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(56, 239, 125, 0.4);
-        }
-
         .btn-warning {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, var(--vib-rosa) 0%, var(--vib-morado) 100%);
             color: white;
-        }
-
-        .btn-warning:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
         }
 
         .btn-info {
-            background: linear-gradient(135deg, #f18b00 0%, #ffa543 100%);
+            background: linear-gradient(135deg, var(--vib-azul) 0%, var(--vib-verde) 100%);
             color: white;
         }
 
-        .btn-info:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(241, 139, 0, 0.4);
-        }
-
+        /* GRÁFICOS (Fondo blanco, bordes institucionales) */
         .charts-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 15px;
+            gap: 20px;
+            margin-bottom: 20px;
         }
 
         .chart-card {
             background: white;
             border-radius: 12px;
-            padding: 15px;
+            padding: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: 3px solid #667eea;
+            border-left: 5px solid var(--inst-naranja);
         }
 
         .chart-card h3 {
-            color: #764ba2;
-            margin-bottom: 10px;
-            font-size: 1.1em;
+            color: var(--inst-gris-oscuro);
+            margin-bottom: 15px;
+            font-size: 1.2em;
             text-align: center;
+            font-weight: 700;
         }
 
         .chart-container {
             position: relative;
-            height: 250px;
+            height: 300px;
         }
 
         .chart-container-large {
@@ -249,36 +269,36 @@
             height: 600px;
         }
 
+        /* TABLA */
         .table-container {
             background: white;
             border-radius: 12px;
-            padding: 15px;
+            padding: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: 3px solid #f5576c;
+            border-top: 5px solid var(--inst-naranja);
             max-height: 500px;
             overflow-y: auto;
         }
 
         .table-container h2 {
-            color: #764ba2;
-            margin-bottom: 12px;
-            font-size: 1.3em;
+            color: var(--inst-gris-oscuro);
+            margin-bottom: 15px;
+            font-size: 1.4em;
             text-align: center;
         }
 
         .search-box {
             width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
             border-radius: 8px;
-            font-size: 0.95em;
+            font-size: 1em;
             margin-bottom: 15px;
         }
 
         .search-box:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+            border-color: var(--inst-naranja);
         }
 
         .table-wrapper {
@@ -288,11 +308,11 @@
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.9em;
+            font-size: 0.95em;
         }
 
         .data-table thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--inst-gris-oscuro) 0%, var(--inst-gris-medio) 100%);
             color: white;
             position: sticky;
             top: 0;
@@ -300,37 +320,27 @@
 
         .data-table th,
         .data-table td {
-            padding: 10px;
+            padding: 12px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #eee;
         }
 
         .data-table tbody tr:hover {
-            background: linear-gradient(135deg, #f093fb20 0%, #f5576c20 100%);
+            background: #fff8f0;
         }
 
         .badge {
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
+            padding: 5px 15px;
+            border-radius: 20px;
             font-size: 0.85em;
-            font-weight: 600;
-        }
-
-        .badge-success {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            font-weight: 700;
             color: white;
         }
 
-        .badge-warning {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-            color: white;
-        }
-
-        .badge-info {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
+        .badge-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+        .badge-warning { background: linear-gradient(135deg, var(--vib-amarillo) 0%, var(--vib-naranja) 100%); color: var(--inst-gris-oscuro); }
+        .badge-info { background: linear-gradient(135deg, var(--vib-azul) 0%, var(--vib-morado) 100%); }
 
         /* MODALES */
         .modal {
@@ -341,7 +351,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.7);
+            background-color: rgba(44, 42, 38, 0.85);
             backdrop-filter: blur(5px);
             animation: fadeIn 0.3s ease;
         }
@@ -355,10 +365,9 @@
             max-width: 900px;
             max-height: 85vh;
             overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
             animation: slideIn 0.3s ease;
-            border: 4px solid;
-            border-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%) 1;
+            border-top: 6px solid var(--inst-naranja);
         }
 
         .modal-header {
@@ -367,16 +376,16 @@
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 3px solid #f093fb;
+            border-bottom: 3px solid var(--inst-beige);
         }
 
         .modal-header h2 {
-            color: #764ba2;
+            color: var(--inst-gris-oscuro);
             font-size: 1.8em;
         }
 
         .close {
-            color: #aaa;
+            color: var(--inst-gris-medio);
             font-size: 32px;
             font-weight: bold;
             cursor: pointer;
@@ -390,13 +399,9 @@
         }
 
         .close:hover {
-            color: #f5576c;
-            background: #f093fb20;
+            color: var(--vib-rosa);
+            background: #ffe0e0;
             transform: rotate(90deg);
-        }
-
-        .modal-body {
-            padding: 20px 0;
         }
 
         .info-grid {
@@ -410,11 +415,11 @@
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             padding: 15px;
             border-radius: 10px;
-            border-left: 4px solid #f18b00;
+            border-left: 4px solid var(--inst-naranja);
         }
 
         .info-card h4 {
-            color: #764ba2;
+            color: var(--inst-gris-oscuro);
             margin-bottom: 8px;
             font-size: 0.9em;
             text-transform: uppercase;
@@ -423,30 +428,32 @@
         .info-card p {
             color: #333;
             font-size: 1.1em;
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        .participants-list {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-top: 15px;
+        .stat-box {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .participant-item {
-            background: white;
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            border-left: 3px solid #667eea;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .stat-box:nth-child(1) { background: linear-gradient(135deg, var(--vib-rosa) 0%, var(--vib-naranja) 100%); }
+        .stat-box:nth-child(2) { background: linear-gradient(135deg, var(--vib-azul) 0%, var(--vib-verde) 100%); }
+        .stat-box:nth-child(3) { background: linear-gradient(135deg, var(--vib-morado) 0%, var(--vib-rosa) 100%); }
+        .stat-box:nth-child(4) { background: linear-gradient(135deg, var(--vib-amarillo) 0%, var(--vib-naranja) 100%); color: var(--inst-gris-oscuro); }
+
+        .stat-box h4 {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            opacity: 0.95;
+            font-weight: 700;
         }
 
-        .participant-item:hover {
-            background: #f8f9fa;
-            transform: translateX(5px);
-            transition: all 0.3s ease;
+        .stat-box .stat-value {
+            font-size: 2.2em;
+            font-weight: 900;
         }
 
         .filter-advanced-grid {
@@ -462,7 +469,7 @@
         }
 
         .filter-advanced-group label {
-            color: #555;
+            color: var(--inst-gris-oscuro);
             font-weight: 700;
             margin-bottom: 8px;
             font-size: 1em;
@@ -471,19 +478,18 @@
         .filter-advanced-group select,
         .filter-advanced-group input {
             padding: 12px;
-            border: 3px solid #ddd;
+            border: 2px solid #ddd;
             border-radius: 10px;
             font-size: 1em;
             background: white;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
         .filter-advanced-group select:focus,
         .filter-advanced-group input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 15px rgba(102, 126, 234, 0.4);
+            border-color: var(--inst-naranja);
+            box-shadow: 0 0 10px rgba(241, 139, 0, 0.3);
         }
 
         .modal-footer {
@@ -492,174 +498,75 @@
             gap: 10px;
             margin-top: 20px;
             padding-top: 20px;
-            border-top: 3px solid #f093fb;
+            border-top: 3px solid var(--inst-beige);
         }
 
         .results-info {
-            background: linear-gradient(135deg, #f093fb20 0%, #f5576c20 100%);
+            background: #fff8f0;
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
-            border-left: 5px solid #f5576c;
+            border-left: 5px solid var(--inst-naranja);
         }
 
         .results-info h3 {
-            color: #764ba2;
+            color: var(--inst-gris-oscuro);
             margin-bottom: 10px;
         }
 
-        .detail-row {
+        .participant-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border-left: 4px solid var(--vib-azul);
             display: flex;
             justify-content: space-between;
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
         }
 
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-
-        .detail-label {
-            font-weight: 600;
-            color: #764ba2;
-        }
-
-        .detail-value {
-            color: #333;
-        }
-
-        .stats-summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-box {
-            background: linear-gradient(135deg, #f18b00 0%, #ffa543 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(241, 139, 0, 0.3);
-        }
-
-        .stat-box h4 {
-            font-size: 0.9em;
-            margin-bottom: 10px;
-            opacity: 0.9;
-        }
-
-        .stat-box .stat-value {
-            font-size: 2em;
-            font-weight: bold;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .participant-item:hover {
+            transform: translateX(5px);
+            border-left-color: var(--inst-naranja);
         }
 
         .footer {
             text-align: center;
-            padding: 15px;
-            color: white;
+            padding: 20px;
+            color: var(--inst-beige);
             font-size: 0.9em;
-            margin-top: 10px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            margin-top: 20px;
+            font-weight: 600;
         }
 
-        ::-webkit-scrollbar {
-            width: 12px;
-            height: 12px;
-        }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 12px; height: 12px; }
+        ::-webkit-scrollbar-track { background: var(--inst-gris-oscuro); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: var(--inst-naranja); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--inst-naranja-claro); }
 
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         @media (max-width: 968px) {
-            .charts-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .header h1 {
-                font-size: 1.5em;
-            }
-            
-            .kpi-card {
-                min-width: 150px;
-                padding: 12px 18px;
-            }
-            
-            .kpi-card .value {
-                font-size: 1.8em;
-            }
-            
-            .modal-content {
-                margin: 5% auto;
-                width: 95%;
-                padding: 20px;
-            }
-            
-            .chart-container-large {
-                height: 400px;
-            }
+            .charts-container { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.5em; }
+            .kpi-card { min-width: 150px; padding: 15px 20px; }
+            .kpi-card .value { font-size: 1.8em; }
+            .modal-content { margin: 5% auto; width: 95%; padding: 20px; }
+            .chart-container-large { height: 400px; }
         }
 
         @media (max-width: 600px) {
-            .header h1 {
-                font-size: 1.3em;
-            }
-            
-            .logo-img {
-                width: 50px;
-                height: 50px;
-            }
-            
-            .filters-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .kpi-grid {
-                flex-wrap: wrap;
-            }
-            
-            .data-table {
-                font-size: 0.8em;
-            }
-            
-            .data-table th,
-            .data-table td {
-                padding: 6px;
-            }
-            
-            .modal-content {
-                margin: 2% auto;
-                width: 98%;
-                padding: 15px;
-            }
+            .header h1 { font-size: 1.3em; }
+            .logo-img { width: 50px; height: 50px; }
+            .filters-grid { grid-template-columns: 1fr; }
+            .kpi-grid { flex-wrap: wrap; }
+            .data-table { font-size: 0.8em; }
+            .data-table th, .data-table td { padding: 8px; }
+            .modal-content { margin: 2% auto; width: 98%; padding: 15px; }
         }
     </style>
 </head>
@@ -670,7 +577,7 @@
                 <img src="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif" alt="Minerar" class="logo-img">
                 <div>
                     <h1>📊 PANEL de Capacitaciones</h1>
-                    <p>Sistema Interactivo de Seguimiento - Minerar</p>
+                    <p>Sistema Interactivo de Seguimiento - GP Minería</p>
                 </div>
             </div>
         </div>
@@ -726,7 +633,7 @@
 
         <div class="charts-container">
             <div class="chart-card">
-                <h3>📊 Capacitaciones por Sector</h3>
+                <h3> Capacitaciones por Sector</h3>
                 <div class="chart-container">
                     <canvas id="chart-sector"></canvas>
                 </div>
@@ -739,8 +646,8 @@
             </div>
         </div>
 
-        <div class="chart-card" style="margin-bottom: 15px;">
-            <h3>📈 Participación en Capacitaciones (Cantidad y Porcentaje)</h3>
+        <div class="chart-card" style="margin-bottom: 20px;">
+            <h3> Participación en Capacitaciones (Cantidad y Porcentaje)</h3>
             <div class="chart-container-large">
                 <canvas id="chart-participacion"></canvas>
             </div>
@@ -748,7 +655,7 @@
 
         <div class="table-container">
             <h2>📋 Detalle de Empleados</h2>
-            <input type="text" class="search-box" id="search-box" placeholder="🔍 Buscar por nombre, legajo o posición...">
+            <input type="text" class="search-box" id="search-box" placeholder=" Buscar por nombre, legajo o posición...">
             <div class="table-wrapper">
                 <table class="data-table">
                     <thead>
@@ -769,7 +676,7 @@
         </div>
 
         <div class="footer">
-            <p>© 2026 Minerar - PANEL de Capacitaciones</p>
+            <p>© 2026 GP Minería - PANEL de Capacitaciones | Manual de Marca Institucional</p>
         </div>
     </div>
 
@@ -806,7 +713,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-warning" onclick="closeModal('filterModal')">❌ Cancelar</button>
-                <button class="btn btn-success" onclick="applyAdvancedFilter()">🔍 Filtrar</button>
+                <button class="btn btn-success" onclick="applyAdvancedFilter()"> Filtrar</button>
             </div>
         </div>
     </div>
@@ -835,7 +742,7 @@
                 <span class="close" onclick="closeModal('resultsModal')">&times;</span>
             </div>
             <div class="modal-body">
-                <div class="stats-summary" id="results-stats">
+                <div class="info-grid" id="results-stats">
                     <!-- Stats dinámicas -->
                 </div>
                 <div class="results-info">
@@ -878,39 +785,11 @@
 
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSnj-9Xv7Wyfqd3fWLLgKoCh6ghAoaPP4DWEijG0IDPxFQa-Mo7P3ZliYzUfNO2izI6zkguH7ltMeJ-/pub?output=csv';
 
-        // Colores institucionales del manual de marca
-        const coloresInstitucionales = {
-            naranja: '#f18b00',
-            grisOscuro: '#525149',
-            naranjaClaro: '#ffa543',
-            beige: '#f9c68f',
-            grisMedio: '#727270',
-            capacitaciones: '#07834c',
-            areaTecnica: '#68c6e0',
-            sanitarios: '#71b630',
-            topografia: '#db1a3b',
-            laboratorio: '#f1c230',
-            panol: '#ef7824',
-            jefatura: '#2464aae',
-            vestuario: '#5f519d',
-            comedor: '#b0dbde',
-            administracion: '#7f3d90'
-        };
-
-        // Colores vibrantes para gráficos
+        // Colores VIBRANTES para los gráficos (Invertido)
         const coloresGraficos = [
-            '#f18b00', // Naranja institucional
-            '#ffa543', // Naranja claro
-            '#f9c68f', // Beige
-            '#07834c', // Verde capacitaciones
-            '#68c6e0', // Azul área técnica
-            '#db1a3b', // Rojo topografía
-            '#f1c230', // Amarillo laboratorio
-            '#ef7824', // Naranja pañol
-            '#5f519d', // Púrpura vestuario
-            '#7f3d90', // Violeta administración
-            '#71b630', // Verde sanitarios
-            '#b0dbde'  // Celeste comedor
+            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', 
+            '#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360', '#AC64AD',
+            '#2464aa', '#07834c', '#db1a3b', '#f1c230'
         ];
 
         Papa.parse(CSV_URL, {
@@ -940,7 +819,6 @@
             capacitacionesConFechas = [];
             capacitacionesData = [];
             
-            // Fechas simuladas (en un caso real, vendrían del CSV)
             const fechasSimuladas = [
                 '2026-01-15', '2026-01-20', '2026-02-05', '2026-02-12',
                 '2026-03-01', '2026-03-15', '2026-04-02', '2026-04-18',
@@ -982,7 +860,6 @@
                         const tema = capacitacionesHeaders[capIdx];
                         capacitacionesRealizadas.push(tema);
                         
-                        // Datos simulados para fecha, instructor y duración
                         const fechaRandom = fechasSimuladas[Math.floor(Math.random() * fechasSimuladas.length)];
                         const instructorRandom = instructores[Math.floor(Math.random() * instructores.length)];
                         const duracionRandom = [2, 4, 6, 8][Math.floor(Math.random() * 4)];
@@ -1106,21 +983,10 @@
 
             let resultados = capacitacionesData;
 
-            if (tema) {
-                resultados = resultados.filter(r => r.tema === tema);
-            }
-
-            if (fechaInicio) {
-                resultados = resultados.filter(r => r.fecha >= fechaInicio);
-            }
-
-            if (fechaFin) {
-                resultados = resultados.filter(r => r.fecha <= fechaFin);
-            }
-
-            if (instructor) {
-                resultados = resultados.filter(r => r.instructor === instructor);
-            }
+            if (tema) resultados = resultados.filter(r => r.tema === tema);
+            if (fechaInicio) resultados = resultados.filter(r => r.fecha >= fechaInicio);
+            if (fechaFin) resultados = resultados.filter(r => r.fecha <= fechaFin);
+            if (instructor) resultados = resultados.filter(r => r.instructor === instructor);
 
             showResultsModal(resultados, tema, fechaInicio, fechaFin, instructor);
             closeModal('filterModal');
@@ -1130,7 +996,6 @@
             const tbody = document.getElementById('results-body');
             tbody.innerHTML = '';
 
-            // Calcular estadísticas
             const totalParticipantes = resultados.reduce((sum, r) => sum + r.participantes, 0);
             const totalHoras = resultados.reduce((sum, r) => sum + r.duracion, 0);
             const promedioParticipantes = resultados.length > 0 ? (totalParticipantes / resultados.length).toFixed(1) : 0;
@@ -1168,7 +1033,7 @@
                     <td>${r.posicion}</td>
                     <td>${r.tema}</td>
                     <td>${r.fecha}</td>
-                    <td><button class="btn btn-info" onclick='showDetail(${JSON.stringify(r)})' style="padding: 5px 10px; font-size: 0.85em;">📋 Ver</button></td>
+                    <td><button class="btn btn-info" onclick='showDetail(${JSON.stringify(r)})' style="padding: 5px 12px; font-size: 0.85em;">📋 Ver</button></td>
                 `;
                 tbody.appendChild(row);
             });
@@ -1181,7 +1046,7 @@
             modalBody.innerHTML = `
                 <div class="info-grid">
                     <div class="info-card">
-                        <h4>📚 Tema</h4>
+                        <h4> Tema</h4>
                         <p>${capData.tema}</p>
                     </div>
                     <div class="info-card">
@@ -1197,7 +1062,7 @@
                         <p>${capData.duracion} horas</p>
                     </div>
                     <div class="info-card">
-                        <h4>👥 Participantes</h4>
+                        <h4> Participantes</h4>
                         <p>${capData.participantes} personas</p>
                     </div>
                     <div class="info-card">
@@ -1206,18 +1071,18 @@
                     </div>
                 </div>
                 
-                <h3 style="color: #764ba2; margin: 20px 0 15px 0;">📋 Información del Participante</h3>
-                <div class="detail-row">
-                    <span class="detail-label">Legajo:</span>
-                    <span class="detail-value">${capData.legajo}</span>
+                <h3 style="color: var(--inst-gris-oscuro); margin: 20px 0 15px 0; border-bottom: 2px solid var(--inst-beige); padding-bottom: 10px;">📋 Información del Participante</h3>
+                <div class="detail-row" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
+                    <span style="font-weight:700; color:var(--inst-gris-oscuro);">Legajo:</span>
+                    <span>${capData.legajo}</span>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Nombre:</span>
-                    <span class="detail-value">${capData.nombre}</span>
+                <div class="detail-row" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
+                    <span style="font-weight:700; color:var(--inst-gris-oscuro);">Nombre:</span>
+                    <span>${capData.nombre}</span>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Posición:</span>
-                    <span class="detail-value">${capData.posicion}</span>
+                <div class="detail-row" style="display:flex; justify-content:space-between; padding:10px 0;">
+                    <span style="font-weight:700; color:var(--inst-gris-oscuro);">Posición:</span>
+                    <span>${capData.posicion}</span>
                 </div>
             `;
             openModal('detailModal');
@@ -1277,7 +1142,8 @@
                         data: Object.values(sectorData),
                         backgroundColor: coloresGraficos.slice(0, Object.keys(sectorData).length),
                         borderColor: coloresGraficos.slice(0, Object.keys(sectorData).length),
-                        borderWidth: 2
+                        borderWidth: 2,
+                        borderRadius: 8
                     }]
                 },
                 options: {
@@ -1286,12 +1152,19 @@
                     plugins: {
                         legend: { display: false },
                         tooltip: {
+                            backgroundColor: 'rgba(82, 81, 73, 0.9)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
                             callbacks: {
                                 label: function(context) {
                                     return `Capacitaciones: ${context.parsed.y}`;
                                 }
                             }
                         }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
+                        x: { grid: { display: false } }
                     }
                 }
             });
@@ -1309,14 +1182,17 @@
                     datasets: [{
                         data: Object.values(distribucionData),
                         backgroundColor: coloresGraficos.slice(0, Object.keys(distribucionData).length),
-                        borderWidth: 2
+                        borderWidth: 3,
+                        borderColor: '#fff'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
+                        legend: { position: 'bottom', labels: { padding: 15, font: { size: 12 } } },
                         tooltip: {
+                            backgroundColor: 'rgba(82, 81, 73, 0.9)',
                             callbacks: {
                                 label: function(context) {
                                     const total = context.dataset.data.reduce((a, b) => a + b, 0);
@@ -1335,7 +1211,7 @@
                 participacionData[c.tema] = (participacionData[c.tema] || 0) + 1;
             });
 
-            const totalEmpleadosGeneral = allData.length;
+            const totalEmpleadosGeneral = allData.length || 1;
             const temas = Object.keys(participacionData);
             const cantidades = Object.values(participacionData);
             const porcentajes = cantidades.map(c => ((c / totalEmpleadosGeneral) * 100).toFixed(1));
@@ -1349,7 +1225,8 @@
                         data: cantidades,
                         backgroundColor: coloresGraficos.slice(0, temas.length),
                         borderColor: coloresGraficos.slice(0, temas.length),
-                        borderWidth: 2
+                        borderWidth: 2,
+                        borderRadius: 6
                     }]
                 },
                 options: {
@@ -1359,10 +1236,17 @@
                     plugins: {
                         legend: { display: false },
                         tooltip: {
+                            backgroundColor: 'rgba(82, 81, 73, 0.95)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            padding: 12,
                             callbacks: {
                                 label: function(context) {
                                     const index = context.dataIndex;
-                                    return `Cantidad: ${context.parsed.x} | Porcentaje: ${porcentajes[index]}%`;
+                                    return [
+                                        `Cantidad: ${context.parsed.x} participantes`,
+                                        `Porcentaje: ${porcentajes[index]}% del total`
+                                    ];
                                 }
                             }
                         }
@@ -1370,10 +1254,13 @@
                     scales: {
                         x: {
                             beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Cantidad de Participantes'
-                            }
+                            title: { display: true, text: 'Cantidad de Participantes', color: '#525149', font: { weight: 'bold' } },
+                            grid: { color: '#f0f0f0' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Temas de Capacitación', color: '#525149', font: { weight: 'bold' } },
+                            grid: { display: false },
+                            ticks: { font: { size: 11 } }
                         }
                     }
                 }
@@ -1404,7 +1291,7 @@
                     <td>${d.posicion}</td>
                     <td>${d.totalCapacitaciones}</td>
                     <td><span class="badge ${badgeClass}">${badgeText}</span></td>
-                    <td><button class="btn btn-info" onclick='showEmployeeDetail("${d.legajo}")' style="padding: 5px 10px; font-size: 0.85em;">📋 Ver</button></td>
+                    <td><button class="btn btn-info" onclick='showEmployeeDetail("${d.legajo}")' style="padding: 5px 12px; font-size: 0.85em;">📋 Ver</button></td>
                 `;
                 
                 tbody.appendChild(row);
@@ -1419,10 +1306,10 @@
             
             const modalBody = document.getElementById('detail-modal-body');
             modalBody.innerHTML = `
-                <h3 style="color: #764ba2; margin-bottom: 20px;">📋 Información del Empleado</h3>
+                <h3 style="color: var(--inst-gris-oscuro); margin-bottom: 20px; border-bottom: 2px solid var(--inst-beige); padding-bottom: 10px;"> Información del Empleado</h3>
                 <div class="info-grid">
                     <div class="info-card">
-                        <h4>👤 Nombre</h4>
+                        <h4> Nombre</h4>
                         <p>${empleado.nombre}</p>
                     </div>
                     <div class="info-card">
@@ -1434,20 +1321,20 @@
                         <p>${empleado.sector}</p>
                     </div>
                     <div class="info-card">
-                        <h4>💼 Posición</h4>
+                        <h4> Posición</h4>
                         <p>${empleado.posicion}</p>
                     </div>
                 </div>
                 
-                <h3 style="color: #764ba2; margin: 20px 0 15px 0;">📚 Capacitaciones Realizadas (${capacitacionesEmpleado.length})</h3>
-                <div class="participants-list">
+                <h3 style="color: var(--inst-gris-oscuro); margin: 20px 0 15px 0; border-bottom: 2px solid var(--inst-beige); padding-bottom: 10px;">📚 Capacitaciones Realizadas (${capacitacionesEmpleado.length})</h3>
+                <div class="participants-list" style="max-height: 300px; overflow-y: auto;">
                     ${capacitacionesEmpleado.map(c => `
                         <div class="participant-item">
                             <div>
-                                <strong style="color: #764ba2;">${c.tema}</strong><br>
-                                <small>📅 ${c.fecha} | 👨‍ ${c.instructor}</small>
+                                <strong style="color: var(--inst-gris-oscuro); font-size: 1.1em;">${c.tema}</strong><br>
+                                <small style="color: #666;"> ${c.fecha} | 👨‍ ${c.instructor} | ⏱️ ${c.duracion}h</small>
                             </div>
-                            <button class="btn btn-info" onclick='showDetail(${JSON.stringify(c)})' style="padding: 5px 10px; font-size: 0.85em;">📋 Ver</button>
+                            <button class="btn btn-info" onclick='showDetail(${JSON.stringify(c)})' style="padding: 5px 12px; font-size: 0.85em;"> Ver</button>
                         </div>
                     `).join('')}
                 </div>
