@@ -4,393 +4,165 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PANEL de Capacitaciones - Minerar</title>
-    
     <link rel="icon" type="image/gif" href="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif">
-    <link rel="shortcut icon" type="image/gif" href="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif">
-    
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <style>
         :root {
-            --inst-naranja: #f18b00;
-            --inst-naranja-claro: #ffa543;
-            --inst-beige: #f9c68f;
-            --inst-gris-oscuro: #525149;
-            --inst-gris-medio: #727270;
-            --vib-rosa: #FF6384;
-            --vib-azul: #36A2EB;
-            --vib-amarillo: #FFCE56;
-            --vib-verde: #4BC0C0;
-            --vib-morado: #9966FF;
-            --vib-naranja: #FF9F40;
+            --inst-naranja: #f18b00; --inst-naranja-claro: #ffa543; --inst-beige: #f9c68f;
+            --inst-gris-oscuro: #525149; --inst-gris-medio: #727270;
+            --vib-rosa: #FF6384; --vib-azul: #36A2EB; --vib-amarillo: #FFCE56;
+            --vib-verde: #4BC0C0; --vib-morado: #9966FF; --vib-naranja: #FF9F40;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, var(--inst-gris-oscuro) 0%, #2c2a26 100%);
-            min-height: 100vh;
-            color: #333;
+            min-height: 100vh; color: #333;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
-
         .container { max-width: 1400px; margin: 0 auto; padding: 15px; }
 
-        /* HEADER NORMAL - NO FIJO */
         .header {
             background: linear-gradient(135deg, var(--inst-naranja) 0%, var(--inst-naranja-claro) 100%);
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            border-bottom: 3px solid var(--inst-beige);
-            border-radius: 12px;
+            padding: 20px; margin-bottom: 15px; border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4); border: 3px solid var(--inst-beige);
         }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .logo-img { width: 60px; height: 60px; object-fit: contain; background: white; border-radius: 12px; padding: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .header h1 { color: white; font-size: 2em; text-shadow: 2px 2px 4px rgba(82, 81, 73, 0.5); font-weight: 800; }
+        .header-content { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .logo-img { width: 60px; height: 60px; object-fit: contain; background: white; border-radius: 12px; padding: 8px; }
+        .header h1 { color: white; font-size: 2em; font-weight: 800; text-shadow: 2px 2px 4px rgba(82, 81, 73, 0.5); }
         .header p { color: rgba(255,255,255,0.95); font-size: 1em; margin-top: 5px; font-weight: 600; }
 
-        /* FILTROS NORMALES - NO FIJOS */
         .filters-section {
-            background: white;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border-radius: 12px;
-            border-top: 3px solid var(--inst-naranja);
+            background: white; padding: 15px 20px; margin-bottom: 20px; border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); border-top: 4px solid var(--inst-naranja);
         }
-
-        .filters-section h2 { color: var(--inst-gris-oscuro); margin-bottom: 10px; font-size: 1.2em; text-align: center; }
-        .filters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+        .filters-section h2 { color: var(--inst-gris-oscuro); margin-bottom: 12px; font-size: 1.2em; text-align: center; }
+        .filters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
         .filter-group { display: flex; flex-direction: column; }
         .filter-group label { color: var(--inst-gris-oscuro); font-weight: 700; margin-bottom: 5px; font-size: 0.85em; }
-        .filter-group select, .filter-group input { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95em; background: white; cursor: pointer; transition: all 0.3s ease; }
-        .filter-group select:focus, .filter-group input:focus { outline: none; border-color: var(--inst-naranja); box-shadow: 0 0 10px rgba(241, 139, 0, 0.3); }
+        .filter-group select, .filter-group input {
+            padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95em; background: white;
+        }
+        .filter-group select:focus, .filter-group input:focus { outline: none; border-color: var(--inst-naranja); }
 
-        /* KPIs */
         .kpi-container { background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px; margin-bottom: 20px; border: 2px solid var(--inst-beige); }
-        .kpi-grid { display: flex; gap: 15px; min-width: max-content; justify-content: center; }
-        .kpi-card { border-radius: 15px; padding: 20px 30px; box-shadow: 0 6px 20px rgba(0,0,0,0.3); text-align: center; min-width: 200px; transition: transform 0.3s ease; color: white; border: 2px solid rgba(255,255,255,0.3); }
-        .kpi-card:nth-child(1) { background: linear-gradient(135deg, var(--vib-rosa) 0%, var(--vib-naranja) 100%); }
-        .kpi-card:nth-child(2) { background: linear-gradient(135deg, var(--vib-azul) 0%, var(--vib-verde) 100%); }
-        .kpi-card:nth-child(3) { background: linear-gradient(135deg, var(--vib-morado) 0%, var(--vib-rosa) 100%); }
-        .kpi-card:nth-child(4) { background: linear-gradient(135deg, var(--vib-amarillo) 0%, var(--vib-naranja) 100%); color: var(--inst-gris-oscuro); }
-        .kpi-card:hover { transform: translateY(-8px) scale(1.03); }
-        .kpi-card h3 { font-size: 0.9em; text-transform: uppercase; margin-bottom: 10px; opacity: 0.95; font-weight: 700; }
-        .kpi-card .value { font-size: 2.5em; font-weight: 900; }
+        .kpi-grid { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .kpi-card {
+            border-radius: 15px; padding: 20px 30px; text-align: center; min-width: 180px; flex: 1;
+            color: white; border: 2px solid rgba(255,255,255,0.3); transition: transform 0.3s ease;
+        }
+        .kpi-card:nth-child(1) { background: linear-gradient(135deg, var(--vib-rosa), var(--vib-naranja)); }
+        .kpi-card:nth-child(2) { background: linear-gradient(135deg, var(--vib-azul), var(--vib-verde)); }
+        .kpi-card:nth-child(3) { background: linear-gradient(135deg, var(--vib-morado), var(--vib-rosa)); }
+        .kpi-card:nth-child(4) { background: linear-gradient(135deg, var(--vib-amarillo), var(--vib-naranja)); color: var(--inst-gris-oscuro); }
+        .kpi-card:hover { transform: translateY(-5px); }
+        .kpi-card h3 { font-size: 0.85em; text-transform: uppercase; margin-bottom: 8px; font-weight: 700; }
+        .kpi-card .value { font-size: 2.2em; font-weight: 900; }
 
         .charts-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-bottom: 20px; }
-        .chart-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-left: 5px solid var(--inst-naranja); }
-        .chart-card h3 { color: var(--inst-gris-oscuro); margin-bottom: 15px; font-size: 1.2em; text-align: center; font-weight: 700; }
-        .chart-container { position: relative; height: 350px; }
+        .chart-card { background: white; border-radius: 12px; padding: 20px; border-left: 5px solid var(--inst-naranja); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .chart-card h3 { color: var(--inst-gris-oscuro); margin-bottom: 15px; font-size: 1.1em; text-align: center; font-weight: 700; }
+        .chart-container { position: relative; height: 320px; }
 
-        .participacion-card { 
-            background: white; 
-            border-radius: 12px; 
-            padding: 25px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
-            border-left: 5px solid var(--inst-naranja); 
-            margin-bottom: 20px; 
-        }
+        .participacion-card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; border-left: 5px solid var(--inst-naranja); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .participacion-header { text-align: center; margin-bottom: 20px; }
-        .participacion-title { color: var(--inst-gris-oscuro); font-size: 1.4em; font-weight: 800; margin-bottom: 5px; }
-        .participacion-subtitle { color: var(--inst-gris-medio); font-size: 0.95em; }
+        .participacion-title { color: var(--inst-gris-oscuro); font-size: 1.3em; font-weight: 800; margin-bottom: 5px; }
+        .participacion-subtitle { color: var(--inst-gris-medio); font-size: 0.9em; }
         .participacion-subtitle strong { color: var(--inst-naranja); }
+        .participacion-layout { display: grid; grid-template-columns: 1fr 350px; gap: 25px; align-items: start; }
+        .participacion-chart-area { position: relative; height: 450px; border-right: 2px solid #f0f0f0; padding-right: 20px; }
+        .participacion-legend { display: flex; flex-direction: column; gap: 6px; max-height: 450px; overflow-y: auto; }
+        .legend-item { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 8px; background: #fafafa; transition: all 0.2s; }
+        .legend-item:hover { background: #fff8f0; transform: translateX(3px); }
+        .legend-color-box { width: 18px; height: 18px; border-radius: 4px; flex-shrink: 0; }
+        .legend-text { flex: 1; font-size: 0.85em; font-weight: 600; color: var(--inst-gris-oscuro); }
+        .legend-stats { display: flex; flex-direction: column; align-items: flex-end; min-width: 65px; }
+        .legend-count { font-size: 0.8em; font-weight: 700; color: var(--inst-gris-oscuro); }
+        .legend-percentage { font-size: 0.75em; font-weight: 800; color: var(--inst-naranja); }
 
-        .participacion-layout {
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 25px;
-            align-items: start;
-        }
+        .table-container { background: white; border-radius: 12px; border-top: 5px solid var(--inst-naranja); box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; flex-direction: column; height: 550px; margin-bottom: 20px; }
+        .table-header-fixed { position: sticky; top: 0; background: white; z-index: 10; border-bottom: 2px solid var(--inst-beige); }
+        .table-title-bar { padding: 15px 20px; text-align: center; border-bottom: 1px solid #eee; }
+        .table-title-bar h2 { color: var(--inst-gris-oscuro); font-size: 1.3em; font-weight: 800; }
+        .table-search-bar { padding: 12px 20px; background: #fafafa; border-bottom: 1px solid #eee; display: flex; gap: 12px; }
+        .table-search-group { flex: 1; min-width: 200px; }
+        .table-search-group label { display: block; font-size: 0.8em; font-weight: 700; color: var(--inst-gris-oscuro); margin-bottom: 4px; }
+        .table-search-group input { width: 100%; padding: 8px 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 0.9em; }
+        .table-search-group input:focus { outline: none; border-color: var(--inst-naranja); }
+        .table-scroll-area { flex: 1; overflow-y: auto; overflow-x: auto; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+        .data-table thead { background: linear-gradient(135deg, var(--inst-gris-oscuro), var(--inst-gris-medio)); color: white; position: sticky; top: 0; z-index: 5; }
+        .data-table th { padding: 12px; text-align: left; font-weight: 700; white-space: nowrap; }
+        .data-table td { padding: 12px; border-bottom: 1px solid #eee; }
+        .data-table tbody tr:hover { background: #fff8f0; cursor: pointer; }
 
-        .participacion-chart-area {
-            position: relative;
-            height: 500px;
-            border-right: 2px solid #f0f0f0;
-            padding-right: 20px;
-        }
-
-        .participacion-legend {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            max-height: 500px;
-            overflow-y: auto;
-            padding-left: 10px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            border-radius: 8px;
-            background: #fafafa;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .legend-item:hover {
-            background: #fff8f0;
-            transform: translateX(3px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .legend-color-box {
-            width: 20px;
-            height: 20px;
-            border-radius: 5px;
-            flex-shrink: 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .legend-text {
-            flex: 1;
-            font-size: 0.88em;
-            font-weight: 600;
-            color: var(--inst-gris-oscuro);
-            line-height: 1.2;
-        }
-
-        .legend-stats {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 2px;
-            min-width: 70px;
-        }
-
-        .legend-count {
-            font-size: 0.85em;
-            font-weight: 700;
-            color: var(--inst-gris-oscuro);
-        }
-
-        .legend-percentage {
-            font-size: 0.8em;
-            font-weight: 800;
-            color: var(--inst-naranja);
-        }
-
-        /* TABLA CON HEADER FIJO Y SCROLL */
-        .table-container { 
-            background: white; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
-            border-top: 5px solid var(--inst-naranja);
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            height: 600px;
-        }
-
-        .table-header-fixed {
-            position: sticky;
-            top: 0;
-            background: white;
-            z-index: 10;
-            border-bottom: 2px solid var(--inst-beige);
-        }
-
-        .table-title-bar {
-            padding: 15px 20px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-
-        .table-title-bar h2 { 
-            color: var(--inst-gris-oscuro); 
-            font-size: 1.4em; 
-            font-weight: 800;
-        }
-
-        .table-search-bar {
-            padding: 12px 20px;
-            background: #fafafa;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .table-search-group {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .table-search-group label {
-            display: block;
-            font-size: 0.8em;
-            font-weight: 700;
-            color: var(--inst-gris-oscuro);
-            margin-bottom: 4px;
-        }
-
-        .table-search-group input,
-        .table-search-group select {
-            width: 100%;
-            padding: 8px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 0.9em;
-            background: white;
-        }
-
-        .table-search-group input:focus,
-        .table-search-group select:focus {
-            outline: none;
-            border-color: var(--inst-naranja);
-        }
-
-        .table-scroll-area {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: auto;
-        }
-
-        .data-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            font-size: 0.95em; 
-        }
-
-        .data-table thead { 
-            background: linear-gradient(135deg, var(--inst-gris-oscuro) 0%, var(--inst-gris-medio) 100%); 
-            color: white; 
-            position: sticky; 
-            top: 0;
-            z-index: 5;
-        }
-
-        .data-table th {
-            padding: 12px;
-            text-align: left;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .data-table td { 
-            padding: 12px; 
-            border-bottom: 1px solid #eee; 
-        }
-
-        .data-table tbody tr {
-            transition: background 0.2s ease;
-        }
-
-        .data-table tbody tr:hover { 
-            background: #fff8f0; 
-            cursor: pointer; 
-        }
-
-        .badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 0.85em; font-weight: 700; color: white; text-align: center; }
+        .badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 0.8em; font-weight: 700; color: white; }
         .badge-rojo { background: #dc3545; }
         .badge-naranja { background: #ff8c00; }
         .badge-verde { background: #28a745; }
 
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(44, 42, 38, 0.85); backdrop-filter: blur(5px); animation: fadeIn 0.3s ease; }
-        .modal-content { background: white; margin: 2% auto; padding: 30px; border-radius: 20px; width: 95%; max-width: 1100px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.6); animation: slideIn 0.3s ease; border-top: 6px solid var(--inst-naranja); }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(44, 42, 38, 0.85); backdrop-filter: blur(5px); animation: fadeIn 0.3s; }
+        .modal-content { background: white; margin: 2% auto; padding: 30px; border-radius: 20px; width: 95%; max-width: 1000px; max-height: 90vh; overflow-y: auto; border-top: 6px solid var(--inst-naranja); animation: slideIn 0.3s; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--inst-beige); }
-        .modal-header h2 { color: var(--inst-gris-oscuro); font-size: 1.8em; }
-        .close { color: var(--inst-gris-medio); font-size: 32px; font-weight: bold; cursor: pointer; transition: all 0.3s ease; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .modal-header h2 { color: var(--inst-gris-oscuro); font-size: 1.6em; }
+        .close { font-size: 30px; font-weight: bold; cursor: pointer; color: var(--inst-gris-medio); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
         .close:hover { color: var(--vib-rosa); background: #ffe0e0; transform: rotate(90deg); }
 
-        .employee-header { background: linear-gradient(135deg, var(--inst-naranja) 0%, var(--inst-naranja-claro) 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 25px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .employee-header-item h4 { font-size: 0.85em; opacity: 0.9; margin-bottom: 5px; }
-        .employee-header-item p { font-size: 1.3em; font-weight: 700; }
+        .employee-header { background: linear-gradient(135deg, var(--inst-naranja), var(--inst-naranja-claro)); color: white; padding: 20px; border-radius: 12px; margin-bottom: 25px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .employee-header-item h4 { font-size: 0.8em; opacity: 0.9; margin-bottom: 5px; text-transform: uppercase; }
+        .employee-header-item p { font-size: 1.2em; font-weight: 700; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { padding: 15px; border-radius: 12px; text-align: center; color: white; }
+        .stat-card:nth-child(1) { background: linear-gradient(135deg, var(--vib-verde), #2ecc71); }
+        .stat-card:nth-child(2) { background: linear-gradient(135deg, var(--vib-rosa), var(--vib-naranja)); }
+        .stat-card:nth-child(3) { background: linear-gradient(135deg, var(--vib-azul), var(--vib-morado)); }
+        .stat-card:nth-child(4) { background: linear-gradient(135deg, var(--vib-amarillo), var(--inst-naranja)); color: var(--inst-gris-oscuro); }
+        .stat-card h4 { font-size: 0.85em; margin-bottom: 8px; font-weight: 700; }
+        .stat-card .stat-value { font-size: 2em; font-weight: 900; }
 
         .info-section { margin-bottom: 25px; }
-        .info-section h3 { color: var(--inst-gris-oscuro); margin-bottom: 15px; padding-bottom: 10px; border-bottom: 3px solid var(--inst-beige); font-size: 1.3em; }
+        .info-section h3 { color: var(--inst-gris-oscuro); margin-bottom: 15px; padding-bottom: 10px; border-bottom: 3px solid var(--inst-beige); font-size: 1.2em; }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-card { padding: 20px; border-radius: 12px; text-align: center; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .stat-card:nth-child(1) { background: linear-gradient(135deg, var(--vib-verde) 0%, #2ecc71 100%); }
-        .stat-card:nth-child(2) { background: linear-gradient(135deg, var(--vib-rosa) 0%, var(--vib-naranja) 100%); }
-        .stat-card:nth-child(3) { background: linear-gradient(135deg, var(--vib-azul) 0%, var(--vib-morado) 100%); }
-        .stat-card:nth-child(4) { background: linear-gradient(135deg, var(--vib-amarillo) 0%, var(--vib-naranja) 100%); color: var(--inst-gris-oscuro); }
-        .stat-card h4 { font-size: 0.9em; margin-bottom: 10px; opacity: 0.95; font-weight: 700; }
-        .stat-card .stat-value { font-size: 2.2em; font-weight: 900; }
-
-        .training-item { background: #f8f9fa; padding: 15px; margin-bottom: 12px; border-radius: 10px; border-left: 5px solid var(--inst-naranja); transition: all 0.3s ease; }
-        .training-item:hover { background: #fff8f0; transform: translateX(5px); box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+        .training-item { background: #f8f9fa; padding: 12px 15px; margin-bottom: 10px; border-radius: 10px; border-left: 5px solid var(--inst-naranja); transition: all 0.2s; }
+        .training-item:hover { background: #fff8f0; transform: translateX(3px); }
         .training-item.completed { border-left-color: #28a745; background: #e8f8f0; }
         .training-item.pending { border-left-color: #dc3545; background: #ffeaea; }
-        .training-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .training-title { font-size: 1.1em; font-weight: 700; color: var(--inst-gris-oscuro); }
-        .training-badge { padding: 5px 15px; border-radius: 20px; font-size: 0.85em; font-weight: 700; }
-        .training-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; font-size: 0.9em; color: #666; }
-        .training-detail-item { display: flex; align-items: center; gap: 5px; }
+        .training-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 5px; }
+        .training-title { font-size: 1em; font-weight: 700; color: var(--inst-gris-oscuro); }
+        .training-badge { padding: 4px 12px; border-radius: 15px; font-size: 0.75em; font-weight: 700; color: white; }
+        .training-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; font-size: 0.85em; color: #555; }
+        .training-detail-item { display: flex; align-items: center; gap: 5px; font-weight: 600; }
+        .training-date { color: var(--inst-naranja); font-weight: 800; }
 
-        .pending-summary {
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
-            border: 2px dashed #dc3545;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-        }
+        .pending-summary { background: linear-gradient(135deg, #fff5f5, #ffe0e0); border: 2px dashed #dc3545; border-radius: 10px; padding: 15px; text-align: center; margin-bottom: 15px; }
+        .pending-count { font-size: 2.5em; font-weight: 900; color: #dc3545; }
 
-        .pending-summary h4 {
-            color: #dc3545;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-
-        .pending-count {
-            font-size: 2em;
-            font-weight: 900;
-            color: #dc3545;
-            text-align: center;
-            margin: 10px 0;
-        }
-
-        .footer { text-align: center; padding: 20px; color: var(--inst-beige); font-size: 0.9em; margin-top: 20px; font-weight: 600; }
-
-        ::-webkit-scrollbar { width: 12px; height: 12px; }
-        ::-webkit-scrollbar-track { background: var(--inst-gris-oscuro); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: var(--inst-naranja); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--inst-naranja-claro); }
+        .footer { text-align: center; padding: 20px; color: var(--inst-beige); font-size: 0.9em; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideIn { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         @media (max-width: 968px) {
             .charts-container { grid-template-columns: 1fr; }
-            .kpi-card { min-width: 150px; padding: 15px 20px; }
-            .kpi-card .value { font-size: 1.8em; }
-            .modal-content { margin: 3% auto; width: 95%; padding: 20px; }
             .participacion-layout { grid-template-columns: 1fr; }
-            .participacion-chart-area { border-right: none; border-bottom: 2px solid #f0f0f0; padding-right: 0; padding-bottom: 20px; }
-            .table-container { height: 500px; }
-        }
-
-        @media (max-width: 600px) {
-            .header h1 { font-size: 1.3em; }
-            .filters-grid { grid-template-columns: 1fr; }
-            .kpi-grid { flex-wrap: wrap; }
-            .data-table { font-size: 0.8em; }
-            .data-table th, .data-table td { padding: 8px; }
-            .modal-content { margin: 2% auto; width: 98%; padding: 15px; }
+            .participacion-chart-area { border-right: none; border-bottom: 2px solid #f0f0f0; padding-right: 0; padding-bottom: 20px; height: 350px; }
             .table-container { height: 450px; }
+        }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.5em; }
+            .filters-grid { grid-template-columns: 1fr; }
+            .kpi-grid { flex-direction: column; }
+            .kpi-card { min-width: 100%; }
+            .data-table { font-size: 0.8em; }
+            .table-container { height: 400px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- HEADER NO FIJO -->
         <div class="header">
             <div class="header-content">
                 <img src="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif" alt="Minerar" class="logo-img">
@@ -401,20 +173,26 @@
             </div>
         </div>
 
-        <!-- FILTROS NO FIJOS -->
         <div class="filters-section">
-            <h2>🔍 Buscar Empleado</h2>
+            <h2>🔍 Filtros Principales</h2>
             <div class="filters-grid">
                 <div class="filter-group">
-                    <label for="filter-empleado"> Seleccionar Empleado:</label>
-                    <select id="filter-empleado">
-                        <option value="">Todos los empleados</option>
-                    </select>
+                    <label for="filter-empleado">👤 Seleccionar Empleado:</label>
+                    <select id="filter-empleado"><option value="">Todos los empleados</option></select>
                 </div>
                 <div class="filter-group">
                     <label for="filter-sector">🏢 Sector:</label>
-                    <select id="filter-sector">
-                        <option value="">Todos los sectores</option>
+                    <select id="filter-sector"><option value="">Todos los sectores</option></select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-categoria"> Categoría de Capacitación:</label>
+                    <select id="filter-categoria">
+                        <option value="">Todas las categorías</option>
+                        <option value="SSMA">SSMA y Seguridad</option>
+                        <option value="Equipos">Manejo de Equipos</option>
+                        <option value="Procedimientos">Procedimientos Operativos</option>
+                        <option value="Salud">Salud y Medicina Laboral</option>
+                        <option value="Admin">Administrativo y RRHH</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -426,78 +204,42 @@
 
         <div class="kpi-container">
             <div class="kpi-grid">
-                <div class="kpi-card">
-                    <h3>Total Empleados</h3>
-                    <div class="value" id="kpi-total-empleados">-</div>
-                </div>
-                <div class="kpi-card">
-                    <h3>Total Capacitaciones</h3>
-                    <div class="value" id="kpi-total-capacitaciones">-</div>
-                </div>
-                <div class="kpi-card">
-                    <h3>Promedio por Empleado</h3>
-                    <div class="value" id="kpi-promedio">-</div>
-                </div>
-                <div class="kpi-card">
-                    <h3>Horas Totales</h3>
-                    <div class="value" id="kpi-horas">-</div>
-                </div>
+                <div class="kpi-card"><h3>Total Empleados</h3><div class="value" id="kpi-total-empleados">-</div></div>
+                <div class="kpi-card"><h3>Total Capacitaciones</h3><div class="value" id="kpi-total-capacitaciones">-</div></div>
+                <div class="kpi-card"><h3>Promedio por Empleado</h3><div class="value" id="kpi-promedio">-</div></div>
+                <div class="kpi-card"><h3>Horas Totales</h3><div class="value" id="kpi-horas">-</div></div>
             </div>
         </div>
 
         <div class="charts-container">
             <div class="chart-card">
-                <h3> Capacitaciones por Sector</h3>
-                <div class="chart-container">
-                    <canvas id="chart-sector"></canvas>
-                </div>
+                <h3>📊 Capacitaciones por Sector</h3>
+                <div class="chart-container"><canvas id="chart-sector"></canvas></div>
             </div>
             <div class="chart-card">
                 <h3>🥧 Distribución de Empleados</h3>
-                <div class="chart-container">
-                    <canvas id="chart-distribucion"></canvas>
-                </div>
+                <div class="chart-container"><canvas id="chart-distribucion"></canvas></div>
             </div>
         </div>
 
         <div class="participacion-card">
             <div class="participacion-header">
-                <div class="participacion-title">📈 Participación en Capacitaciones (Cantidad y Porcentaje)</div>
+                <div class="participacion-title"> Participación en Capacitaciones (Cantidad y Porcentaje)</div>
                 <div class="participacion-subtitle">Porcentaje calculado sobre un total de <strong id="total-empleados-label">0</strong> empleados</div>
             </div>
             <div class="participacion-layout">
-                <div class="participacion-chart-area">
-                    <canvas id="chart-participacion"></canvas>
-                </div>
+                <div class="participacion-chart-area"><canvas id="chart-participacion"></canvas></div>
                 <div class="participacion-legend" id="participacion-legend"></div>
             </div>
         </div>
 
-        <!-- TABLA CON HEADER FIJO Y SCROLL -->
         <div class="table-container">
             <div class="table-header-fixed">
-                <div class="table-title-bar">
-                    <h2>📋 Listado de Empleados</h2>
-                </div>
+                <div class="table-title-bar"><h2>📋 Listado de Empleados</h2></div>
                 <div class="table-search-bar">
                     <div class="table-search-group">
                         <label>🔎 Buscar en tabla:</label>
                         <input type="text" id="table-search" placeholder="Nombre, legajo, sector o puesto...">
-                    </div>
-                    <div class="table-search-group">
-                        <label> Filtrar Sector:</label>
-                        <select id="table-sector-filter">
-                            <option value="">Todos</option>
-                        </select>
-                    </div>
-                    <div class="table-search-group">
-                        <label>📊 Filtrar Estado:</label>
-                        <select id="table-status-filter">
-                            <option value="">Todos</option>
-                            <option value="rojo">Hasta 3 (Rojo)</option>
-                            <option value="naranja">Igual a 4 (Naranja)</option>
-                            <option value="verde">Mayor a 4 (Verde)</option>
-                        </select>
                     </div>
                 </div>
             </div>
@@ -509,6 +251,7 @@
                             <th>Apellido y Nombre</th>
                             <th>Sector</th>
                             <th>Puesto</th>
+                            <th>Categoría</th>
                             <th>Capacitaciones</th>
                             <th>Estado</th>
                         </tr>
@@ -518,12 +261,9 @@
             </div>
         </div>
 
-        <div class="footer">
-            <p>© 2026 GP Minería - PANEL de Capacitaciones</p>
-        </div>
+        <div class="footer"><p>© 2026 GP Minería - PANEL de Capacitaciones</p></div>
     </div>
 
-    <!-- MODAL DETALLE EMPLEADO -->
     <div id="employeeModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -538,28 +278,45 @@
         let allData = [];
         let filteredData = [];
         let charts = {};
-        let allTemas = [];
         let capacitacionesData = [];
         let totalCapacitacionesDisponibles = 0;
         let selectedEmployee = null;
+        let activeCategory = '';
 
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSnj-9Xv7Wyfqd3fWLLgKoCh6ghAoaPP4DWEijG0IDPxFQa-Mo7P3ZliYzUfNO2izI6zkguH7ltMeJ-/pub?output=csv';
 
-        const coloresGraficos = [
-            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', 
-            '#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360', '#AC64AD',
-            '#2ecc71', '#e74c3c', '#3498db', '#9b59b6', '#1abc9c', '#f39c12'
-        ];
+        // Mapeo de Temas a Categorías
+        const temaCategorias = {
+            'ATS': 'SSMA', 'Enf. invernales': 'Salud', 'RCP': 'Salud', 'Vida saludable': 'Salud',
+            'ACV y riesgos CV': 'Salud', 'Drogas de abuso y tabaquismo': 'Salud', 'Tabaquismo': 'Salud',
+            'Manipulación de cargas': 'SSMA', 'Dengue': 'Salud', 'Estres termico': 'Salud',
+            'Manejo defensivo': 'Equipos', 'Manejo defensivo con tecnologia RV': 'Equipos',
+            'Activavión de emergencia': 'SSMA', 'Inducción General': 'Admin',
+            'Procedimiento Cargadora': 'Procedimientos', 'Procedimiento Excavadora': 'Procedimientos',
+            'Procedimiento Topadora': 'Procedimientos', 'Procedimiento de Acarreo': 'Procedimientos',
+            'EPP': 'SSMA', 'Jornadas SSMA': 'SSMA', 'Herramientas hechizas': 'SSMA',
+            'Stop de seguridad': 'SSMA', 'Descarga en Trituracion': 'Procedimientos',
+            'Reporte de Actos y Condiciones': 'SSMA', 'indicadores mensuales de hys': 'SSMA',
+            'Ingreso y egreso de equipos': 'Procedimientos', 'Simulacros': 'SSMA'
+        };
+
+        // Categorías requeridas por Sector (Un administrativo no ve equipos pesados)
+        const sectorCategoriasRequeridas = {
+            'Cantera': ['SSMA', 'Equipos', 'Procedimientos', 'Salud'],
+            'Taller': ['SSMA', 'Procedimientos', 'Salud', 'Admin'],
+            'Perforista': ['SSMA', 'Equipos', 'Procedimientos', 'Salud'],
+            'Fuera de convenio': ['SSMA', 'Admin', 'Salud', 'Procedimientos'],
+            'Sin sector': ['Admin', 'SSMA', 'Salud'] 
+        };
+
+        const coloresGraficos = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#2ecc71', '#e74c3c'];
 
         Chart.register(ChartDataLabels);
         Chart.defaults.devicePixelRatio = window.devicePixelRatio || 1;
 
         Papa.parse(CSV_URL, {
-            download: true,
-            header: false,
-            complete: function(results) {
-                processData(results.data);
-            }
+            download: true, header: false,
+            complete: function(results) { processData(results.data); }
         });
 
         function processData(data) {
@@ -571,174 +328,107 @@
                 if (headers[i] && headers[i].trim()) {
                     capacitacionesHeaders.push(headers[i].trim());
                     capacitacionesIndices.push(i);
-                    if (!allTemas.includes(headers[i].trim())) {
-                        allTemas.push(headers[i].trim());
-                    }
                 }
             }
-
             totalCapacitacionesDisponibles = capacitacionesHeaders.length;
 
             allData = [];
             capacitacionesData = [];
             
-            const fechasSimuladas = [
-                '2026-01-15', '2026-01-20', '2026-02-05', '2026-02-12',
-                '2026-03-01', '2026-03-15', '2026-04-02', '2026-04-18',
-                '2026-05-05', '2026-05-20', '2026-06-03', '2026-06-17'
-            ];
-            
-            const instructores = [
-                'Juan Pérez', 'María González', 'Carlos Rodríguez',
-                'Ana Martínez', 'Luis Fernández', 'Carmen López'
-            ];
+            const fechasSimuladas = ['2026-01-15', '2026-02-05', '2026-03-01', '2026-04-02', '2026-05-05', '2026-06-03'];
+            const instructores = ['Juan Pérez', 'María González', 'Carlos Rodríguez', 'Ana Martínez'];
 
             for (let i = 3; i < data.length; i++) {
                 const row = data[i];
-                
                 if (!row || row.length < 4) continue;
-                
                 const nombre = row[1] ? row[1].trim() : '';
                 const legajo = row[0] ? row[0].trim() : '';
+                if (!nombre || nombre === 'TOTAL' || nombre.includes('Horas totales') || nombre.includes('REFERENCIA')) continue;
                 
-                if (!nombre) continue;
-                if (nombre === 'TOTAL' || nombre === 'Mensuales') continue;
-                if (nombre.includes('Horas totales')) continue;
-                if (nombre.includes('REFERENCIA')) continue;
-                if (nombre.includes('Cantidad de capacitaciones')) continue;
-                if (legajo === 'Área' || legajo === 'REFERENCIA') continue;
-                if (nombre === 'Título' || nombre === 'Costo total') continue;
-                
-                const sector = row[2] ? row[2].trim() : '';
-                const puesto = row[3] ? row[3].trim() : '';
-                
+                const sector = row[2] ? row[2].trim() : 'Sin sector';
+                const puesto = row[3] ? row[3].trim() : 'Sin puesto';
                 if (sector === 'Sin sector' && puesto === 'Sin posición' && nombre.length > 30) continue;
-                
+
+                // Determinar categorías requeridas para este empleado
+                const categoriasRequeridas = sectorCategoriasRequeridas[sector] || ['Admin', 'SSMA', 'Salud'];
+                const categoriaPrincipal = categoriasRequeridas[0];
+
                 let totalCapacitaciones = 0;
                 const capacitacionesRealizadas = [];
                 const capacitacionesPendientes = [];
-                
+
                 capacitacionesIndices.forEach((idx, capIdx) => {
                     const tema = capacitacionesHeaders[capIdx];
-                    
+                    const categoriaTema = temaCategorias[tema] || 'SSMA';
+
                     if (row[idx] && row[idx].trim() === '1') {
                         totalCapacitaciones++;
-                        
-                        const fechaRandom = fechasSimuladas[Math.floor(Math.random() * fechasSimuladas.length)];
-                        const instructorRandom = instructores[Math.floor(Math.random() * instructores.length)];
-                        const duracionRandom = [2, 4, 6, 8][Math.floor(Math.random() * 4)];
-                        
                         const capData = {
-                            tema: tema,
-                            fecha: fechaRandom,
-                            instructor: instructorRandom,
-                            duracion: duracionRandom,
-                            estado: 'Completada',
+                            tema, categoria: categoriaTema,
+                            fecha: fechasSimuladas[Math.floor(Math.random() * fechasSimuladas.length)],
+                            instructor: instructores[Math.floor(Math.random() * instructores.length)],
+                            duracion: [2, 4, 6, 8][Math.floor(Math.random() * 4)],
                             participantes: Math.floor(Math.random() * 20) + 5
                         };
-                        
                         capacitacionesRealizadas.push(capData);
-                        capacitacionesData.push({
-                            legajo: legajo,
-                            nombre: nombre,
-                            ...capData
-                        });
+                        capacitacionesData.push({ legajo, nombre, sector, puesto, ...capData });
                     } else {
-                        capacitacionesPendientes.push({
-                            tema: tema,
-                            estado: 'Pendiente'
-                        });
+                        // Solo agregar como pendiente si la categoría es requerida para su sector
+                        if (categoriasRequeridas.includes(categoriaTema)) {
+                            capacitacionesPendientes.push({ tema, categoria: categoriaTema });
+                        }
                     }
                 });
 
+                // Calcular total requerido (solo los temas de sus categorías)
+                const temasRequeridos = capacitacionesHeaders.filter(t => categoriasRequeridas.includes(temaCategorias[t] || 'SSMA'));
+                const totalRequerido = temasRequeridos.length;
+                const realizadasRequeridas = capacitacionesRealizadas.filter(c => categoriasRequeridas.includes(c.categoria)).length;
+
                 allData.push({
-                    legajo: legajo || 'N/A',
-                    nombre: nombre,
-                    sector: sector || 'Sin sector',
-                    puesto: puesto || 'Sin puesto',
-                    totalCapacitaciones: totalCapacitaciones,
-                    capacitacionesRealizadas: capacitacionesRealizadas,
-                    capacitacionesPendientes: capacitacionesPendientes,
-                    porcentajeCompletado: totalCapacitacionesDisponibles > 0 ? 
-                        ((totalCapacitaciones / totalCapacitacionesDisponibles) * 100).toFixed(1) : 0
+                    legajo, nombre, sector, puesto,
+                    categoriaPrincipal, categoriasRequeridas,
+                    totalCapacitaciones: realizadasRequeridas,
+                    totalRequerido,
+                    capacitacionesRealizadas,
+                    capacitacionesPendientes,
+                    porcentajeCompletado: totalRequerido > 0 ? ((realizadasRequeridas / totalRequerido) * 100).toFixed(1) : 0
                 });
             }
 
             filteredData = [...allData];
             populateFilters();
-            populateTableFilters();
             updateDashboard();
         }
 
         function populateFilters() {
-            const empleadoSelect = document.getElementById('filter-empleado');
+            const empSelect = document.getElementById('filter-empleado');
             allData.sort((a, b) => a.nombre.localeCompare(b.nombre)).forEach(e => {
-                const option = document.createElement('option');
-                option.value = e.legajo;
-                option.textContent = `${e.legajo} - ${e.nombre}`;
-                empleadoSelect.appendChild(option);
+                const opt = document.createElement('option');
+                opt.value = e.legajo; opt.textContent = `${e.legajo} - ${e.nombre}`;
+                empSelect.appendChild(opt);
             });
 
-            const sectores = [...new Set(allData.map(d => d.sector))].sort();
-            const sectorSelect = document.getElementById('filter-sector');
-            sectores.forEach(s => {
-                const option = document.createElement('option');
-                option.value = s;
-                option.textContent = s;
-                sectorSelect.appendChild(option);
+            const secSelect = document.getElementById('filter-sector');
+            [...new Set(allData.map(d => d.sector))].sort().forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s; opt.textContent = s;
+                secSelect.appendChild(opt);
             });
 
             document.getElementById('filter-empleado').addEventListener('change', function() {
                 if (this.value) {
                     selectedEmployee = allData.find(e => e.legajo === this.value);
                     updateDashboardForEmployee(selectedEmployee);
-                } else {
-                    selectedEmployee = null;
-                    applyFilters();
-                }
+                } else { selectedEmployee = null; applyFilters(); }
             });
-            
             document.getElementById('filter-sector').addEventListener('change', applyFilters);
+            document.getElementById('filter-categoria').addEventListener('change', function() {
+                activeCategory = this.value;
+                applyFilters();
+            });
             document.getElementById('search-box').addEventListener('input', applyFilters);
-        }
-
-        function populateTableFilters() {
-            const sectores = [...new Set(allData.map(d => d.sector))].sort();
-            const tableSectorFilter = document.getElementById('table-sector-filter');
-            sectores.forEach(s => {
-                const option = document.createElement('option');
-                option.value = s;
-                option.textContent = s;
-                tableSectorFilter.appendChild(option);
-            });
-
-            document.getElementById('table-search').addEventListener('input', applyTableFilters);
-            document.getElementById('table-sector-filter').addEventListener('change', applyTableFilters);
-            document.getElementById('table-status-filter').addEventListener('change', applyTableFilters);
-        }
-
-        function applyTableFilters() {
-            const search = document.getElementById('table-search').value.toLowerCase();
-            const sector = document.getElementById('table-sector-filter').value;
-            const status = document.getElementById('table-status-filter').value;
-
-            let dataToFilter = selectedEmployee ? [selectedEmployee] : filteredData;
-
-            const tableFiltered = dataToFilter.filter(d => {
-                if (search) {
-                    const searchStr = `${d.legajo} ${d.nombre} ${d.sector} ${d.puesto}`.toLowerCase();
-                    if (!searchStr.includes(search)) return false;
-                }
-                if (sector && d.sector !== sector) return false;
-                if (status) {
-                    if (status === 'rojo' && d.totalCapacitaciones > 3) return false;
-                    if (status === 'naranja' && d.totalCapacitaciones !== 4) return false;
-                    if (status === 'verde' && d.totalCapacitaciones <= 4) return false;
-                }
-                return true;
-            });
-
-            renderTable(tableFiltered);
+            document.getElementById('table-search').addEventListener('input', renderTable);
         }
 
         function applyFilters() {
@@ -747,615 +437,237 @@
 
             filteredData = allData.filter(d => {
                 if (sector && d.sector !== sector) return false;
+                if (activeCategory && !d.categoriasRequeridas.includes(activeCategory)) return false;
                 if (search) {
-                    const searchStr = `${d.legajo} ${d.nombre} ${d.puesto}`.toLowerCase();
-                    if (!searchStr.includes(search)) return false;
+                    const str = `${d.legajo} ${d.nombre} ${d.puesto}`.toLowerCase();
+                    if (!str.includes(search)) return false;
                 }
                 return true;
             });
-
             updateDashboard();
         }
 
-        function updateDashboardForEmployee(empleado) {
+        function updateDashboardForEmployee(emp) {
             document.getElementById('kpi-total-empleados').textContent = '1';
-            document.getElementById('kpi-total-capacitaciones').textContent = empleado.totalCapacitaciones;
-            document.getElementById('kpi-promedio').textContent = empleado.totalCapacitaciones;
-            const horasTotales = empleado.capacitacionesRealizadas.reduce((sum, c) => sum + c.duracion, 0);
-            document.getElementById('kpi-horas').textContent = horasTotales + 'h';
+            document.getElementById('kpi-total-capacitaciones').textContent = emp.totalCapacitaciones;
+            document.getElementById('kpi-promedio').textContent = emp.totalCapacitaciones;
+            const horas = emp.capacitacionesRealizadas.reduce((s, c) => s + c.duracion, 0);
+            document.getElementById('kpi-horas').textContent = horas + 'h';
             document.getElementById('total-empleados-label').textContent = '1';
-
-            updateChartsForEmployee(empleado);
-            renderTable([empleado]);
+            updateChartsForEmployee(emp);
+            renderTable([emp]);
         }
 
         function updateDashboard() {
-            updateKPIs();
-            updateCharts();
-            applyTableFilters();
+            updateKPIs(); updateCharts(); renderTable();
         }
 
         function updateKPIs() {
-            const totalEmpleados = filteredData.length;
-            const totalCapacitaciones = filteredData.reduce((sum, d) => sum + d.totalCapacitaciones, 0);
-            const promedio = totalEmpleados > 0 ? (totalCapacitaciones / totalEmpleados).toFixed(1) : 0;
-            const horasTotales = totalCapacitaciones * 4;
-
-            document.getElementById('kpi-total-empleados').textContent = totalEmpleados;
-            document.getElementById('kpi-total-capacitaciones').textContent = totalCapacitaciones;
-            document.getElementById('kpi-promedio').textContent = promedio;
-            document.getElementById('kpi-horas').textContent = horasTotales;
-            document.getElementById('total-empleados-label').textContent = totalEmpleados;
+            const total = filteredData.length;
+            const caps = filteredData.reduce((s, d) => s + d.totalCapacitaciones, 0);
+            const prom = total > 0 ? (caps / total).toFixed(1) : 0;
+            const horas = caps * 4;
+            document.getElementById('kpi-total-empleados').textContent = total;
+            document.getElementById('kpi-total-capacitaciones').textContent = caps;
+            document.getElementById('kpi-promedio').textContent = prom;
+            document.getElementById('kpi-horas').textContent = horas;
+            document.getElementById('total-empleados-label').textContent = total;
         }
 
-        function updateChartsForEmployee(empleado) {
-            Object.values(charts).forEach(chart => chart.destroy());
-            charts = {};
-
+        function updateChartsForEmployee(emp) {
+            Object.values(charts).forEach(c => c.destroy()); charts = {};
             const dpr = window.devicePixelRatio || 1;
 
             const temaData = {};
-            empleado.capacitacionesRealizadas.forEach(c => {
-                temaData[c.tema] = (temaData[c.tema] || 0) + 1;
-            });
-
+            emp.capacitacionesRealizadas.forEach(c => temaData[c.tema] = (temaData[c.tema] || 0) + 1);
             const temas = Object.keys(temaData);
-            const cantidades = Object.values(temaData);
-            const totalCaps = cantidades.reduce((a, b) => a + b, 0);
+            const totalCaps = Object.values(temaData).reduce((a,b)=>a+b,0);
 
             charts.sector = new Chart(document.getElementById('chart-sector'), {
                 type: 'bar',
-                data: {
-                    labels: temas,
-                    datasets: [{
-                        label: 'Capacitaciones',
-                        data: cantidades,
-                        backgroundColor: coloresGraficos.slice(0, temas.length),
-                        borderWidth: 2,
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    devicePixelRatio: dpr,
-                    plugins: {
-                        legend: { display: false },
-                        datalabels: {
-                            color: '#fff',
-                            font: { weight: 'bold', size: 13 },
-                            anchor: 'center',
-                            align: 'center',
-                            formatter: function(value) {
-                                const percentage = ((value / totalCaps) * 100).toFixed(1);
-                                return value + '\n(' + percentage + '%)';
-                            }
-                        }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
-                        x: { grid: { display: false } }
-                    }
-                }
+                data: { labels: temas, datasets: [{ data: Object.values(temaData), backgroundColor: coloresGraficos.slice(0, temas.length), borderRadius: 8 }] },
+                options: { responsive: true, maintainAspectRatio: false, devicePixelRatio: dpr, plugins: { legend: {display:false}, datalabels: { color:'#fff', font:{weight:'bold',size:12}, formatter: v => { const p = ((v/totalCaps)*100).toFixed(0); return v+'\n('+p+'%)'; } } }, scales: { y:{beginAtZero:true}, x:{grid:{display:false}} } }
             });
 
-            const duracionData = {};
-            empleado.capacitacionesRealizadas.forEach(c => {
-                duracionData[c.duracion + 'h'] = (duracionData[c.duracion + 'h'] || 0) + 1;
-            });
-
+            const durData = {};
+            emp.capacitacionesRealizadas.forEach(c => durData[c.duracion+'h'] = (durData[c.duracion+'h']||0)+1);
             charts.distribucion = new Chart(document.getElementById('chart-distribucion'), {
                 type: 'doughnut',
-                data: {
-                    labels: Object.keys(duracionData),
-                    datasets: [{
-                        data: Object.values(duracionData),
-                        backgroundColor: coloresGraficos.slice(0, Object.keys(duracionData).length),
-                        borderWidth: 3,
-                        borderColor: '#fff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    devicePixelRatio: dpr,
-                    cutout: '50%',
-                    plugins: {
-                        legend: { 
-                            position: 'bottom',
-                            labels: { padding: 10, font: { size: 12, weight: 'bold' } }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                    return `${context.label}: ${context.parsed} capacitaciones (${percentage}%)`;
-                                }
-                            }
-                        },
-                        datalabels: {
-                            color: '#fff',
-                            font: { weight: 'bold', size: 14 },
-                            formatter: function(value, context) {
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((value / total) * 100).toFixed(1);
-                                return percentage + '%';
-                            }
-                        }
-                    }
-                }
+                data: { labels: Object.keys(durData), datasets: [{ data: Object.values(durData), backgroundColor: coloresGraficos.slice(0, Object.keys(durData).length), borderWidth:3, borderColor:'#fff' }] },
+                options: { responsive: true, maintainAspectRatio: false, devicePixelRatio: dpr, cutout:'50%', plugins: { legend:{position:'bottom', labels:{padding:10, font:{size:11}}}, datalabels:{color:'#fff', font:{weight:'bold',size:13}, formatter:(v,c)=>{const t=c.dataset.data.reduce((a,b)=>a+b,0); return ((v/t)*100).toFixed(0)+'%';}} } }
             });
 
-            const participacionData = {};
-            empleado.capacitacionesRealizadas.forEach(c => {
-                participacionData[c.tema] = (participacionData[c.tema] || 0) + c.duracion;
-            });
-
-            const temasPart = Object.keys(participacionData);
-            const duraciones = Object.values(participacionData);
-
-            const temasOrdenados = temasPart.map((tema, index) => ({
-                tema,
-                duracion: duraciones[index],
-                color: coloresGraficos[index % coloresGraficos.length]
-            })).sort((a, b) => b.duracion - a.duracion);
-
+            const partData = {};
+            emp.capacitacionesRealizadas.forEach(c => partData[c.tema] = (partData[c.tema]||0) + c.duracion);
+            const partTemas = Object.keys(partData).map((t,i)=>({tema:t, duracion:partData[t], color:coloresGraficos[i%coloresGraficos.length]})).sort((a,b)=>b.duracion-a.duracion);
+            
             charts.participacion = new Chart(document.getElementById('chart-participacion'), {
                 type: 'bar',
-                data: {
-                    labels: temasOrdenados.map(t => t.tema),
-                    datasets: [{
-                        label: 'Horas',
-                        data: temasOrdenados.map(t => t.duracion),
-                        backgroundColor: temasOrdenados.map(t => t.color),
-                        borderWidth: 2,
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    devicePixelRatio: dpr,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const index = context.dataIndex;
-                                    return `Duración: ${temasOrdenados[index].duracion} horas`;
-                                }
-                            }
-                        },
-                        datalabels: {
-                            color: '#fff',
-                            font: { weight: 'bold', size: 12 },
-                            anchor: 'end',
-                            align: 'top',
-                            offset: 4,
-                            formatter: function(value) {
-                                return value + 'h';
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: { display: true, text: 'Horas de Capacitación', color: '#525149', font: { weight: 'bold', size: 13 } },
-                            grid: { color: '#f0f0f0' }
-                        },
-                        x: { display: false }
-                    }
-                }
+                data: { labels: partTemas.map(t=>t.tema), datasets: [{ data: partTemas.map(t=>t.duracion), backgroundColor: partTemas.map(t=>t.color), borderRadius:8 }] },
+                options: { responsive: true, maintainAspectRatio: false, devicePixelRatio: dpr, plugins: { legend:{display:false}, datalabels:{color:'#fff', font:{weight:'bold',size:12}, anchor:'end', align:'top', formatter:v=>v+'h'} }, scales: { y:{beginAtZero:true, title:{display:true,text:'Horas'}}, x:{display:false} } }
             });
-
-            updateParticipacionLegend(temasOrdenados, 'horas');
-        }
-
-        function updateParticipacionLegend(temasOrdenados, tipo = 'cantidad') {
-            const legendContainer = document.getElementById('participacion-legend');
-            legendContainer.innerHTML = '';
-
-            temasOrdenados.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'legend-item';
-                
-                if (tipo === 'horas') {
-                    div.innerHTML = `
-                        <div class="legend-color-box" style="background: ${item.color};"></div>
-                        <div class="legend-text">${item.tema}</div>
-                        <div class="legend-stats">
-                            <span class="legend-count">${item.duracion}h</span>
-                        </div>
-                    `;
-                } else {
-                    div.innerHTML = `
-                        <div class="legend-color-box" style="background: ${item.color};"></div>
-                        <div class="legend-text">${item.tema}</div>
-                        <div class="legend-stats">
-                            <span class="legend-count">${item.cantidad} pers.</span>
-                            <span class="legend-percentage">${item.porcentaje}%</span>
-                        </div>
-                    `;
-                }
-                legendContainer.appendChild(div);
-            });
+            updateParticipacionLegend(partTemas, 'horas');
         }
 
         function updateCharts() {
-            Object.values(charts).forEach(chart => chart.destroy());
-            charts = {};
-
+            Object.values(charts).forEach(c => c.destroy()); charts = {};
             const dpr = window.devicePixelRatio || 1;
 
-            const sectorData = {};
-            filteredData.forEach(d => {
-                sectorData[d.sector] = (sectorData[d.sector] || 0) + d.totalCapacitaciones;
-            });
-            const totalSector = Object.values(sectorData).reduce((a, b) => a + b, 0);
-
+            const secData = {};
+            filteredData.forEach(d => secData[d.sector] = (secData[d.sector]||0) + d.totalCapacitaciones);
+            const totalSec = Object.values(secData).reduce((a,b)=>a+b,0);
             charts.sector = new Chart(document.getElementById('chart-sector'), {
                 type: 'bar',
-                data: {
-                    labels: Object.keys(sectorData),
-                    datasets: [{
-                        label: 'Capacitaciones',
-                        data: Object.values(sectorData),
-                        backgroundColor: coloresGraficos.slice(0, Object.keys(sectorData).length),
-                        borderWidth: 2,
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    devicePixelRatio: dpr,
-                    plugins: {
-                        legend: { display: false },
-                        datalabels: {
-                            color: '#fff',
-                            font: { weight: 'bold', size: 13 },
-                            anchor: 'center',
-                            align: 'center',
-                            formatter: function(value) {
-                                const percentage = ((value / totalSector) * 100).toFixed(1);
-                                return value + '\n(' + percentage + '%)';
-                            }
-                        }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
-                        x: { grid: { display: false } }
-                    }
-                }
+                data: { labels: Object.keys(secData), datasets: [{ data: Object.values(secData), backgroundColor: coloresGraficos.slice(0, Object.keys(secData).length), borderRadius:8 }] },
+                options: { responsive: true, maintainAspectRatio: false, devicePixelRatio: dpr, plugins: { legend:{display:false}, datalabels:{color:'#fff', font:{weight:'bold',size:12}, formatter:v=>v+'\n('+((v/totalSec)*100).toFixed(0)+'%)'} }, scales: { y:{beginAtZero:true}, x:{grid:{display:false}} } }
             });
 
-            const distribucionData = {};
-            filteredData.forEach(d => {
-                distribucionData[d.sector] = (distribucionData[d.sector] || 0) + 1;
-            });
-
+            const distData = {};
+            filteredData.forEach(d => distData[d.sector] = (distData[d.sector]||0)+1);
             charts.distribucion = new Chart(document.getElementById('chart-distribucion'), {
                 type: 'doughnut',
-                data: {
-                    labels: Object.keys(distribucionData),
-                    datasets: [{
-                        data: Object.values(distribucionData),
-                        backgroundColor: coloresGraficos.slice(0, Object.keys(distribucionData).length),
-                        borderWidth: 3,
-                        borderColor: '#fff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    devicePixelRatio: dpr,
-                    cutout: '50%',
-                    plugins: {
-                        legend: { 
-                            position: 'bottom',
-                            labels: { padding: 10, font: { size: 12, weight: 'bold' } }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                    return `${context.label}: ${context.parsed} empleados (${percentage}%)`;
-                                }
-                            }
-                        },
-                        datalabels: {
-                            color: '#fff',
-                            font: { weight: 'bold', size: 14 },
-                            formatter: function(value, context) {
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((value / total) * 100).toFixed(1);
-                                return percentage + '%';
-                            }
-                        }
-                    }
-                }
+                data: { labels: Object.keys(distData), datasets: [{ data: Object.values(distData), backgroundColor: coloresGraficos.slice(0, Object.keys(distData).length), borderWidth:3, borderColor:'#fff' }] },
+                options: { responsive: true, maintainAspectRatio: false, devicePixelRatio: dpr, cutout:'50%', plugins: { legend:{position:'bottom', labels:{padding:10, font:{size:11}}}, datalabels:{color:'#fff', font:{weight:'bold',size:13}, formatter:(v,c)=>{const t=c.dataset.data.reduce((a,b)=>a+b,0); return ((v/t)*100).toFixed(0)+'%';}} } }
             });
 
-            const participacionData = {};
+            const partData = {};
             capacitacionesData.forEach(c => {
-                participacionData[c.tema] = (participacionData[c.tema] || 0) + 1;
+                if (activeCategory && c.categoria !== activeCategory) return;
+                partData[c.tema] = (partData[c.tema]||0)+1;
             });
-
-            const totalEmpleadosGeneral = allData.length || 1;
-            const temas = Object.keys(participacionData);
-            const cantidades = Object.values(participacionData);
-            const porcentajes = cantidades.map(c => ((c / totalEmpleadosGeneral) * 100).toFixed(1));
-
-            const temasOrdenados = temas.map((tema, index) => ({
-                tema,
-                cantidad: cantidades[index],
-                porcentaje: porcentajes[index],
-                color: coloresGraficos[index % coloresGraficos.length]
-            })).sort((a, b) => b.cantidad - a.cantidad);
+            const totalGen = filteredData.length || 1;
+            const partTemas = Object.keys(partData).map((t,i)=>({tema:t, cantidad:partData[t], porcentaje:((partData[t]/totalGen)*100).toFixed(1), color:coloresGraficos[i%coloresGraficos.length]})).sort((a,b)=>b.cantidad-a.cantidad);
 
             charts.participacion = new Chart(document.getElementById('chart-participacion'), {
                 type: 'bar',
-                data: {
-                    labels: temasOrdenados.map(t => t.tema),
-                    datasets: [{
-                        label: 'Participantes',
-                        data: temasOrdenados.map(t => t.cantidad),
-                        backgroundColor: temasOrdenados.map(t => t.color),
-                        borderWidth: 2,
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    devicePixelRatio: dpr,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const index = context.dataIndex;
-                                    return [
-                                        `Tema: ${temasOrdenados[index].tema}`,
-                                        `Participantes: ${context.parsed.y}`,
-                                        `Porcentaje: ${temasOrdenados[index].porcentaje}%`
-                                    ];
-                                }
-                            }
-                        },
-                        datalabels: {
-                            color: '#fff',
-                            font: { weight: 'bold', size: 12 },
-                            anchor: 'end',
-                            align: 'top',
-                            offset: 4,
-                            formatter: function(value) {
-                                return value;
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: { display: true, text: 'Cantidad de Participantes', color: '#525149', font: { weight: 'bold', size: 13 } },
-                            grid: { color: '#f0f0f0' }
-                        },
-                        x: { display: false }
-                    }
-                }
+                data: { labels: partTemas.map(t=>t.tema), datasets: [{ data: partTemas.map(t=>t.cantidad), backgroundColor: partTemas.map(t=>t.color), borderRadius:8 }] },
+                options: { responsive: true, maintainAspectRatio: false, devicePixelRatio: dpr, plugins: { legend:{display:false}, datalabels:{color:'#fff', font:{weight:'bold',size:11}, anchor:'end', align:'top', formatter:v=>v} }, scales: { y:{beginAtZero:true, title:{display:true,text:'Participantes'}}, x:{display:false} } }
             });
-
-            updateParticipacionLegend(temasOrdenados, 'cantidad');
+            updateParticipacionLegend(partTemas, 'cantidad');
         }
 
-        function getBadgeInfo(totalCapacitaciones) {
-            if (totalCapacitaciones <= 3) {
-                return { class: 'badge-rojo', text: `Hasta 3 (${totalCapacitaciones})` };
-            } else if (totalCapacitaciones === 4) {
-                return { class: 'badge-naranja', text: `Igual a 4` };
-            } else {
-                return { class: 'badge-verde', text: `Mayor a 4 (${totalCapacitaciones})` };
-            }
+        function updateParticipacionLegend(items, tipo) {
+            const container = document.getElementById('participacion-legend');
+            container.innerHTML = '';
+            items.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'legend-item';
+                div.innerHTML = `
+                    <div class="legend-color-box" style="background:${item.color}"></div>
+                    <div class="legend-text">${item.tema}</div>
+                    <div class="legend-stats">
+                        <span class="legend-count">${tipo==='horas'?item.duracion+'h':item.cantidad+' pers.'}</span>
+                        ${item.porcentaje?`<span class="legend-percentage">${item.porcentaje}%</span>`:''}
+                    </div>`;
+                container.appendChild(div);
+            });
+        }
+
+        function getBadgeInfo(total, requerido) {
+            const ratio = requerido > 0 ? total/requerido : 0;
+            if (ratio <= 0.4) return { class: 'badge-rojo', text: `Pendiente (${total}/${requerido})` };
+            if (ratio < 1) return { class: 'badge-naranja', text: `En proceso (${total}/${requerido})` };
+            return { class: 'badge-verde', text: `Completo (${total}/${requerido})` };
         }
 
         function renderTable(data) {
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
+            const search = document.getElementById('table-search').value.toLowerCase();
+            const list = data || filteredData;
 
-            data.forEach(d => {
+            list.forEach(d => {
+                if (search) {
+                    const str = `${d.legajo} ${d.nombre} ${d.sector} ${d.puesto}`.toLowerCase();
+                    if (!str.includes(search)) return;
+                }
                 const row = document.createElement('tr');
                 row.onclick = () => showEmployeeDetail(d.legajo);
-                
-                const badgeInfo = getBadgeInfo(d.totalCapacitaciones);
-
+                const badge = getBadgeInfo(d.totalCapacitaciones, d.totalRequerido);
                 row.innerHTML = `
-                    <td>${d.legajo}</td>
-                    <td>${d.nombre}</td>
-                    <td>${d.sector}</td>
-                    <td>${d.puesto}</td>
-                    <td>${d.totalCapacitaciones} / ${totalCapacitacionesDisponibles}</td>
-                    <td><span class="badge ${badgeInfo.class}">${badgeInfo.text}</span></td>
-                `;
-                
+                    <td>${d.legajo}</td><td>${d.nombre}</td><td>${d.sector}</td><td>${d.puesto}</td>
+                    <td><span style="font-size:0.8em; background:#f0f0f0; padding:3px 8px; border-radius:10px;">${d.categoriaPrincipal}</span></td>
+                    <td>${d.totalCapacitaciones} / ${d.totalRequerido}</td>
+                    <td><span class="badge ${badge.class}">${badge.text}</span></td>`;
                 tbody.appendChild(row);
             });
         }
 
         function showEmployeeDetail(legajo) {
-            const empleado = allData.find(e => e.legajo === legajo);
-            if (!empleado) return;
+            const emp = allData.find(e => e.legajo === legajo);
+            if (!emp) return;
+            const totalR = emp.capacitacionesRealizadas.length;
+            const totalP = emp.capacitacionesPendientes.length;
+            const horas = emp.capacitacionesRealizadas.reduce((s,c)=>s+c.duracion,0);
 
-            const modalBody = document.getElementById('employee-modal-body');
-            
-            const totalRealizadas = empleado.capacitacionesRealizadas.length;
-            const totalPendientes = empleado.capacitacionesPendientes.length;
-            const totalHoras = empleado.capacitacionesRealizadas.reduce((sum, c) => sum + c.duracion, 0);
-            
-            modalBody.innerHTML = `
+            document.getElementById('employee-modal-body').innerHTML = `
                 <div class="employee-header">
-                    <div class="employee-header-item">
-                        <h4>🔢 Legajo</h4>
-                        <p>${empleado.legajo}</p>
-                    </div>
-                    <div class="employee-header-item">
-                        <h4>👤 Apellido y Nombre</h4>
-                        <p>${empleado.nombre}</p>
-                    </div>
-                    <div class="employee-header-item">
-                        <h4>🏢 Sector</h4>
-                        <p>${empleado.sector}</p>
-                    </div>
-                    <div class="employee-header-item">
-                        <h4>💼 Puesto</h4>
-                        <p>${empleado.puesto}</p>
-                    </div>
+                    <div class="employee-header-item"><h4>🔢 Legajo</h4><p>${emp.legajo}</p></div>
+                    <div class="employee-header-item"><h4>👤 Nombre</h4><p>${emp.nombre}</p></div>
+                    <div class="employee-header-item"><h4> Sector</h4><p>${emp.sector}</p></div>
+                    <div class="employee-header-item"><h4>💼 Puesto</h4><p>${emp.puesto}</p></div>
                 </div>
-
                 <div class="stats-grid">
-                    <div class="stat-card">
-                        <h4>✅ Completadas</h4>
-                        <div class="stat-value">${totalRealizadas}</div>
-                    </div>
-                    <div class="stat-card">
-                        <h4>⏳ Pendientes</h4>
-                        <div class="stat-value">${totalPendientes}</div>
-                    </div>
-                    <div class="stat-card">
-                        <h4>📊 Progreso</h4>
-                        <div class="stat-value">${empleado.porcentajeCompletado}%</div>
-                    </div>
-                    <div class="stat-card">
-                        <h4>⏱️ Horas Totales</h4>
-                        <div class="stat-value">${totalHoras}h</div>
-                    </div>
+                    <div class="stat-card"><h4>✅ Completadas</h4><div class="stat-value">${totalR}</div></div>
+                    <div class="stat-card"><h4>⏳ Pendientes</h4><div class="stat-value">${totalP}</div></div>
+                    <div class="stat-card"><h4>📊 Progreso</h4><div class="stat-value">${emp.porcentajeCompletado}%</div></div>
+                    <div class="stat-card"><h4>️ Horas</h4><div class="stat-value">${horas}h</div></div>
                 </div>
-
                 <div class="info-section">
-                    <h3>📈 Progreso de Capacitaciones</h3>
-                    <div class="chart-container" style="height: 300px;">
-                        <canvas id="chart-empleado-progreso"></canvas>
-                    </div>
+                    <h3> Progreso General</h3>
+                    <div style="height:250px"><canvas id="chart-empleado-progreso"></canvas></div>
                 </div>
-
                 <div class="info-section">
-                    <h3>✅ Capacitaciones Completadas (${totalRealizadas})</h3>
-                    ${empleado.capacitacionesRealizadas.map(c => `
+                    <h3>✅ Capacitaciones Completadas (${totalR})</h3>
+                    ${emp.capacitacionesRealizadas.map(c => `
                         <div class="training-item completed">
                             <div class="training-header">
                                 <span class="training-title">${c.tema}</span>
-                                <span class="training-badge" style="background: #28a745; color: white;">Completada</span>
+                                <span class="training-badge" style="background:#28a745">Completada</span>
                             </div>
                             <div class="training-details">
-                                <div class="training-detail-item">📅 ${c.fecha}</div>
-                                <div class="training-detail-item">‍🏫 ${c.instructor}</div>
+                                <div class="training-detail-item"> <span class="training-date">${c.fecha}</span></div>
+                                <div class="training-detail-item">👨‍🏫 ${c.instructor}</div>
                                 <div class="training-detail-item">⏱️ ${c.duracion} horas</div>
-                                <div class="training-detail-item"> ${c.participantes} participantes</div>
+                                <div class="training-detail-item">👥 ${c.participantes} part.</div>
                             </div>
-                        </div>
-                    `).join('')}
+                        </div>`).join('')}
                 </div>
-
                 <div class="info-section">
-                    <h3>⏳ Capacitaciones Pendientes (${totalPendientes})</h3>
-                    ${totalPendientes > 0 ? `
+                    <h3>⏳ Capacitaciones Pendientes (${totalP})</h3>
+                    ${totalP > 0 ? `
                         <div class="pending-summary">
-                            <h4>⚠️ Total de Capacitaciones Pendientes</h4>
-                            <div class="pending-count">${totalPendientes}</div>
-                            <p style="text-align: center; color: #666;">
-                                Le faltan ${totalPendientes} de ${totalCapacitacionesDisponibles} capacitaciones
-                            </p>
+                            <h4 style="color:#dc3545; margin-bottom:5px;">️ Faltan por completar</h4>
+                            <div class="pending-count">${totalP}</div>
+                            <p style="color:#666; font-size:0.9em;">De ${emp.totalRequerido} capacitaciones requeridas para su puesto</p>
                         </div>
-                        <div style="margin-top: 15px; max-height: 300px; overflow-y: auto;">
-                            ${empleado.capacitacionesPendientes.slice(0, 10).map(c => `
+                        <div style="max-height:250px; overflow-y:auto;">
+                            ${emp.capacitacionesPendientes.slice(0,8).map(c => `
                                 <div class="training-item pending">
                                     <div class="training-header">
                                         <span class="training-title">${c.tema}</span>
-                                        <span class="training-badge" style="background: #dc3545; color: white;">Pendiente</span>
+                                        <span class="training-badge" style="background:#dc3545">Pendiente</span>
                                     </div>
-                                </div>
-                            `).join('')}
-                            ${totalPendientes > 10 ? `<p style="text-align: center; color: #666; margin-top: 10px;">... y ${totalPendientes - 10} más</p>` : ''}
-                        </div>
-                    ` : 
-                        '<p style="color: #28a745; font-weight: 700; padding: 15px; text-align: center;">¡Felicitaciones! No tiene capacitaciones pendientes. ✅</p>'
-                    }
-                </div>
-            `;
+                                    <div class="training-details"><div class="training-detail-item">📂 Categoría: ${c.categoria}</div></div>
+                                </div>`).join('')}
+                            ${totalP > 8 ? `<p style="text-align:center; color:#666; margin-top:10px;">... y ${totalP-8} más</p>`:''}
+                        </div>` : '<p style="color:#28a745; font-weight:700; text-align:center; padding:20px;">¡Felicitaciones! Al día con todas las capacitaciones. ✅</p>'}
+                </div>`;
             
             openModal('employeeModal');
-            
             setTimeout(() => {
-                createEmployeeChart(empleado);
+                const ctx = document.getElementById('chart-empleado-progreso').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: { labels:['Completadas','Pendientes'], datasets:[{data:[totalR, totalP], backgroundColor:['#28a745','#dc3545'], borderWidth:3, borderColor:'#fff'}] },
+                    options: { responsive:true, maintainAspectRatio:false, devicePixelRatio:window.devicePixelRatio||1, plugins:{ legend:{position:'bottom', labels:{padding:15, font:{size:14, weight:'bold'}}}, datalabels:{color:'#fff', font:{weight:'bold',size:15}, formatter:(v,c)=>{const t=c.dataset.data.reduce((a,b)=>a+b,0); return ((v/t)*100).toFixed(0)+'%';}} } }
+                });
             }, 100);
         }
 
-        function createEmployeeChart(empleado) {
-            const ctx = document.getElementById('chart-empleado-progreso').getContext('2d');
-            
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Completadas', 'Pendientes'],
-                    datasets: [{
-                        data: [
-                            empleado.capacitacionesRealizadas.length,
-                            empleado.capacitacionesPendientes.length
-                        ],
-                        backgroundColor: ['#28a745', '#dc3545'],
-                        borderWidth: 3,
-                        borderColor: '#fff'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    devicePixelRatio: window.devicePixelRatio || 1,
-                    plugins: {
-                        legend: { 
-                            position: 'bottom',
-                            labels: { padding: 15, font: { size: 14, weight: 'bold' } }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                    return `${context.label}: ${context.parsed} (${percentage}%)`;
-                                }
-                            }
-                        },
-                        datalabels: {
-                            color: '#fff',
-                            font: { weight: 'bold', size: 16 },
-                            formatter: function(value, context) {
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((value / total) * 100).toFixed(1);
-                                return percentage + '%';
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        }
+        function openModal(id) { document.getElementById(id).style.display='block'; document.body.style.overflow='hidden'; }
+        function closeModal(id) { document.getElementById(id).style.display='none'; document.body.style.overflow='auto'; }
+        window.onclick = function(e) { if(e.target.classList.contains('modal')) { e.target.style.display='none'; document.body.style.overflow='auto'; } }
     </script>
 </body>
 </html>
