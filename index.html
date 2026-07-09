@@ -34,6 +34,8 @@
             min-height: 100vh;
             padding: 15px;
             color: #333;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container { max-width: 1400px; margin: 0 auto; }
@@ -76,7 +78,7 @@
         .chart-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-left: 5px solid var(--inst-naranja); }
         .chart-card h3 { color: var(--inst-gris-oscuro); margin-bottom: 15px; font-size: 1.2em; text-align: center; font-weight: 700; }
         .chart-container { position: relative; height: 350px; }
-        .chart-container-large { position: relative; height: 500px; }
+        .chart-container-large { position: relative; height: 700px; }
 
         .table-container { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-top: 5px solid var(--inst-naranja); max-height: 500px; overflow-y: auto; }
         .table-container h2 { color: var(--inst-gris-oscuro); margin-bottom: 15px; font-size: 1.4em; text-align: center; }
@@ -88,7 +90,7 @@
 
         .badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 0.85em; font-weight: 700; color: white; text-align: center; }
         .badge-rojo { background: #dc3545; }
-        .badge-naranja { background: #ff8c00; color: white; }
+        .badge-naranja { background: #ff8c00; }
         .badge-verde { background: #28a745; }
 
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(44, 42, 38, 0.85); backdrop-filter: blur(5px); animation: fadeIn 0.3s ease; }
@@ -140,7 +142,7 @@
             .kpi-card { min-width: 150px; padding: 15px 20px; }
             .kpi-card .value { font-size: 1.8em; }
             .modal-content { margin: 3% auto; width: 95%; padding: 20px; }
-            .chart-container-large { height: 400px; }
+            .chart-container-large { height: 500px; }
         }
 
         @media (max-width: 600px) {
@@ -197,7 +199,7 @@
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label for="filter-sector"> Sector:</label>
+                    <label for="filter-sector">🏢 Sector:</label>
                     <select id="filter-sector">
                         <option value="">Todos los sectores</option>
                     </select>
@@ -226,6 +228,7 @@
 
         <div class="chart-card" style="margin-bottom: 20px;">
             <h3>📈 Participación en Capacitaciones (Cantidad y Porcentaje)</h3>
+            <p style="text-align: center; color: #666; font-size: 0.9em; margin-bottom: 15px;">Porcentaje calculado sobre un total de <strong id="total-empleados-label">0</strong> empleados</p>
             <div class="chart-container-large">
                 <canvas id="chart-participacion"></canvas>
             </div>
@@ -256,11 +259,10 @@
         </div>
     </div>
 
-    <!-- MODAL DETALLE EMPLEADO -->
     <div id="employeeModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>📋 Detalle Completo del Empleado</h2>
+                <h2> Detalle Completo del Empleado</h2>
                 <span class="close" onclick="closeModal('employeeModal')">&times;</span>
             </div>
             <div class="modal-body" id="employee-modal-body">
@@ -283,8 +285,9 @@
             '#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360', '#AC64AD'
         ];
 
-        // Registrar el plugin de datalabels
+        // Registrar plugin y configurar para alta resolución
         Chart.register(ChartDataLabels);
+        Chart.defaults.devicePixelRatio = window.devicePixelRatio || 1;
 
         Papa.parse(CSV_URL, {
             download: true,
@@ -462,15 +465,15 @@
                         <p>${empleado.legajo}</p>
                     </div>
                     <div class="employee-header-item">
-                        <h4>👤 Apellido y Nombre</h4>
+                        <h4> Apellido y Nombre</h4>
                         <p>${empleado.nombre}</p>
                     </div>
                     <div class="employee-header-item">
-                        <h4> Sector</h4>
+                        <h4>🏢 Sector</h4>
                         <p>${empleado.sector}</p>
                     </div>
                     <div class="employee-header-item">
-                        <h4>💼 Puesto</h4>
+                        <h4> Puesto</h4>
                         <p>${empleado.puesto}</p>
                     </div>
                 </div>
@@ -481,11 +484,11 @@
                         <div class="stat-value">${totalRealizadas}</div>
                     </div>
                     <div class="stat-card">
-                        <h4>⏳ Pendientes</h4>
+                        <h4> Pendientes</h4>
                         <div class="stat-value">${totalPendientes}</div>
                     </div>
                     <div class="stat-card">
-                        <h4> Progreso</h4>
+                        <h4>📊 Progreso</h4>
                         <div class="stat-value">${empleado.porcentajeCompletado}%</div>
                     </div>
                     <div class="stat-card">
@@ -511,7 +514,7 @@
                             </div>
                             <div class="training-details">
                                 <div class="training-detail-item">📅 ${c.fecha}</div>
-                                <div class="training-detail-item">👨🏫 ${c.instructor}</div>
+                                <div class="training-detail-item">👨‍🏫 ${c.instructor}</div>
                                 <div class="training-detail-item">⏱️ ${c.duracion} horas</div>
                                 <div class="training-detail-item">👥 ${c.participantes} participantes</div>
                             </div>
@@ -520,7 +523,7 @@
                 </div>
 
                 <div class="info-section">
-                    <h3> Capacitaciones Pendientes (${totalPendientes})</h3>
+                    <h3>⏳ Capacitaciones Pendientes (${totalPendientes})</h3>
                     ${empleado.capacitacionesPendientes.length > 0 ? 
                         empleado.capacitacionesPendientes.map(c => `
                             <div class="training-item pending">
@@ -562,10 +565,11 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    devicePixelRatio: window.devicePixelRatio || 1,
                     plugins: {
                         legend: { 
                             position: 'bottom',
-                            labels: { padding: 15, font: { size: 14 } }
+                            labels: { padding: 15, font: { size: 14, weight: 'bold' } }
                         },
                         tooltip: {
                             callbacks: {
@@ -578,7 +582,7 @@
                         },
                         datalabels: {
                             color: '#fff',
-                            font: { weight: 'bold', size: 14 },
+                            font: { weight: 'bold', size: 16 },
                             formatter: function(value, context) {
                                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
                                 const percentage = ((value / total) * 100).toFixed(1);
@@ -623,13 +627,16 @@
             document.getElementById('kpi-total-capacitaciones').textContent = totalCapacitaciones;
             document.getElementById('kpi-promedio').textContent = promedio;
             document.getElementById('kpi-horas').textContent = horasTotales;
+            document.getElementById('total-empleados-label').textContent = totalEmpleados;
         }
 
         function updateCharts() {
             Object.values(charts).forEach(chart => chart.destroy());
             charts = {};
 
-            // GRÁFICO 1: Capacitaciones por Sector (BARRAS VERTICALES con porcentajes)
+            const dpr = window.devicePixelRatio || 1;
+
+            // GRÁFICO 1: Capacitaciones por Sector
             const sectorData = {};
             filteredData.forEach(d => {
                 sectorData[d.sector] = (sectorData[d.sector] || 0) + d.totalCapacitaciones;
@@ -651,11 +658,12 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    devicePixelRatio: dpr,
                     plugins: {
                         legend: { display: false },
                         datalabels: {
                             color: '#fff',
-                            font: { weight: 'bold', size: 12 },
+                            font: { weight: 'bold', size: 13 },
                             anchor: 'center',
                             align: 'center',
                             formatter: function(value) {
@@ -671,7 +679,7 @@
                 }
             });
 
-            // GRÁFICO 2: Distribución de Empleados (DONA con porcentajes DENTRO)
+            // GRÁFICO 2: Distribución de Empleados (DONA)
             const distribucionData = {};
             filteredData.forEach(d => {
                 distribucionData[d.sector] = (distribucionData[d.sector] || 0) + 1;
@@ -691,11 +699,12 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    devicePixelRatio: dpr,
                     cutout: '50%',
                     plugins: {
                         legend: { 
                             position: 'bottom',
-                            labels: { padding: 10, font: { size: 11 } }
+                            labels: { padding: 10, font: { size: 12, weight: 'bold' } }
                         },
                         tooltip: {
                             callbacks: {
@@ -708,7 +717,7 @@
                         },
                         datalabels: {
                             color: '#fff',
-                            font: { weight: 'bold', size: 13 },
+                            font: { weight: 'bold', size: 14 },
                             formatter: function(value, context) {
                                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
                                 const percentage = ((value / total) * 100).toFixed(1);
@@ -719,7 +728,7 @@
                 }
             });
 
-            // GRÁFICO 3: Participación en Capacitaciones (BARRAS VERTICALES con nombres rotados)
+            // GRÁFICO 3: Participación en Capacitaciones (BARRAS HORIZONTALES con cuadradito de color)
             const participacionData = {};
             capacitacionesData.forEach(c => {
                 participacionData[c.tema] = (participacionData[c.tema] || 0) + 1;
@@ -743,8 +752,10 @@
                     }]
                 },
                 options: {
+                    indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
+                    devicePixelRatio: dpr,
                     plugins: {
                         legend: { display: false },
                         tooltip: {
@@ -752,18 +763,18 @@
                                 label: function(context) {
                                     const index = context.dataIndex;
                                     return [
-                                        `Cantidad: ${context.parsed.y} participantes`,
+                                        `Cantidad: ${context.parsed.x} participantes`,
                                         `Porcentaje: ${porcentajes[index]}%`
                                     ];
                                 }
                             }
                         },
                         datalabels: {
-                            color: '#fff',
-                            font: { weight: 'bold', size: 11 },
+                            color: '#525149',
+                            font: { weight: 'bold', size: 12 },
                             anchor: 'end',
-                            align: 'top',
-                            offset: 4,
+                            align: 'right',
+                            offset: 8,
                             formatter: function(value, context) {
                                 const index = context.dataIndex;
                                 return porcentajes[index] + '%';
@@ -771,18 +782,17 @@
                         }
                     },
                     scales: {
-                        y: {
+                        x: {
                             beginAtZero: true,
-                            title: { display: true, text: 'Cantidad de Participantes', color: '#525149', font: { weight: 'bold' } },
+                            title: { display: true, text: 'Cantidad de Participantes', color: '#525149', font: { weight: 'bold', size: 13 } },
                             grid: { color: '#f0f0f0' }
                         },
-                        x: {
-                            title: { display: true, text: 'Temas de Capacitación', color: '#525149', font: { weight: 'bold' } },
+                        y: {
+                            title: { display: false },
                             grid: { display: false },
                             ticks: {
-                                maxRotation: 90,
-                                minRotation: 90,
-                                font: { size: 10 }
+                                font: { size: 12, weight: 'bold' },
+                                color: '#525149'
                             }
                         }
                     }
