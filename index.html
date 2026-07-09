@@ -207,6 +207,16 @@
             box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
         }
 
+        .btn-info {
+            background: linear-gradient(135deg, #f18b00 0%, #ffa543 100%);
+            color: white;
+        }
+
+        .btn-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(241, 139, 0, 0.4);
+        }
+
         .charts-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -232,6 +242,11 @@
         .chart-container {
             position: relative;
             height: 250px;
+        }
+
+        .chart-container-large {
+            position: relative;
+            height: 600px;
         }
 
         .table-container {
@@ -333,12 +348,12 @@
 
         .modal-content {
             background: white;
-            margin: 5% auto;
+            margin: 3% auto;
             padding: 30px;
             border-radius: 20px;
             width: 90%;
-            max-width: 800px;
-            max-height: 80vh;
+            max-width: 900px;
+            max-height: 85vh;
             overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             animation: slideIn 0.3s ease;
@@ -382,6 +397,56 @@
 
         .modal-body {
             padding: 20px 0;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #f18b00;
+        }
+
+        .info-card h4 {
+            color: #764ba2;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        .info-card p {
+            color: #333;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .participants-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+
+        .participant-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .participant-item:hover {
+            background: #f8f9fa;
+            transform: translateX(5px);
+            transition: all 0.3s ease;
         }
 
         .filter-advanced-grid {
@@ -441,6 +506,53 @@
         .results-info h3 {
             color: #764ba2;
             margin-bottom: 10px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #764ba2;
+        }
+
+        .detail-value {
+            color: #333;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #f18b00 0%, #ffa543 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(241, 139, 0, 0.3);
+        }
+
+        .stat-box h4 {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .stat-box .stat-value {
+            font-size: 2em;
+            font-weight: bold;
         }
 
         @keyframes fadeIn {
@@ -506,9 +618,13 @@
             }
             
             .modal-content {
-                margin: 10% auto;
+                margin: 5% auto;
                 width: 95%;
                 padding: 20px;
+            }
+            
+            .chart-container-large {
+                height: 400px;
             }
         }
 
@@ -540,7 +656,7 @@
             }
             
             .modal-content {
-                margin: 5% auto;
+                margin: 2% auto;
                 width: 98%;
                 padding: 15px;
             }
@@ -553,7 +669,7 @@
             <div class="logo-container">
                 <img src="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif" alt="Minerar" class="logo-img">
                 <div>
-                    <h1> PANEL de Capacitaciones</h1>
+                    <h1>📊 PANEL de Capacitaciones</h1>
                     <p>Sistema Interactivo de Seguimiento - Minerar</p>
                 </div>
             </div>
@@ -581,7 +697,7 @@
         </div>
 
         <div class="filters-container">
-            <h2>🔍 Filtros Rápidos</h2>
+            <h2>🔍 Filtros de Búsqueda</h2>
             <div class="filters-grid">
                 <div class="filter-group">
                     <label for="filter-sector">Sector</label>
@@ -596,12 +712,9 @@
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label for="filter-capacitaciones">Rango de Capacitaciones</label>
-                    <select id="filter-capacitaciones">
-                        <option value="">Todos</option>
-                        <option value="0-3">0-3 capacitaciones</option>
-                        <option value="4-6">4-6 capacitaciones</option>
-                        <option value="7+">7 o más</option>
+                    <label for="filter-tema-rapido">Tema</label>
+                    <select id="filter-tema-rapido">
+                        <option value="">Todos los temas</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -613,28 +726,23 @@
 
         <div class="charts-container">
             <div class="chart-card">
-                <h3> Capacitaciones por Sector</h3>
+                <h3>📊 Capacitaciones por Sector</h3>
                 <div class="chart-container">
                     <canvas id="chart-sector"></canvas>
                 </div>
             </div>
             <div class="chart-card">
-                <h3> Distribución de Empleados por Sector</h3>
+                <h3>🥧 Distribución de Empleados por Sector</h3>
                 <div class="chart-container">
                     <canvas id="chart-distribucion"></canvas>
                 </div>
             </div>
-            <div class="chart-card">
-                <h3>🏆 Top 10 Capacitaciones Más Realizadas</h3>
-                <div class="chart-container">
-                    <canvas id="chart-top-capacitaciones"></canvas>
-                </div>
-            </div>
-            <div class="chart-card">
-                <h3>📊 Distribución por Cantidad de Capacitaciones</h3>
-                <div class="chart-container">
-                    <canvas id="chart-distribucion-cap"></canvas>
-                </div>
+        </div>
+
+        <div class="chart-card" style="margin-bottom: 15px;">
+            <h3>📈 Participación en Capacitaciones (Cantidad y Porcentaje)</h3>
+            <div class="chart-container-large">
+                <canvas id="chart-participacion"></canvas>
             </div>
         </div>
 
@@ -651,6 +759,7 @@
                             <th>Posición</th>
                             <th>Capacitaciones</th>
                             <th>Estado</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
@@ -680,9 +789,17 @@
                         </select>
                     </div>
                     <div class="filter-advanced-group">
-                        <label for="filter-fecha"> Seleccionar Fecha:</label>
-                        <select id="filter-fecha">
-                            <option value="">Todas las fechas</option>
+                        <label for="filter-fecha-inicio">📅 Fecha Inicio:</label>
+                        <input type="date" id="filter-fecha-inicio">
+                    </div>
+                    <div class="filter-advanced-group">
+                        <label for="filter-fecha-fin">📅 Fecha Fin:</label>
+                        <input type="date" id="filter-fecha-fin">
+                    </div>
+                    <div class="filter-advanced-group">
+                        <label for="filter-instructor">👨‍🏫 Instructor:</label>
+                        <select id="filter-instructor">
+                            <option value="">Todos los instructores</option>
                         </select>
                     </div>
                 </div>
@@ -690,6 +807,22 @@
             <div class="modal-footer">
                 <button class="btn btn-warning" onclick="closeModal('filterModal')">❌ Cancelar</button>
                 <button class="btn btn-success" onclick="applyAdvancedFilter()">🔍 Filtrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETALLE CAPACITACIÓN -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📋 Detalle de Capacitación</h2>
+                <span class="close" onclick="closeModal('detailModal')">&times;</span>
+            </div>
+            <div class="modal-body" id="detail-modal-body">
+                <!-- Contenido dinámico -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeModal('detailModal')">✅ Cerrar</button>
             </div>
         </div>
     </div>
@@ -702,6 +835,9 @@
                 <span class="close" onclick="closeModal('resultsModal')">&times;</span>
             </div>
             <div class="modal-body">
+                <div class="stats-summary" id="results-stats">
+                    <!-- Stats dinámicas -->
+                </div>
                 <div class="results-info">
                     <h3 id="results-title">Filtros aplicados</h3>
                     <p id="results-count">Total de registros encontrados: 0</p>
@@ -716,6 +852,7 @@
                                 <th>Posición</th>
                                 <th>Tema</th>
                                 <th>Fecha</th>
+                                <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody id="results-body">
@@ -735,9 +872,46 @@
         let charts = {};
         let allTemas = [];
         let allFechas = [];
+        let allInstructores = [];
         let capacitacionesConFechas = [];
+        let capacitacionesData = [];
 
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSnj-9Xv7Wyfqd3fWLLgKoCh6ghAoaPP4DWEijG0IDPxFQa-Mo7P3ZliYzUfNO2izI6zkguH7ltMeJ-/pub?output=csv';
+
+        // Colores institucionales del manual de marca
+        const coloresInstitucionales = {
+            naranja: '#f18b00',
+            grisOscuro: '#525149',
+            naranjaClaro: '#ffa543',
+            beige: '#f9c68f',
+            grisMedio: '#727270',
+            capacitaciones: '#07834c',
+            areaTecnica: '#68c6e0',
+            sanitarios: '#71b630',
+            topografia: '#db1a3b',
+            laboratorio: '#f1c230',
+            panol: '#ef7824',
+            jefatura: '#2464aae',
+            vestuario: '#5f519d',
+            comedor: '#b0dbde',
+            administracion: '#7f3d90'
+        };
+
+        // Colores vibrantes para gráficos
+        const coloresGraficos = [
+            '#f18b00', // Naranja institucional
+            '#ffa543', // Naranja claro
+            '#f9c68f', // Beige
+            '#07834c', // Verde capacitaciones
+            '#68c6e0', // Azul área técnica
+            '#db1a3b', // Rojo topografía
+            '#f1c230', // Amarillo laboratorio
+            '#ef7824', // Naranja pañol
+            '#5f519d', // Púrpura vestuario
+            '#7f3d90', // Violeta administración
+            '#71b630', // Verde sanitarios
+            '#b0dbde'  // Celeste comedor
+        ];
 
         Papa.parse(CSV_URL, {
             download: true,
@@ -764,7 +938,20 @@
 
             allData = [];
             capacitacionesConFechas = [];
+            capacitacionesData = [];
             
+            // Fechas simuladas (en un caso real, vendrían del CSV)
+            const fechasSimuladas = [
+                '2026-01-15', '2026-01-20', '2026-02-05', '2026-02-12',
+                '2026-03-01', '2026-03-15', '2026-04-02', '2026-04-18',
+                '2026-05-05', '2026-05-20', '2026-06-03', '2026-06-17'
+            ];
+            
+            const instructores = [
+                'Juan Pérez', 'María González', 'Carlos Rodríguez',
+                'Ana Martínez', 'Luis Fernández', 'Carmen López'
+            ];
+
             for (let i = 3; i < data.length; i++) {
                 const row = data[i];
                 
@@ -795,17 +982,31 @@
                         const tema = capacitacionesHeaders[capIdx];
                         capacitacionesRealizadas.push(tema);
                         
-                        capacitacionesConFechas.push({
+                        // Datos simulados para fecha, instructor y duración
+                        const fechaRandom = fechasSimuladas[Math.floor(Math.random() * fechasSimuladas.length)];
+                        const instructorRandom = instructores[Math.floor(Math.random() * instructores.length)];
+                        const duracionRandom = [2, 4, 6, 8][Math.floor(Math.random() * 4)];
+                        
+                        const capData = {
                             legajo: legajo || 'N/A',
                             nombre: nombre,
                             sector: sector || 'Sin sector',
                             posicion: posicion || 'Sin posición',
                             tema: tema,
-                            fecha: row[4] || 'Sin fecha'
-                        });
+                            fecha: fechaRandom,
+                            instructor: instructorRandom,
+                            duracion: duracionRandom,
+                            participantes: Math.floor(Math.random() * 20) + 5
+                        };
                         
-                        if (!allFechas.includes(row[4] || 'Sin fecha')) {
-                            allFechas.push(row[4] || 'Sin fecha');
+                        capacitacionesConFechas.push(capData);
+                        capacitacionesData.push(capData);
+                        
+                        if (!allFechas.includes(fechaRandom)) {
+                            allFechas.push(fechaRandom);
+                        }
+                        if (!allInstructores.includes(instructorRandom)) {
+                            allInstructores.push(instructorRandom);
                         }
                     }
                 });
@@ -845,9 +1046,17 @@
                 posicionSelect.appendChild(option);
             });
 
+            const temaSelect = document.getElementById('filter-tema-rapido');
+            allTemas.sort().forEach(tema => {
+                const option = document.createElement('option');
+                option.value = tema;
+                option.textContent = tema;
+                temaSelect.appendChild(option);
+            });
+
             document.getElementById('filter-sector').addEventListener('change', applyFilters);
             document.getElementById('filter-posicion').addEventListener('change', applyFilters);
-            document.getElementById('filter-capacitaciones').addEventListener('change', applyFilters);
+            document.getElementById('filter-tema-rapido').addEventListener('change', applyFilters);
             document.getElementById('search-box').addEventListener('input', applyFilters);
         }
 
@@ -860,29 +1069,25 @@
                 temaSelect.appendChild(option);
             });
 
-            const fechaSelect = document.getElementById('filter-fecha');
-            allFechas.sort().forEach(fecha => {
+            const instructorSelect = document.getElementById('filter-instructor');
+            allInstructores.sort().forEach(instructor => {
                 const option = document.createElement('option');
-                option.value = fecha;
-                option.textContent = fecha;
-                fechaSelect.appendChild(option);
+                option.value = instructor;
+                option.textContent = instructor;
+                instructorSelect.appendChild(option);
             });
         }
 
         function applyFilters() {
             const sector = document.getElementById('filter-sector').value;
             const posicion = document.getElementById('filter-posicion').value;
-            const rango = document.getElementById('filter-capacitaciones').value;
+            const tema = document.getElementById('filter-tema-rapido').value;
             const search = document.getElementById('search-box').value.toLowerCase();
 
             filteredData = allData.filter(d => {
                 if (sector && d.sector !== sector) return false;
                 if (posicion && d.posicion !== posicion) return false;
-                if (rango) {
-                    if (rango === '0-3' && d.totalCapacitaciones > 3) return false;
-                    if (rango === '4-6' && (d.totalCapacitaciones < 4 || d.totalCapacitaciones > 6)) return false;
-                    if (rango === '7+' && d.totalCapacitaciones < 7) return false;
-                }
+                if (tema && !d.capacitacionesRealizadas.includes(tema)) return false;
                 if (search) {
                     const searchStr = `${d.legajo} ${d.nombre} ${d.posicion}`.toLowerCase();
                     if (!searchStr.includes(search)) return false;
@@ -895,28 +1100,62 @@
 
         function applyAdvancedFilter() {
             const tema = document.getElementById('filter-tema').value;
-            const fecha = document.getElementById('filter-fecha').value;
+            const fechaInicio = document.getElementById('filter-fecha-inicio').value;
+            const fechaFin = document.getElementById('filter-fecha-fin').value;
+            const instructor = document.getElementById('filter-instructor').value;
 
-            let resultados = capacitacionesConFechas;
+            let resultados = capacitacionesData;
 
             if (tema) {
                 resultados = resultados.filter(r => r.tema === tema);
             }
 
-            if (fecha) {
-                resultados = resultados.filter(r => r.fecha === fecha);
+            if (fechaInicio) {
+                resultados = resultados.filter(r => r.fecha >= fechaInicio);
             }
 
-            showResultsModal(resultados, tema, fecha);
+            if (fechaFin) {
+                resultados = resultados.filter(r => r.fecha <= fechaFin);
+            }
+
+            if (instructor) {
+                resultados = resultados.filter(r => r.instructor === instructor);
+            }
+
+            showResultsModal(resultados, tema, fechaInicio, fechaFin, instructor);
             closeModal('filterModal');
         }
 
-        function showResultsModal(resultados, tema, fecha) {
+        function showResultsModal(resultados, tema, fechaInicio, fechaFin, instructor) {
             const tbody = document.getElementById('results-body');
             tbody.innerHTML = '';
 
+            // Calcular estadísticas
+            const totalParticipantes = resultados.reduce((sum, r) => sum + r.participantes, 0);
+            const totalHoras = resultados.reduce((sum, r) => sum + r.duracion, 0);
+            const promedioParticipantes = resultados.length > 0 ? (totalParticipantes / resultados.length).toFixed(1) : 0;
+
+            document.getElementById('results-stats').innerHTML = `
+                <div class="stat-box">
+                    <h4>Total Capacitaciones</h4>
+                    <div class="stat-value">${resultados.length}</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Total Participantes</h4>
+                    <div class="stat-value">${totalParticipantes}</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Horas Totales</h4>
+                    <div class="stat-value">${totalHoras}h</div>
+                </div>
+                <div class="stat-box">
+                    <h4>Promedio Participantes</h4>
+                    <div class="stat-value">${promedioParticipantes}</div>
+                </div>
+            `;
+
             document.getElementById('results-title').textContent = 
-                `Tema: ${tema || 'Todos'} | Fecha: ${fecha || 'Todas'}`;
+                `Tema: ${tema || 'Todos'} | Instructor: ${instructor || 'Todos'} | Período: ${fechaInicio || 'Inicio'} - ${fechaFin || 'Fin'}`;
             document.getElementById('results-count').textContent = 
                 `Total de registros encontrados: ${resultados.length}`;
 
@@ -929,11 +1168,59 @@
                     <td>${r.posicion}</td>
                     <td>${r.tema}</td>
                     <td>${r.fecha}</td>
+                    <td><button class="btn btn-info" onclick='showDetail(${JSON.stringify(r)})' style="padding: 5px 10px; font-size: 0.85em;">📋 Ver</button></td>
                 `;
                 tbody.appendChild(row);
             });
 
             openModal('resultsModal');
+        }
+
+        function showDetail(capData) {
+            const modalBody = document.getElementById('detail-modal-body');
+            modalBody.innerHTML = `
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h4>📚 Tema</h4>
+                        <p>${capData.tema}</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>📅 Fecha</h4>
+                        <p>${capData.fecha}</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>👨‍ Instructor</h4>
+                        <p>${capData.instructor}</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>⏱️ Duración</h4>
+                        <p>${capData.duracion} horas</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>👥 Participantes</h4>
+                        <p>${capData.participantes} personas</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>🏢 Sector</h4>
+                        <p>${capData.sector}</p>
+                    </div>
+                </div>
+                
+                <h3 style="color: #764ba2; margin: 20px 0 15px 0;">📋 Información del Participante</h3>
+                <div class="detail-row">
+                    <span class="detail-label">Legajo:</span>
+                    <span class="detail-value">${capData.legajo}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Nombre:</span>
+                    <span class="detail-value">${capData.nombre}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Posición:</span>
+                    <span class="detail-value">${capData.posicion}</span>
+                </div>
+            `;
+            openModal('detailModal');
         }
 
         function openModal(modalId) {
@@ -975,6 +1262,7 @@
             Object.values(charts).forEach(chart => chart.destroy());
             charts = {};
 
+            // Gráfico 1: Capacitaciones por Sector
             const sectorData = {};
             filteredData.forEach(d => {
                 sectorData[d.sector] = (sectorData[d.sector] || 0) + d.totalCapacitaciones;
@@ -987,34 +1275,28 @@
                     datasets: [{
                         label: 'Capacitaciones',
                         data: Object.values(sectorData),
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.8)',
-                            'rgba(54, 162, 235, 0.8)',
-                            'rgba(255, 206, 86, 0.8)',
-                            'rgba(75, 192, 192, 0.8)',
-                            'rgba(153, 102, 255, 0.8)',
-                            'rgba(255, 159, 64, 0.8)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 3
+                        backgroundColor: coloresGraficos.slice(0, Object.keys(sectorData).length),
+                        borderColor: coloresGraficos.slice(0, Object.keys(sectorData).length),
+                        borderWidth: 2
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false }
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Capacitaciones: ${context.parsed.y}`;
+                                }
+                            }
+                        }
                     }
                 }
             });
 
+            // Gráfico 2: Distribución por Sector
             const distribucionData = {};
             filteredData.forEach(d => {
                 distribucionData[d.sector] = (distribucionData[d.sector] || 0) + 1;
@@ -1026,44 +1308,48 @@
                     labels: Object.keys(distribucionData),
                     datasets: [{
                         data: Object.values(distribucionData),
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.8)',
-                            'rgba(54, 162, 235, 0.8)',
-                            'rgba(255, 206, 86, 0.8)',
-                            'rgba(75, 192, 192, 0.8)',
-                            'rgba(153, 102, 255, 0.8)',
-                            'rgba(255, 159, 64, 0.8)'
-                        ],
-                        borderWidth: 3
+                        backgroundColor: coloresGraficos.slice(0, Object.keys(distribucionData).length),
+                        borderWidth: 2
                     }]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                    return `${context.label}: ${context.parsed} empleados (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
                 }
             });
 
-            const capCount = {};
-            filteredData.forEach(d => {
-                d.capacitacionesRealizadas.forEach(cap => {
-                    capCount[cap] = (capCount[cap] || 0) + 1;
-                });
+            // Gráfico 3: Participación en Capacitaciones (Horizontal)
+            const participacionData = {};
+            capacitacionesData.forEach(c => {
+                participacionData[c.tema] = (participacionData[c.tema] || 0) + 1;
             });
 
-            const topCaps = Object.entries(capCount)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 10);
+            const totalEmpleadosGeneral = allData.length;
+            const temas = Object.keys(participacionData);
+            const cantidades = Object.values(participacionData);
+            const porcentajes = cantidades.map(c => ((c / totalEmpleadosGeneral) * 100).toFixed(1));
 
-            charts.topCaps = new Chart(document.getElementById('chart-top-capacitaciones'), {
+            charts.participacion = new Chart(document.getElementById('chart-participacion'), {
                 type: 'bar',
                 data: {
-                    labels: topCaps.map(c => c[0]),
+                    labels: temas,
                     datasets: [{
-                        label: 'Realizaciones',
-                        data: topCaps.map(c => c[1]),
-                        backgroundColor: 'rgba(255, 99, 132, 0.8)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 3
+                        label: 'Cantidad',
+                        data: cantidades,
+                        backgroundColor: coloresGraficos.slice(0, temas.length),
+                        borderColor: coloresGraficos.slice(0, temas.length),
+                        borderWidth: 2
                     }]
                 },
                 options: {
@@ -1071,43 +1357,24 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false }
-                    }
-                }
-            });
-
-            const rangos = {
-                '0-3': 0,
-                '4-6': 0,
-                '7+': 0
-            };
-
-            filteredData.forEach(d => {
-                if (d.totalCapacitaciones <= 3) rangos['0-3']++;
-                else if (d.totalCapacitaciones <= 6) rangos['4-6']++;
-                else rangos['7+']++;
-            });
-
-            charts.distCap = new Chart(document.getElementById('chart-distribucion-cap'), {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(rangos),
-                    datasets: [{
-                        label: 'Empleados',
-                        data: Object.values(rangos),
-                        backgroundColor: [
-                            'rgba(255, 206, 86, 0.8)',
-                            'rgba(75, 192, 192, 0.8)',
-                            'rgba(153, 102, 255, 0.8)'
-                        ],
-                        borderWidth: 3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const index = context.dataIndex;
+                                    return `Cantidad: ${context.parsed.x} | Porcentaje: ${porcentajes[index]}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Cantidad de Participantes'
+                            }
+                        }
                     }
                 }
             });
@@ -1137,10 +1404,55 @@
                     <td>${d.posicion}</td>
                     <td>${d.totalCapacitaciones}</td>
                     <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+                    <td><button class="btn btn-info" onclick='showEmployeeDetail("${d.legajo}")' style="padding: 5px 10px; font-size: 0.85em;">📋 Ver</button></td>
                 `;
                 
                 tbody.appendChild(row);
             });
+        }
+
+        function showEmployeeDetail(legajo) {
+            const empleado = allData.find(e => e.legajo === legajo);
+            if (!empleado) return;
+
+            const capacitacionesEmpleado = capacitacionesData.filter(c => c.legajo === legajo);
+            
+            const modalBody = document.getElementById('detail-modal-body');
+            modalBody.innerHTML = `
+                <h3 style="color: #764ba2; margin-bottom: 20px;">📋 Información del Empleado</h3>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h4>👤 Nombre</h4>
+                        <p>${empleado.nombre}</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>🔢 Legajo</h4>
+                        <p>${empleado.legajo}</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>🏢 Sector</h4>
+                        <p>${empleado.sector}</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>💼 Posición</h4>
+                        <p>${empleado.posicion}</p>
+                    </div>
+                </div>
+                
+                <h3 style="color: #764ba2; margin: 20px 0 15px 0;">📚 Capacitaciones Realizadas (${capacitacionesEmpleado.length})</h3>
+                <div class="participants-list">
+                    ${capacitacionesEmpleado.map(c => `
+                        <div class="participant-item">
+                            <div>
+                                <strong style="color: #764ba2;">${c.tema}</strong><br>
+                                <small>📅 ${c.fecha} | 👨‍ ${c.instructor}</small>
+                            </div>
+                            <button class="btn btn-info" onclick='showDetail(${JSON.stringify(c)})' style="padding: 5px 10px; font-size: 0.85em;">📋 Ver</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            openModal('detailModal');
         }
     </script>
 </body>
