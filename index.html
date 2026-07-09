@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PANEL de Capacitaciones - Minerar</title>
     
-    <!-- Favicon -->
     <link rel="icon" type="image/gif" href="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif">
     <link rel="shortcut icon" type="image/gif" href="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif">
     
@@ -13,22 +12,17 @@
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <style>
         :root {
-            /* Colores Institucionales (Para la página/UI) */
             --inst-naranja: #f18b00;
             --inst-naranja-claro: #ffa543;
             --inst-beige: #f9c68f;
             --inst-gris-oscuro: #525149;
             --inst-gris-medio: #727270;
-            
-            /* Colores Vibrantes (Para gráficos y tarjetas) */
             --vib-rosa: #FF6384;
             --vib-azul: #36A2EB;
             --vib-amarillo: #FFCE56;
             --vib-verde: #4BC0C0;
             --vib-morado: #9966FF;
             --vib-naranja: #FF9F40;
-            --vib-rojo: #F7464A;
-            --vib-cian: #46BFBD;
         }
 
         * {
@@ -39,7 +33,6 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Fondo institucional oscuro */
             background: linear-gradient(135deg, var(--inst-gris-oscuro) 0%, #2c2a26 100%);
             min-height: 100vh;
             padding: 15px;
@@ -51,7 +44,6 @@
             margin: 0 auto;
         }
 
-        /* HEADER INSTITUCIONAL */
         .header {
             background: linear-gradient(135deg, var(--inst-naranja) 0%, var(--inst-naranja-claro) 100%);
             border-radius: 15px;
@@ -94,7 +86,6 @@
             font-weight: 600;
         }
 
-        /* KPIs COLORIDOS */
         .kpi-container {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
@@ -143,7 +134,6 @@
             font-weight: 900;
         }
 
-        /* FILTROS (Fondo claro para contraste) */
         .filters-container {
             background: white;
             border-radius: 12px;
@@ -162,7 +152,7 @@
 
         .filters-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 15px;
         }
 
@@ -196,7 +186,6 @@
             box-shadow: 0 0 10px rgba(241, 139, 0, 0.3);
         }
 
-        /* BOTONES */
         .btn {
             padding: 12px 24px;
             border: none;
@@ -235,7 +224,6 @@
             color: white;
         }
 
-        /* GRÁFICOS (Fondo blanco, bordes institucionales) */
         .charts-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -269,7 +257,6 @@
             height: 600px;
         }
 
-        /* TABLA */
         .table-container {
             background: white;
             border-radius: 12px;
@@ -327,6 +314,7 @@
 
         .data-table tbody tr:hover {
             background: #fff8f0;
+            cursor: pointer;
         }
 
         .badge {
@@ -341,8 +329,8 @@
         .badge-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
         .badge-warning { background: linear-gradient(135deg, var(--vib-amarillo) 0%, var(--vib-naranja) 100%); color: var(--inst-gris-oscuro); }
         .badge-info { background: linear-gradient(135deg, var(--vib-azul) 0%, var(--vib-morado) 100%); }
+        .badge-danger { background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); }
 
-        /* MODALES */
         .modal {
             display: none;
             position: fixed;
@@ -358,12 +346,12 @@
 
         .modal-content {
             background: white;
-            margin: 3% auto;
+            margin: 2% auto;
             padding: 30px;
             border-radius: 20px;
-            width: 90%;
-            max-width: 900px;
-            max-height: 85vh;
+            width: 95%;
+            max-width: 1100px;
+            max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0,0,0,0.6);
             animation: slideIn 0.3s ease;
@@ -404,34 +392,48 @@
             transform: rotate(90deg);
         }
 
-        .info-grid {
+        .employee-header {
+            background: linear-gradient(135deg, var(--inst-naranja) 0%, var(--inst-naranja-claro) 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .employee-header-item h4 {
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .employee-header-item p {
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .info-section {
+            margin-bottom: 25px;
+        }
+
+        .info-section h3 {
+            color: var(--inst-gris-oscuro);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--inst-beige);
+            font-size: 1.3em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin-bottom: 20px;
         }
 
-        .info-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid var(--inst-naranja);
-        }
-
-        .info-card h4 {
-            color: var(--inst-gris-oscuro);
-            margin-bottom: 8px;
-            font-size: 0.9em;
-            text-transform: uppercase;
-        }
-
-        .info-card p {
-            color: #333;
-            font-size: 1.1em;
-            font-weight: 700;
-        }
-
-        .stat-box {
+        .stat-card {
             padding: 20px;
             border-radius: 12px;
             text-align: center;
@@ -439,97 +441,80 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .stat-box:nth-child(1) { background: linear-gradient(135deg, var(--vib-rosa) 0%, var(--vib-naranja) 100%); }
-        .stat-box:nth-child(2) { background: linear-gradient(135deg, var(--vib-azul) 0%, var(--vib-verde) 100%); }
-        .stat-box:nth-child(3) { background: linear-gradient(135deg, var(--vib-morado) 0%, var(--vib-rosa) 100%); }
-        .stat-box:nth-child(4) { background: linear-gradient(135deg, var(--vib-amarillo) 0%, var(--vib-naranja) 100%); color: var(--inst-gris-oscuro); }
+        .stat-card:nth-child(1) { background: linear-gradient(135deg, var(--vib-verde) 0%, #2ecc71 100%); }
+        .stat-card:nth-child(2) { background: linear-gradient(135deg, var(--vib-rosa) 0%, var(--vib-naranja) 100%); }
+        .stat-card:nth-child(3) { background: linear-gradient(135deg, var(--vib-azul) 0%, var(--vib-morado) 100%); }
+        .stat-card:nth-child(4) { background: linear-gradient(135deg, var(--vib-amarillo) 0%, var(--vib-naranja) 100%); color: var(--inst-gris-oscuro); }
 
-        .stat-box h4 {
+        .stat-card h4 {
             font-size: 0.9em;
             margin-bottom: 10px;
             opacity: 0.95;
             font-weight: 700;
         }
 
-        .stat-box .stat-value {
+        .stat-card .stat-value {
             font-size: 2.2em;
             font-weight: 900;
         }
 
-        .filter-advanced-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .filter-advanced-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .filter-advanced-group label {
-            color: var(--inst-gris-oscuro);
-            font-weight: 700;
-            margin-bottom: 8px;
-            font-size: 1em;
-        }
-
-        .filter-advanced-group select,
-        .filter-advanced-group input {
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1em;
-            background: white;
-            cursor: pointer;
-        }
-
-        .filter-advanced-group select:focus,
-        .filter-advanced-group input:focus {
-            outline: none;
-            border-color: var(--inst-naranja);
-            box-shadow: 0 0 10px rgba(241, 139, 0, 0.3);
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 3px solid var(--inst-beige);
-        }
-
-        .results-info {
-            background: #fff8f0;
+        .training-item {
+            background: #f8f9fa;
             padding: 15px;
+            margin-bottom: 12px;
             border-radius: 10px;
-            margin-bottom: 20px;
             border-left: 5px solid var(--inst-naranja);
-        }
-
-        .results-info h3 {
-            color: var(--inst-gris-oscuro);
-            margin-bottom: 10px;
-        }
-
-        .participant-item {
-            background: white;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            border-left: 4px solid var(--vib-azul);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
         }
 
-        .participant-item:hover {
+        .training-item:hover {
+            background: #fff8f0;
             transform: translateX(5px);
-            border-left-color: var(--inst-naranja);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .training-item.completed {
+            border-left-color: #2ecc71;
+            background: #e8f8f0;
+        }
+
+        .training-item.pending {
+            border-left-color: #e74c3c;
+            background: #ffeaea;
+        }
+
+        .training-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .training-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--inst-gris-oscuro);
+        }
+
+        .training-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 700;
+        }
+
+        .training-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .training-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .footer {
@@ -541,7 +526,6 @@
             font-weight: 600;
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 12px; height: 12px; }
         ::-webkit-scrollbar-track { background: var(--inst-gris-oscuro); border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: var(--inst-naranja); border-radius: 10px; }
@@ -555,7 +539,7 @@
             .header h1 { font-size: 1.5em; }
             .kpi-card { min-width: 150px; padding: 15px 20px; }
             .kpi-card .value { font-size: 1.8em; }
-            .modal-content { margin: 5% auto; width: 95%; padding: 20px; }
+            .modal-content { margin: 3% auto; width: 95%; padding: 20px; }
             .chart-container-large { height: 400px; }
         }
 
@@ -576,7 +560,7 @@
             <div class="logo-container">
                 <img src="https://i.ibb.co/cKVCzpy7/Logo-Minerar-1.gif" alt="Minerar" class="logo-img">
                 <div>
-                    <h1>📊 PANEL de Capacitaciones</h1>
+                    <h1> PANEL de Capacitaciones</h1>
                     <p>Sistema Interactivo de Seguimiento - GP Minería</p>
                 </div>
             </div>
@@ -604,42 +588,36 @@
         </div>
 
         <div class="filters-container">
-            <h2>🔍 Filtros de Búsqueda</h2>
+            <h2>🔍 Buscar Empleado</h2>
             <div class="filters-grid">
                 <div class="filter-group">
-                    <label for="filter-sector">Sector</label>
+                    <label for="filter-empleado"> Seleccionar Empleado:</label>
+                    <select id="filter-empleado">
+                        <option value="">Todos los empleados</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filter-sector">🏢 Sector:</label>
                     <select id="filter-sector">
                         <option value="">Todos los sectores</option>
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label for="filter-posicion">Posición</label>
-                    <select id="filter-posicion">
-                        <option value="">Todas las posiciones</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="filter-tema-rapido">Tema</label>
-                    <select id="filter-tema-rapido">
-                        <option value="">Todos los temas</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>&nbsp;</label>
-                    <button class="btn btn-primary" onclick="openModal('filterModal')">🎯 Filtro Avanzado</button>
+                    <label for="search-box">🔎 Búsqueda rápida:</label>
+                    <input type="text" id="search-box" placeholder="Buscar por nombre o legajo...">
                 </div>
             </div>
         </div>
 
         <div class="charts-container">
             <div class="chart-card">
-                <h3> Capacitaciones por Sector</h3>
+                <h3>📊 Capacitaciones por Sector</h3>
                 <div class="chart-container">
                     <canvas id="chart-sector"></canvas>
                 </div>
             </div>
             <div class="chart-card">
-                <h3>🥧 Distribución de Empleados por Sector</h3>
+                <h3>🥧 Distribución de Empleados</h3>
                 <div class="chart-container">
                     <canvas id="chart-distribucion"></canvas>
                 </div>
@@ -654,19 +632,17 @@
         </div>
 
         <div class="table-container">
-            <h2>📋 Detalle de Empleados</h2>
-            <input type="text" class="search-box" id="search-box" placeholder=" Buscar por nombre, legajo o posición...">
+            <h2>📋 Listado de Empleados</h2>
             <div class="table-wrapper">
                 <table class="data-table">
                     <thead>
                         <tr>
                             <th>Legajo</th>
-                            <th>Nombre</th>
+                            <th>Apellido y Nombre</th>
                             <th>Sector</th>
-                            <th>Posición</th>
+                            <th>Puesto</th>
                             <th>Capacitaciones</th>
                             <th>Estado</th>
-                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody id="table-body">
@@ -676,99 +652,19 @@
         </div>
 
         <div class="footer">
-            <p>© 2026 GP Minería - PANEL de Capacitaciones | Manual de Marca Institucional</p>
+            <p>© 2026 GP Minería - PANEL de Capacitaciones</p>
         </div>
     </div>
 
-    <!-- MODAL FILTRO AVANZADO -->
-    <div id="filterModal" class="modal">
+    <!-- MODAL DETALLE EMPLEADO -->
+    <div id="employeeModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>🎯 Filtro Avanzado por Tema y Fecha</h2>
-                <span class="close" onclick="closeModal('filterModal')">&times;</span>
+                <h2> Detalle Completo del Empleado</h2>
+                <span class="close" onclick="closeModal('employeeModal')">&times;</span>
             </div>
-            <div class="modal-body">
-                <div class="filter-advanced-grid">
-                    <div class="filter-advanced-group">
-                        <label for="filter-tema">📚 Seleccionar Tema:</label>
-                        <select id="filter-tema">
-                            <option value="">Todos los temas</option>
-                        </select>
-                    </div>
-                    <div class="filter-advanced-group">
-                        <label for="filter-fecha-inicio">📅 Fecha Inicio:</label>
-                        <input type="date" id="filter-fecha-inicio">
-                    </div>
-                    <div class="filter-advanced-group">
-                        <label for="filter-fecha-fin">📅 Fecha Fin:</label>
-                        <input type="date" id="filter-fecha-fin">
-                    </div>
-                    <div class="filter-advanced-group">
-                        <label for="filter-instructor">👨‍🏫 Instructor:</label>
-                        <select id="filter-instructor">
-                            <option value="">Todos los instructores</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-warning" onclick="closeModal('filterModal')">❌ Cancelar</button>
-                <button class="btn btn-success" onclick="applyAdvancedFilter()"> Filtrar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL DETALLE CAPACITACIÓN -->
-    <div id="detailModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>📋 Detalle de Capacitación</h2>
-                <span class="close" onclick="closeModal('detailModal')">&times;</span>
-            </div>
-            <div class="modal-body" id="detail-modal-body">
+            <div class="modal-body" id="employee-modal-body">
                 <!-- Contenido dinámico -->
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" onclick="closeModal('detailModal')">✅ Cerrar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL RESULTADOS -->
-    <div id="resultsModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>📋 Resultados del Filtro</h2>
-                <span class="close" onclick="closeModal('resultsModal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="info-grid" id="results-stats">
-                    <!-- Stats dinámicas -->
-                </div>
-                <div class="results-info">
-                    <h3 id="results-title">Filtros aplicados</h3>
-                    <p id="results-count">Total de registros encontrados: 0</p>
-                </div>
-                <div class="table-wrapper">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Legajo</th>
-                                <th>Nombre</th>
-                                <th>Sector</th>
-                                <th>Posición</th>
-                                <th>Tema</th>
-                                <th>Fecha</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody id="results-body">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" onclick="closeModal('resultsModal')">✅ Cerrar</button>
             </div>
         </div>
     </div>
@@ -778,18 +674,14 @@
         let filteredData = [];
         let charts = {};
         let allTemas = [];
-        let allFechas = [];
-        let allInstructores = [];
-        let capacitacionesConFechas = [];
         let capacitacionesData = [];
+        let totalCapacitacionesDisponibles = 0;
 
         const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSnj-9Xv7Wyfqd3fWLLgKoCh6ghAoaPP4DWEijG0IDPxFQa-Mo7P3ZliYzUfNO2izI6zkguH7ltMeJ-/pub?output=csv';
 
-        // Colores VIBRANTES para los gráficos (Invertido)
         const coloresGraficos = [
             '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', 
-            '#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360', '#AC64AD',
-            '#2464aa', '#07834c', '#db1a3b', '#f1c230'
+            '#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360', '#AC64AD'
         ];
 
         Papa.parse(CSV_URL, {
@@ -815,8 +707,9 @@
                 }
             }
 
+            totalCapacitacionesDisponibles = capacitacionesHeaders.length;
+
             allData = [];
-            capacitacionesConFechas = [];
             capacitacionesData = [];
             
             const fechasSimuladas = [
@@ -847,44 +740,44 @@
                 if (nombre === 'Título' || nombre === 'Costo total') continue;
                 
                 const sector = row[2] ? row[2].trim() : '';
-                const posicion = row[3] ? row[3].trim() : '';
+                const puesto = row[3] ? row[3].trim() : '';
                 
-                if (sector === 'Sin sector' && posicion === 'Sin posición' && nombre.length > 30) continue;
+                if (sector === 'Sin sector' && puesto === 'Sin posición' && nombre.length > 30) continue;
                 
                 let totalCapacitaciones = 0;
                 const capacitacionesRealizadas = [];
+                const capacitacionesPendientes = [];
                 
                 capacitacionesIndices.forEach((idx, capIdx) => {
+                    const tema = capacitacionesHeaders[capIdx];
+                    
                     if (row[idx] && row[idx].trim() === '1') {
                         totalCapacitaciones++;
-                        const tema = capacitacionesHeaders[capIdx];
-                        capacitacionesRealizadas.push(tema);
                         
                         const fechaRandom = fechasSimuladas[Math.floor(Math.random() * fechasSimuladas.length)];
                         const instructorRandom = instructores[Math.floor(Math.random() * instructores.length)];
                         const duracionRandom = [2, 4, 6, 8][Math.floor(Math.random() * 4)];
                         
                         const capData = {
-                            legajo: legajo || 'N/A',
-                            nombre: nombre,
-                            sector: sector || 'Sin sector',
-                            posicion: posicion || 'Sin posición',
                             tema: tema,
                             fecha: fechaRandom,
                             instructor: instructorRandom,
                             duracion: duracionRandom,
+                            estado: 'Completada',
                             participantes: Math.floor(Math.random() * 20) + 5
                         };
                         
-                        capacitacionesConFechas.push(capData);
-                        capacitacionesData.push(capData);
-                        
-                        if (!allFechas.includes(fechaRandom)) {
-                            allFechas.push(fechaRandom);
-                        }
-                        if (!allInstructores.includes(instructorRandom)) {
-                            allInstructores.push(instructorRandom);
-                        }
+                        capacitacionesRealizadas.push(capData);
+                        capacitacionesData.push({
+                            legajo: legajo,
+                            nombre: nombre,
+                            ...capData
+                        });
+                    } else {
+                        capacitacionesPendientes.push({
+                            tema: tema,
+                            estado: 'Pendiente'
+                        });
                     }
                 });
 
@@ -892,19 +785,29 @@
                     legajo: legajo || 'N/A',
                     nombre: nombre,
                     sector: sector || 'Sin sector',
-                    posicion: posicion || 'Sin posición',
+                    puesto: puesto || 'Sin puesto',
                     totalCapacitaciones: totalCapacitaciones,
-                    capacitacionesRealizadas: capacitacionesRealizadas
+                    capacitacionesRealizadas: capacitacionesRealizadas,
+                    capacitacionesPendientes: capacitacionesPendientes,
+                    porcentajeCompletado: totalCapacitacionesDisponibles > 0 ? 
+                        ((totalCapacitaciones / totalCapacitacionesDisponibles) * 100).toFixed(1) : 0
                 });
             }
 
             filteredData = [...allData];
             populateFilters();
-            populateAdvancedFilters();
             updateDashboard();
         }
 
         function populateFilters() {
+            const empleadoSelect = document.getElementById('filter-empleado');
+            allData.sort((a, b) => a.nombre.localeCompare(b.nombre)).forEach(e => {
+                const option = document.createElement('option');
+                option.value = e.legajo;
+                option.textContent = `${e.legajo} - ${e.nombre}`;
+                empleadoSelect.appendChild(option);
+            });
+
             const sectores = [...new Set(allData.map(d => d.sector))].sort();
             const sectorSelect = document.getElementById('filter-sector');
             sectores.forEach(s => {
@@ -914,59 +817,24 @@
                 sectorSelect.appendChild(option);
             });
 
-            const posiciones = [...new Set(allData.map(d => d.posicion))].sort();
-            const posicionSelect = document.getElementById('filter-posicion');
-            posiciones.forEach(p => {
-                const option = document.createElement('option');
-                option.value = p;
-                option.textContent = p;
-                posicionSelect.appendChild(option);
+            document.getElementById('filter-empleado').addEventListener('change', function() {
+                if (this.value) {
+                    showEmployeeDetail(this.value);
+                }
             });
-
-            const temaSelect = document.getElementById('filter-tema-rapido');
-            allTemas.sort().forEach(tema => {
-                const option = document.createElement('option');
-                option.value = tema;
-                option.textContent = tema;
-                temaSelect.appendChild(option);
-            });
-
+            
             document.getElementById('filter-sector').addEventListener('change', applyFilters);
-            document.getElementById('filter-posicion').addEventListener('change', applyFilters);
-            document.getElementById('filter-tema-rapido').addEventListener('change', applyFilters);
             document.getElementById('search-box').addEventListener('input', applyFilters);
-        }
-
-        function populateAdvancedFilters() {
-            const temaSelect = document.getElementById('filter-tema');
-            allTemas.sort().forEach(tema => {
-                const option = document.createElement('option');
-                option.value = tema;
-                option.textContent = tema;
-                temaSelect.appendChild(option);
-            });
-
-            const instructorSelect = document.getElementById('filter-instructor');
-            allInstructores.sort().forEach(instructor => {
-                const option = document.createElement('option');
-                option.value = instructor;
-                option.textContent = instructor;
-                instructorSelect.appendChild(option);
-            });
         }
 
         function applyFilters() {
             const sector = document.getElementById('filter-sector').value;
-            const posicion = document.getElementById('filter-posicion').value;
-            const tema = document.getElementById('filter-tema-rapido').value;
             const search = document.getElementById('search-box').value.toLowerCase();
 
             filteredData = allData.filter(d => {
                 if (sector && d.sector !== sector) return false;
-                if (posicion && d.posicion !== posicion) return false;
-                if (tema && !d.capacitacionesRealizadas.includes(tema)) return false;
                 if (search) {
-                    const searchStr = `${d.legajo} ${d.nombre} ${d.posicion}`.toLowerCase();
+                    const searchStr = `${d.legajo} ${d.nombre} ${d.puesto}`.toLowerCase();
                     if (!searchStr.includes(search)) return false;
                 }
                 return true;
@@ -975,117 +843,140 @@
             updateDashboard();
         }
 
-        function applyAdvancedFilter() {
-            const tema = document.getElementById('filter-tema').value;
-            const fechaInicio = document.getElementById('filter-fecha-inicio').value;
-            const fechaFin = document.getElementById('filter-fecha-fin').value;
-            const instructor = document.getElementById('filter-instructor').value;
+        function showEmployeeDetail(legajo) {
+            const empleado = allData.find(e => e.legajo === legajo);
+            if (!empleado) return;
 
-            let resultados = capacitacionesData;
-
-            if (tema) resultados = resultados.filter(r => r.tema === tema);
-            if (fechaInicio) resultados = resultados.filter(r => r.fecha >= fechaInicio);
-            if (fechaFin) resultados = resultados.filter(r => r.fecha <= fechaFin);
-            if (instructor) resultados = resultados.filter(r => r.instructor === instructor);
-
-            showResultsModal(resultados, tema, fechaInicio, fechaFin, instructor);
-            closeModal('filterModal');
-        }
-
-        function showResultsModal(resultados, tema, fechaInicio, fechaFin, instructor) {
-            const tbody = document.getElementById('results-body');
-            tbody.innerHTML = '';
-
-            const totalParticipantes = resultados.reduce((sum, r) => sum + r.participantes, 0);
-            const totalHoras = resultados.reduce((sum, r) => sum + r.duracion, 0);
-            const promedioParticipantes = resultados.length > 0 ? (totalParticipantes / resultados.length).toFixed(1) : 0;
-
-            document.getElementById('results-stats').innerHTML = `
-                <div class="stat-box">
-                    <h4>Total Capacitaciones</h4>
-                    <div class="stat-value">${resultados.length}</div>
-                </div>
-                <div class="stat-box">
-                    <h4>Total Participantes</h4>
-                    <div class="stat-value">${totalParticipantes}</div>
-                </div>
-                <div class="stat-box">
-                    <h4>Horas Totales</h4>
-                    <div class="stat-value">${totalHoras}h</div>
-                </div>
-                <div class="stat-box">
-                    <h4>Promedio Participantes</h4>
-                    <div class="stat-value">${promedioParticipantes}</div>
-                </div>
-            `;
-
-            document.getElementById('results-title').textContent = 
-                `Tema: ${tema || 'Todos'} | Instructor: ${instructor || 'Todos'} | Período: ${fechaInicio || 'Inicio'} - ${fechaFin || 'Fin'}`;
-            document.getElementById('results-count').textContent = 
-                `Total de registros encontrados: ${resultados.length}`;
-
-            resultados.forEach(r => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${r.legajo}</td>
-                    <td>${r.nombre}</td>
-                    <td>${r.sector}</td>
-                    <td>${r.posicion}</td>
-                    <td>${r.tema}</td>
-                    <td>${r.fecha}</td>
-                    <td><button class="btn btn-info" onclick='showDetail(${JSON.stringify(r)})' style="padding: 5px 12px; font-size: 0.85em;">📋 Ver</button></td>
-                `;
-                tbody.appendChild(row);
-            });
-
-            openModal('resultsModal');
-        }
-
-        function showDetail(capData) {
-            const modalBody = document.getElementById('detail-modal-body');
+            const modalBody = document.getElementById('employee-modal-body');
+            
+            const totalRealizadas = empleado.capacitacionesRealizadas.length;
+            const totalPendientes = empleado.capacitacionesPendientes.length;
+            const totalHoras = empleado.capacitacionesRealizadas.reduce((sum, c) => sum + c.duracion, 0);
+            
             modalBody.innerHTML = `
-                <div class="info-grid">
-                    <div class="info-card">
-                        <h4> Tema</h4>
-                        <p>${capData.tema}</p>
+                <div class="employee-header">
+                    <div class="employee-header-item">
+                        <h4> Legajo</h4>
+                        <p>${empleado.legajo}</p>
                     </div>
-                    <div class="info-card">
-                        <h4>📅 Fecha</h4>
-                        <p>${capData.fecha}</p>
+                    <div class="employee-header-item">
+                        <h4> Apellido y Nombre</h4>
+                        <p>${empleado.nombre}</p>
                     </div>
-                    <div class="info-card">
-                        <h4>👨‍ Instructor</h4>
-                        <p>${capData.instructor}</p>
+                    <div class="employee-header-item">
+                        <h4> Sector</h4>
+                        <p>${empleado.sector}</p>
                     </div>
-                    <div class="info-card">
-                        <h4>⏱️ Duración</h4>
-                        <p>${capData.duracion} horas</p>
-                    </div>
-                    <div class="info-card">
-                        <h4> Participantes</h4>
-                        <p>${capData.participantes} personas</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>🏢 Sector</h4>
-                        <p>${capData.sector}</p>
+                    <div class="employee-header-item">
+                        <h4>💼 Puesto</h4>
+                        <p>${empleado.puesto}</p>
                     </div>
                 </div>
-                
-                <h3 style="color: var(--inst-gris-oscuro); margin: 20px 0 15px 0; border-bottom: 2px solid var(--inst-beige); padding-bottom: 10px;">📋 Información del Participante</h3>
-                <div class="detail-row" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
-                    <span style="font-weight:700; color:var(--inst-gris-oscuro);">Legajo:</span>
-                    <span>${capData.legajo}</span>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>✅ Completadas</h4>
+                        <div class="stat-value">${totalRealizadas}</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>⏳ Pendientes</h4>
+                        <div class="stat-value">${totalPendientes}</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>📊 Progreso</h4>
+                        <div class="stat-value">${empleado.porcentajeCompletado}%</div>
+                    </div>
+                    <div class="stat-card">
+                        <h4>⏱️ Horas Totales</h4>
+                        <div class="stat-value">${totalHoras}h</div>
+                    </div>
                 </div>
-                <div class="detail-row" style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
-                    <span style="font-weight:700; color:var(--inst-gris-oscuro);">Nombre:</span>
-                    <span>${capData.nombre}</span>
+
+                <div class="info-section">
+                    <h3>📈 Progreso de Capacitaciones</h3>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="chart-empleado-progreso"></canvas>
+                    </div>
                 </div>
-                <div class="detail-row" style="display:flex; justify-content:space-between; padding:10px 0;">
-                    <span style="font-weight:700; color:var(--inst-gris-oscuro);">Posición:</span>
-                    <span>${capData.posicion}</span>
+
+                <div class="info-section">
+                    <h3>✅ Capacitaciones Completadas (${totalRealizadas})</h3>
+                    ${empleado.capacitacionesRealizadas.map(c => `
+                        <div class="training-item completed">
+                            <div class="training-header">
+                                <span class="training-title">${c.tema}</span>
+                                <span class="training-badge" style="background: #2ecc71; color: white;">Completada</span>
+                            </div>
+                            <div class="training-details">
+                                <div class="training-detail-item">📅 ${c.fecha}</div>
+                                <div class="training-detail-item">‍🏫 ${c.instructor}</div>
+                                <div class="training-detail-item">⏱️ ${c.duracion} horas</div>
+                                <div class="training-detail-item">👥 ${c.participantes} participantes</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="info-section">
+                    <h3>⏳ Capacitaciones Pendientes (${totalPendientes})</h3>
+                    ${empleado.capacitacionesPendientes.length > 0 ? 
+                        empleado.capacitacionesPendientes.map(c => `
+                            <div class="training-item pending">
+                                <div class="training-header">
+                                    <span class="training-title">${c.tema}</span>
+                                    <span class="training-badge" style="background: #e74c3c; color: white;">Pendiente</span>
+                                </div>
+                            </div>
+                        `).join('') : 
+                        '<p style="color: #2ecc71; font-weight: 700; padding: 15px;">¡Felicitaciones! No tiene capacitaciones pendientes.</p>'
+                    }
                 </div>
             `;
-            openModal('detailModal');
+            
+            openModal('employeeModal');
+            
+            setTimeout(() => {
+                createEmployeeChart(empleado);
+            }, 100);
+        }
+
+        function createEmployeeChart(empleado) {
+            const ctx = document.getElementById('chart-empleado-progreso').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completadas', 'Pendientes'],
+                    datasets: [{
+                        data: [
+                            empleado.capacitacionesRealizadas.length,
+                            empleado.capacitacionesPendientes.length
+                        ],
+                        backgroundColor: ['#2ecc71', '#e74c3c'],
+                        borderWidth: 3,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { 
+                            position: 'bottom',
+                            labels: { padding: 15, font: { size: 14 } }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                    return `${context.label}: ${context.parsed} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         function openModal(modalId) {
@@ -1115,7 +1006,7 @@
             const totalEmpleados = filteredData.length;
             const totalCapacitaciones = filteredData.reduce((sum, d) => sum + d.totalCapacitaciones, 0);
             const promedio = totalEmpleados > 0 ? (totalCapacitaciones / totalEmpleados).toFixed(1) : 0;
-            const horasTotales = totalCapacitaciones * 2;
+            const horasTotales = totalCapacitaciones * 4;
 
             document.getElementById('kpi-total-empleados').textContent = totalEmpleados;
             document.getElementById('kpi-total-capacitaciones').textContent = totalCapacitaciones;
@@ -1127,7 +1018,6 @@
             Object.values(charts).forEach(chart => chart.destroy());
             charts = {};
 
-            // Gráfico 1: Capacitaciones por Sector
             const sectorData = {};
             filteredData.forEach(d => {
                 sectorData[d.sector] = (sectorData[d.sector] || 0) + d.totalCapacitaciones;
@@ -1141,7 +1031,6 @@
                         label: 'Capacitaciones',
                         data: Object.values(sectorData),
                         backgroundColor: coloresGraficos.slice(0, Object.keys(sectorData).length),
-                        borderColor: coloresGraficos.slice(0, Object.keys(sectorData).length),
                         borderWidth: 2,
                         borderRadius: 8
                     }]
@@ -1149,27 +1038,10 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: 'rgba(82, 81, 73, 0.9)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            callbacks: {
-                                label: function(context) {
-                                    return `Capacitaciones: ${context.parsed.y}`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: '#f0f0f0' } },
-                        x: { grid: { display: false } }
-                    }
+                    plugins: { legend: { display: false } }
                 }
             });
 
-            // Gráfico 2: Distribución por Sector
             const distribucionData = {};
             filteredData.forEach(d => {
                 distribucionData[d.sector] = (distribucionData[d.sector] || 0) + 1;
@@ -1188,24 +1060,10 @@
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { padding: 15, font: { size: 12 } } },
-                        tooltip: {
-                            backgroundColor: 'rgba(82, 81, 73, 0.9)',
-                            callbacks: {
-                                label: function(context) {
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                    return `${context.label}: ${context.parsed} empleados (${percentage}%)`;
-                                }
-                            }
-                        }
-                    }
+                    maintainAspectRatio: false
                 }
             });
 
-            // Gráfico 3: Participación en Capacitaciones (Horizontal)
             const participacionData = {};
             capacitacionesData.forEach(c => {
                 participacionData[c.tema] = (participacionData[c.tema] || 0) + 1;
@@ -1224,7 +1082,6 @@
                         label: 'Cantidad',
                         data: cantidades,
                         backgroundColor: coloresGraficos.slice(0, temas.length),
-                        borderColor: coloresGraficos.slice(0, temas.length),
                         borderWidth: 2,
                         borderRadius: 6
                     }]
@@ -1236,31 +1093,15 @@
                     plugins: {
                         legend: { display: false },
                         tooltip: {
-                            backgroundColor: 'rgba(82, 81, 73, 0.95)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            padding: 12,
                             callbacks: {
                                 label: function(context) {
                                     const index = context.dataIndex;
                                     return [
                                         `Cantidad: ${context.parsed.x} participantes`,
-                                        `Porcentaje: ${porcentajes[index]}% del total`
+                                        `Porcentaje: ${porcentajes[index]}%`
                                     ];
                                 }
                             }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            title: { display: true, text: 'Cantidad de Participantes', color: '#525149', font: { weight: 'bold' } },
-                            grid: { color: '#f0f0f0' }
-                        },
-                        y: {
-                            title: { display: true, text: 'Temas de Capacitación', color: '#525149', font: { weight: 'bold' } },
-                            grid: { display: false },
-                            ticks: { font: { size: 11 } }
                         }
                     }
                 }
@@ -1273,73 +1114,32 @@
 
             filteredData.forEach(d => {
                 const row = document.createElement('tr');
+                row.onclick = () => showEmployeeDetail(d.legajo);
                 
                 let badgeClass = 'badge-info';
                 let badgeText = 'En progreso';
-                if (d.totalCapacitaciones >= 7) {
+                if (d.porcentajeCompletado >= 80) {
                     badgeClass = 'badge-success';
                     badgeText = 'Excelente';
-                } else if (d.totalCapacitaciones >= 4) {
+                } else if (d.porcentajeCompletado >= 50) {
                     badgeClass = 'badge-warning';
                     badgeText = 'Bueno';
+                } else if (d.porcentajeCompletado < 30) {
+                    badgeClass = 'badge-danger';
+                    badgeText = 'Pendiente';
                 }
 
                 row.innerHTML = `
                     <td>${d.legajo}</td>
                     <td>${d.nombre}</td>
                     <td>${d.sector}</td>
-                    <td>${d.posicion}</td>
-                    <td>${d.totalCapacitaciones}</td>
-                    <td><span class="badge ${badgeClass}">${badgeText}</span></td>
-                    <td><button class="btn btn-info" onclick='showEmployeeDetail("${d.legajo}")' style="padding: 5px 12px; font-size: 0.85em;">📋 Ver</button></td>
+                    <td>${d.puesto}</td>
+                    <td>${d.totalCapacitaciones} / ${totalCapacitacionesDisponibles}</td>
+                    <td><span class="badge ${badgeClass}">${badgeText} (${d.porcentajeCompletado}%)</span></td>
                 `;
                 
                 tbody.appendChild(row);
             });
-        }
-
-        function showEmployeeDetail(legajo) {
-            const empleado = allData.find(e => e.legajo === legajo);
-            if (!empleado) return;
-
-            const capacitacionesEmpleado = capacitacionesData.filter(c => c.legajo === legajo);
-            
-            const modalBody = document.getElementById('detail-modal-body');
-            modalBody.innerHTML = `
-                <h3 style="color: var(--inst-gris-oscuro); margin-bottom: 20px; border-bottom: 2px solid var(--inst-beige); padding-bottom: 10px;"> Información del Empleado</h3>
-                <div class="info-grid">
-                    <div class="info-card">
-                        <h4> Nombre</h4>
-                        <p>${empleado.nombre}</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>🔢 Legajo</h4>
-                        <p>${empleado.legajo}</p>
-                    </div>
-                    <div class="info-card">
-                        <h4>🏢 Sector</h4>
-                        <p>${empleado.sector}</p>
-                    </div>
-                    <div class="info-card">
-                        <h4> Posición</h4>
-                        <p>${empleado.posicion}</p>
-                    </div>
-                </div>
-                
-                <h3 style="color: var(--inst-gris-oscuro); margin: 20px 0 15px 0; border-bottom: 2px solid var(--inst-beige); padding-bottom: 10px;">📚 Capacitaciones Realizadas (${capacitacionesEmpleado.length})</h3>
-                <div class="participants-list" style="max-height: 300px; overflow-y: auto;">
-                    ${capacitacionesEmpleado.map(c => `
-                        <div class="participant-item">
-                            <div>
-                                <strong style="color: var(--inst-gris-oscuro); font-size: 1.1em;">${c.tema}</strong><br>
-                                <small style="color: #666;"> ${c.fecha} | 👨‍ ${c.instructor} | ⏱️ ${c.duracion}h</small>
-                            </div>
-                            <button class="btn btn-info" onclick='showDetail(${JSON.stringify(c)})' style="padding: 5px 12px; font-size: 0.85em;"> Ver</button>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-            openModal('detailModal');
         }
     </script>
 </body>
