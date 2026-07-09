@@ -198,13 +198,116 @@
             color: var(--inst-naranja);
         }
 
-        .table-container { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-top: 5px solid var(--inst-naranja); max-height: 500px; overflow-y: auto; }
-        .table-container h2 { color: var(--inst-gris-oscuro); margin-bottom: 15px; font-size: 1.4em; text-align: center; }
-        .table-wrapper { overflow-x: auto; }
-        .data-table { width: 100%; border-collapse: collapse; font-size: 0.95em; }
-        .data-table thead { background: linear-gradient(135deg, var(--inst-gris-oscuro) 0%, var(--inst-gris-medio) 100%); color: white; position: sticky; top: 0; }
-        .data-table th, .data-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-        .data-table tbody tr:hover { background: #fff8f0; cursor: pointer; }
+        /* TABLA CON HEADER FIJO Y SCROLL */
+        .table-container { 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+            border-top: 5px solid var(--inst-naranja);
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        .table-header-fixed {
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+            border-bottom: 2px solid var(--inst-beige);
+        }
+
+        .table-title-bar {
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table-title-bar h2 { 
+            color: var(--inst-gris-oscuro); 
+            font-size: 1.4em; 
+            font-weight: 800;
+        }
+
+        .table-search-bar {
+            padding: 12px 20px;
+            background: #fafafa;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .table-search-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .table-search-group label {
+            display: block;
+            font-size: 0.8em;
+            font-weight: 700;
+            color: var(--inst-gris-oscuro);
+            margin-bottom: 4px;
+        }
+
+        .table-search-group input,
+        .table-search-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.9em;
+            background: white;
+        }
+
+        .table-search-group input:focus,
+        .table-search-group select:focus {
+            outline: none;
+            border-color: var(--inst-naranja);
+        }
+
+        .table-scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+        .data-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-size: 0.95em; 
+        }
+
+        .data-table thead { 
+            background: linear-gradient(135deg, var(--inst-gris-oscuro) 0%, var(--inst-gris-medio) 100%); 
+            color: white; 
+            position: sticky; 
+            top: 0;
+            z-index: 5;
+        }
+
+        .data-table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .data-table td { 
+            padding: 12px; 
+            border-bottom: 1px solid #eee; 
+        }
+
+        .data-table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .data-table tbody tr:hover { 
+            background: #fff8f0; 
+            cursor: pointer; 
+        }
 
         .badge { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 0.85em; font-weight: 700; color: white; text-align: center; }
         .badge-rojo { background: #dc3545; }
@@ -266,6 +369,7 @@
             .modal-content { margin: 3% auto; width: 95%; padding: 20px; }
             .participacion-layout { grid-template-columns: 1fr; }
             .participacion-chart-area { border-right: none; border-bottom: 2px solid #f0f0f0; padding-right: 0; padding-bottom: 20px; }
+            .table-container { height: 500px; }
         }
 
         @media (max-width: 600px) {
@@ -277,6 +381,7 @@
             .data-table { font-size: 0.8em; }
             .data-table th, .data-table td { padding: 8px; }
             .modal-content { margin: 2% auto; width: 98%; padding: 15px; }
+            .table-container { height: 450px; }
         }
     </style>
 </head>
@@ -304,7 +409,7 @@
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label for="filter-sector">🏢 Sector:</label>
+                    <label for="filter-sector"> Sector:</label>
                     <select id="filter-sector">
                         <option value="">Todos los sectores</option>
                     </select>
@@ -347,7 +452,7 @@
                 </div>
             </div>
             <div class="chart-card">
-                <h3> Distribución de Empleados</h3>
+                <h3>🥧 Distribución de Empleados</h3>
                 <div class="chart-container">
                     <canvas id="chart-distribucion"></canvas>
                 </div>
@@ -363,14 +468,39 @@
                 <div class="participacion-chart-area">
                     <canvas id="chart-participacion"></canvas>
                 </div>
-                <div class="participacion-legend" id="participacion-legend">
-                </div>
+                <div class="participacion-legend" id="participacion-legend"></div>
             </div>
         </div>
 
+        <!-- TABLA CON HEADER FIJO Y SCROLL -->
         <div class="table-container">
-            <h2>📋 Listado de Empleados</h2>
-            <div class="table-wrapper">
+            <div class="table-header-fixed">
+                <div class="table-title-bar">
+                    <h2>📋 Listado de Empleados</h2>
+                </div>
+                <div class="table-search-bar">
+                    <div class="table-search-group">
+                        <label>🔎 Buscar en tabla:</label>
+                        <input type="text" id="table-search" placeholder="Nombre, legajo, sector o puesto...">
+                    </div>
+                    <div class="table-search-group">
+                        <label>🏢 Filtrar Sector:</label>
+                        <select id="table-sector-filter">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+                    <div class="table-search-group">
+                        <label> Filtrar Estado:</label>
+                        <select id="table-status-filter">
+                            <option value="">Todos</option>
+                            <option value="rojo">Hasta 3 (Rojo)</option>
+                            <option value="naranja">Igual a 4 (Naranja)</option>
+                            <option value="verde">Mayor a 4 (Verde)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="table-scroll-area">
                 <table class="data-table">
                     <thead>
                         <tr>
@@ -382,8 +512,7 @@
                             <th>Estado</th>
                         </tr>
                     </thead>
-                    <tbody id="table-body">
-                    </tbody>
+                    <tbody id="table-body"></tbody>
                 </table>
             </div>
         </div>
@@ -400,8 +529,7 @@
                 <h2>📋 Detalle Completo del Empleado</h2>
                 <span class="close" onclick="closeModal('employeeModal')">&times;</span>
             </div>
-            <div class="modal-body" id="employee-modal-body">
-            </div>
+            <div class="modal-body" id="employee-modal-body"></div>
         </div>
     </div>
 
@@ -537,6 +665,7 @@
 
             filteredData = [...allData];
             populateFilters();
+            populateTableFilters();
             updateDashboard();
         }
 
@@ -572,6 +701,45 @@
             document.getElementById('search-box').addEventListener('input', applyFilters);
         }
 
+        function populateTableFilters() {
+            const sectores = [...new Set(allData.map(d => d.sector))].sort();
+            const tableSectorFilter = document.getElementById('table-sector-filter');
+            sectores.forEach(s => {
+                const option = document.createElement('option');
+                option.value = s;
+                option.textContent = s;
+                tableSectorFilter.appendChild(option);
+            });
+
+            document.getElementById('table-search').addEventListener('input', applyTableFilters);
+            document.getElementById('table-sector-filter').addEventListener('change', applyTableFilters);
+            document.getElementById('table-status-filter').addEventListener('change', applyTableFilters);
+        }
+
+        function applyTableFilters() {
+            const search = document.getElementById('table-search').value.toLowerCase();
+            const sector = document.getElementById('table-sector-filter').value;
+            const status = document.getElementById('table-status-filter').value;
+
+            let dataToFilter = selectedEmployee ? [selectedEmployee] : filteredData;
+
+            const tableFiltered = dataToFilter.filter(d => {
+                if (search) {
+                    const searchStr = `${d.legajo} ${d.nombre} ${d.sector} ${d.puesto}`.toLowerCase();
+                    if (!searchStr.includes(search)) return false;
+                }
+                if (sector && d.sector !== sector) return false;
+                if (status) {
+                    if (status === 'rojo' && d.totalCapacitaciones > 3) return false;
+                    if (status === 'naranja' && d.totalCapacitaciones !== 4) return false;
+                    if (status === 'verde' && d.totalCapacitaciones <= 4) return false;
+                }
+                return true;
+            });
+
+            renderTable(tableFiltered);
+        }
+
         function applyFilters() {
             const sector = document.getElementById('filter-sector').value;
             const search = document.getElementById('search-box').value.toLowerCase();
@@ -589,7 +757,6 @@
         }
 
         function updateDashboardForEmployee(empleado) {
-            // Actualizar KPIs con datos del empleado
             document.getElementById('kpi-total-empleados').textContent = '1';
             document.getElementById('kpi-total-capacitaciones').textContent = empleado.totalCapacitaciones;
             document.getElementById('kpi-promedio').textContent = empleado.totalCapacitaciones;
@@ -597,15 +764,14 @@
             document.getElementById('kpi-horas').textContent = horasTotales + 'h';
             document.getElementById('total-empleados-label').textContent = '1';
 
-            // Actualizar gráficos con datos del empleado
             updateChartsForEmployee(empleado);
-            updateTableForEmployee(empleado);
+            renderTable([empleado]);
         }
 
         function updateDashboard() {
             updateKPIs();
             updateCharts();
-            updateTable();
+            applyTableFilters();
         }
 
         function updateKPIs() {
@@ -627,7 +793,6 @@
 
             const dpr = window.devicePixelRatio || 1;
 
-            // Gráfico 1: Capacitaciones del empleado por tema
             const temaData = {};
             empleado.capacitacionesRealizadas.forEach(c => {
                 temaData[c.tema] = (temaData[c.tema] || 0) + 1;
@@ -673,7 +838,6 @@
                 }
             });
 
-            // Gráfico 2: Distribución por duración
             const duracionData = {};
             empleado.capacitacionesRealizadas.forEach(c => {
                 duracionData[c.duracion + 'h'] = (duracionData[c.duracion + 'h'] || 0) + 1;
@@ -722,7 +886,6 @@
                 }
             });
 
-            // Gráfico 3: Participación (mostrar solo temas del empleado)
             const participacionData = {};
             empleado.capacitacionesRealizadas.forEach(c => {
                 participacionData[c.tema] = (participacionData[c.tema] || 0) + c.duracion;
@@ -730,7 +893,6 @@
 
             const temasPart = Object.keys(participacionData);
             const duraciones = Object.values(participacionData);
-            const maxDuracion = Math.max(...duraciones);
 
             const temasOrdenados = temasPart.map((tema, index) => ({
                 tema,
@@ -781,9 +943,7 @@
                             title: { display: true, text: 'Horas de Capacitación', color: '#525149', font: { weight: 'bold', size: 13 } },
                             grid: { color: '#f0f0f0' }
                         },
-                        x: {
-                            display: false
-                        }
+                        x: { display: false }
                     }
                 }
             });
@@ -981,9 +1141,7 @@
                             title: { display: true, text: 'Cantidad de Participantes', color: '#525149', font: { weight: 'bold', size: 13 } },
                             grid: { color: '#f0f0f0' }
                         },
-                        x: {
-                            display: false
-                        }
+                        x: { display: false }
                     }
                 }
             });
@@ -991,58 +1149,25 @@
             updateParticipacionLegend(temasOrdenados, 'cantidad');
         }
 
-        function updateTableForEmployee(empleado) {
-            const tbody = document.getElementById('table-body');
-            tbody.innerHTML = '';
-
-            let badgeClass = 'badge-rojo';
-            let badgeText = 'Pendiente';
-            
-            if (empleado.totalCapacitaciones <= 3) {
-                badgeClass = 'badge-rojo';
-                badgeText = `Hasta 3 (${empleado.totalCapacitaciones})`;
-            } else if (empleado.totalCapacitaciones === 4) {
-                badgeClass = 'badge-naranja';
-                badgeText = `Igual a 4`;
-            } else if (empleado.totalCapacitaciones > 4) {
-                badgeClass = 'badge-verde';
-                badgeText = `Mayor a 4 (${empleado.totalCapacitaciones})`;
+        function getBadgeInfo(totalCapacitaciones) {
+            if (totalCapacitaciones <= 3) {
+                return { class: 'badge-rojo', text: `Hasta 3 (${totalCapacitaciones})` };
+            } else if (totalCapacitaciones === 4) {
+                return { class: 'badge-naranja', text: `Igual a 4` };
+            } else {
+                return { class: 'badge-verde', text: `Mayor a 4 (${totalCapacitaciones})` };
             }
-
-            const row = document.createElement('tr');
-            row.onclick = () => showEmployeeDetail(empleado.legajo);
-            row.innerHTML = `
-                <td>${empleado.legajo}</td>
-                <td>${empleado.nombre}</td>
-                <td>${empleado.sector}</td>
-                <td>${empleado.puesto}</td>
-                <td>${empleado.totalCapacitaciones} / ${totalCapacitacionesDisponibles}</td>
-                <td><span class="badge ${badgeClass}">${badgeText}</span></td>
-            `;
-            tbody.appendChild(row);
         }
 
-        function updateTable() {
+        function renderTable(data) {
             const tbody = document.getElementById('table-body');
             tbody.innerHTML = '';
 
-            filteredData.forEach(d => {
+            data.forEach(d => {
                 const row = document.createElement('tr');
                 row.onclick = () => showEmployeeDetail(d.legajo);
                 
-                let badgeClass = 'badge-rojo';
-                let badgeText = 'Pendiente';
-                
-                if (d.totalCapacitaciones <= 3) {
-                    badgeClass = 'badge-rojo';
-                    badgeText = `Hasta 3 (${d.totalCapacitaciones})`;
-                } else if (d.totalCapacitaciones === 4) {
-                    badgeClass = 'badge-naranja';
-                    badgeText = `Igual a 4`;
-                } else if (d.totalCapacitaciones > 4) {
-                    badgeClass = 'badge-verde';
-                    badgeText = `Mayor a 4 (${d.totalCapacitaciones})`;
-                }
+                const badgeInfo = getBadgeInfo(d.totalCapacitaciones);
 
                 row.innerHTML = `
                     <td>${d.legajo}</td>
@@ -1050,7 +1175,7 @@
                     <td>${d.sector}</td>
                     <td>${d.puesto}</td>
                     <td>${d.totalCapacitaciones} / ${totalCapacitacionesDisponibles}</td>
-                    <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+                    <td><span class="badge ${badgeInfo.class}">${badgeInfo.text}</span></td>
                 `;
                 
                 tbody.appendChild(row);
@@ -1078,7 +1203,7 @@
                         <p>${empleado.nombre}</p>
                     </div>
                     <div class="employee-header-item">
-                        <h4>🏢 Sector</h4>
+                        <h4> Sector</h4>
                         <p>${empleado.sector}</p>
                     </div>
                     <div class="employee-header-item">
@@ -1097,7 +1222,7 @@
                         <div class="stat-value">${totalPendientes}</div>
                     </div>
                     <div class="stat-card">
-                        <h4>📊 Progreso</h4>
+                        <h4> Progreso</h4>
                         <div class="stat-value">${empleado.porcentajeCompletado}%</div>
                     </div>
                     <div class="stat-card">
@@ -1122,10 +1247,10 @@
                                 <span class="training-badge" style="background: #28a745; color: white;">Completada</span>
                             </div>
                             <div class="training-details">
-                                <div class="training-detail-item"> ${c.fecha}</div>
-                                <div class="training-detail-item">👨‍ ${c.instructor}</div>
+                                <div class="training-detail-item">📅 ${c.fecha}</div>
+                                <div class="training-detail-item">‍🏫 ${c.instructor}</div>
                                 <div class="training-detail-item">⏱️ ${c.duracion} horas</div>
-                                <div class="training-detail-item">👥 ${c.participantes} participantes</div>
+                                <div class="training-detail-item"> ${c.participantes} participantes</div>
                             </div>
                         </div>
                     `).join('')}
