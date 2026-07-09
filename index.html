@@ -78,7 +78,95 @@
         .chart-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-left: 5px solid var(--inst-naranja); }
         .chart-card h3 { color: var(--inst-gris-oscuro); margin-bottom: 15px; font-size: 1.2em; text-align: center; font-weight: 700; }
         .chart-container { position: relative; height: 350px; }
-        .chart-container-large { position: relative; height: 700px; }
+
+        /* NUEVO ESTILO PARA GRÁFICO DE PARTICIPACIÓN */
+        .participacion-card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-left: 5px solid var(--inst-naranja); margin-bottom: 20px; }
+        .participacion-header { text-align: center; margin-bottom: 10px; }
+        .participacion-title { color: var(--inst-gris-oscuro); font-size: 1.4em; font-weight: 800; margin-bottom: 5px; }
+        .participacion-subtitle { color: var(--inst-gris-medio); font-size: 0.95em; }
+        .participacion-subtitle strong { color: var(--inst-naranja); }
+        
+        .participacion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 700px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        
+        .participacion-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            background: #fafafa;
+        }
+        
+        .participacion-item:hover {
+            background: #fff8f0;
+            transform: translateX(3px);
+        }
+        
+        .participacion-bar-container {
+            flex: 1;
+            height: 28px;
+            background: #f0f0f0;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .participacion-bar {
+            height: 100%;
+            border-radius: 14px;
+            transition: width 0.8s ease;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            min-width: 40px;
+        }
+        
+        .participacion-bar-value {
+            color: white;
+            font-weight: 700;
+            font-size: 0.85em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .participacion-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 220px;
+            justify-content: flex-end;
+        }
+        
+        .participacion-color-box {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .participacion-label-text {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--inst-gris-oscuro);
+            text-align: right;
+            white-space: nowrap;
+        }
+        
+        .participacion-percentage {
+            font-weight: 800;
+            font-size: 0.95em;
+            color: var(--inst-gris-oscuro);
+            min-width: 55px;
+            text-align: right;
+        }
 
         .table-container { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-top: 5px solid var(--inst-naranja); max-height: 500px; overflow-y: auto; }
         .table-container h2 { color: var(--inst-gris-oscuro); margin-bottom: 15px; font-size: 1.4em; text-align: center; }
@@ -142,7 +230,8 @@
             .kpi-card { min-width: 150px; padding: 15px 20px; }
             .kpi-card .value { font-size: 1.8em; }
             .modal-content { margin: 3% auto; width: 95%; padding: 20px; }
-            .chart-container-large { height: 500px; }
+            .participacion-label { min-width: 150px; }
+            .participacion-label-text { font-size: 0.8em; }
         }
 
         @media (max-width: 600px) {
@@ -153,6 +242,8 @@
             .data-table { font-size: 0.8em; }
             .data-table th, .data-table td { padding: 8px; }
             .modal-content { margin: 2% auto; width: 98%; padding: 15px; }
+            .participacion-item { flex-wrap: wrap; }
+            .participacion-label { min-width: 100%; justify-content: flex-start; order: -1; }
         }
     </style>
 </head>
@@ -226,16 +317,19 @@
             </div>
         </div>
 
-        <div class="chart-card" style="margin-bottom: 20px;">
-            <h3>📈 Participación en Capacitaciones (Cantidad y Porcentaje)</h3>
-            <p style="text-align: center; color: #666; font-size: 0.9em; margin-bottom: 15px;">Porcentaje calculado sobre un total de <strong id="total-empleados-label">0</strong> empleados</p>
-            <div class="chart-container-large">
-                <canvas id="chart-participacion"></canvas>
+        <!-- NUEVO GRÁFICO DE PARTICIPACIÓN PERSONALIZADO -->
+        <div class="participacion-card">
+            <div class="participacion-header">
+                <div class="participacion-title"> Participación en Capacitaciones (Cantidad y Porcentaje)</div>
+                <div class="participacion-subtitle">Porcentaje calculado sobre un total de <strong id="total-empleados-label">0</strong> empleados</div>
+            </div>
+            <div class="participacion-list" id="participacion-list">
+                <!-- Se llena dinámicamente -->
             </div>
         </div>
 
         <div class="table-container">
-            <h2> Listado de Empleados</h2>
+            <h2>📋 Listado de Empleados</h2>
             <div class="table-wrapper">
                 <table class="data-table">
                     <thead>
@@ -262,7 +356,7 @@
     <div id="employeeModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2> Detalle Completo del Empleado</h2>
+                <h2>📋 Detalle Completo del Empleado</h2>
                 <span class="close" onclick="closeModal('employeeModal')">&times;</span>
             </div>
             <div class="modal-body" id="employee-modal-body">
@@ -282,10 +376,10 @@
 
         const coloresGraficos = [
             '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', 
-            '#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360', '#AC64AD'
+            '#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360', '#AC64AD',
+            '#2ecc71', '#e74c3c', '#3498db', '#9b59b6', '#1abc9c', '#f39c12'
         ];
 
-        // Registrar plugin y configurar para alta resolución
         Chart.register(ChartDataLabels);
         Chart.defaults.devicePixelRatio = window.devicePixelRatio || 1;
 
@@ -465,7 +559,7 @@
                         <p>${empleado.legajo}</p>
                     </div>
                     <div class="employee-header-item">
-                        <h4> Apellido y Nombre</h4>
+                        <h4>👤 Apellido y Nombre</h4>
                         <p>${empleado.nombre}</p>
                     </div>
                     <div class="employee-header-item">
@@ -473,7 +567,7 @@
                         <p>${empleado.sector}</p>
                     </div>
                     <div class="employee-header-item">
-                        <h4> Puesto</h4>
+                        <h4>💼 Puesto</h4>
                         <p>${empleado.puesto}</p>
                     </div>
                 </div>
@@ -484,7 +578,7 @@
                         <div class="stat-value">${totalRealizadas}</div>
                     </div>
                     <div class="stat-card">
-                        <h4> Pendientes</h4>
+                        <h4>⏳ Pendientes</h4>
                         <div class="stat-value">${totalPendientes}</div>
                     </div>
                     <div class="stat-card">
@@ -492,7 +586,7 @@
                         <div class="stat-value">${empleado.porcentajeCompletado}%</div>
                     </div>
                     <div class="stat-card">
-                        <h4>⏱️ Horas Totales</h4>
+                        <h4>️ Horas Totales</h4>
                         <div class="stat-value">${totalHoras}h</div>
                     </div>
                 </div>
@@ -614,6 +708,7 @@
         function updateDashboard() {
             updateKPIs();
             updateCharts();
+            updateParticipacionList();
             updateTable();
         }
 
@@ -628,6 +723,50 @@
             document.getElementById('kpi-promedio').textContent = promedio;
             document.getElementById('kpi-horas').textContent = horasTotales;
             document.getElementById('total-empleados-label').textContent = totalEmpleados;
+        }
+
+        // NUEVA FUNCIÓN PARA ACTUALIZAR LA LISTA DE PARTICIPACIÓN
+        function updateParticipacionList() {
+            const participacionData = {};
+            capacitacionesData.forEach(c => {
+                participacionData[c.tema] = (participacionData[c.tema] || 0) + 1;
+            });
+
+            const totalEmpleadosGeneral = allData.length || 1;
+            const temas = Object.keys(participacionData);
+            const cantidades = Object.values(participacionData);
+            const maxCantidad = Math.max(...cantidades);
+            
+            // Ordenar por cantidad descendente
+            const temasOrdenados = temas.map((tema, index) => ({
+                tema,
+                cantidad: cantidades[index],
+                porcentaje: ((cantidades[index] / totalEmpleadosGeneral) * 100).toFixed(1),
+                color: coloresGraficos[index % coloresGraficos.length]
+            })).sort((a, b) => b.cantidad - a.cantidad);
+
+            const listContainer = document.getElementById('participacion-list');
+            listContainer.innerHTML = '';
+
+            temasOrdenados.forEach(item => {
+                const barWidth = (item.cantidad / maxCantidad) * 100;
+                
+                const div = document.createElement('div');
+                div.className = 'participacion-item';
+                div.innerHTML = `
+                    <div class="participacion-bar-container">
+                        <div class="participacion-bar" style="width: ${barWidth}%; background: ${item.color};">
+                            <span class="participacion-bar-value">${item.cantidad}</span>
+                        </div>
+                    </div>
+                    <div class="participacion-label">
+                        <div class="participacion-color-box" style="background: ${item.color};"></div>
+                        <span class="participacion-label-text">${item.tema}</span>
+                    </div>
+                    <div class="participacion-percentage">${item.porcentaje}%</div>
+                `;
+                listContainer.appendChild(div);
+            });
         }
 
         function updateCharts() {
@@ -722,77 +861,6 @@
                                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
                                 const percentage = ((value / total) * 100).toFixed(1);
                                 return percentage + '%';
-                            }
-                        }
-                    }
-                }
-            });
-
-            // GRÁFICO 3: Participación en Capacitaciones (BARRAS HORIZONTALES con cuadradito de color)
-            const participacionData = {};
-            capacitacionesData.forEach(c => {
-                participacionData[c.tema] = (participacionData[c.tema] || 0) + 1;
-            });
-
-            const totalEmpleadosGeneral = allData.length || 1;
-            const temas = Object.keys(participacionData);
-            const cantidades = Object.values(participacionData);
-            const porcentajes = cantidades.map(c => ((c / totalEmpleadosGeneral) * 100).toFixed(1));
-
-            charts.participacion = new Chart(document.getElementById('chart-participacion'), {
-                type: 'bar',
-                data: {
-                    labels: temas,
-                    datasets: [{
-                        label: 'Cantidad',
-                        data: cantidades,
-                        backgroundColor: coloresGraficos.slice(0, temas.length),
-                        borderWidth: 2,
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    devicePixelRatio: dpr,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const index = context.dataIndex;
-                                    return [
-                                        `Cantidad: ${context.parsed.x} participantes`,
-                                        `Porcentaje: ${porcentajes[index]}%`
-                                    ];
-                                }
-                            }
-                        },
-                        datalabels: {
-                            color: '#525149',
-                            font: { weight: 'bold', size: 12 },
-                            anchor: 'end',
-                            align: 'right',
-                            offset: 8,
-                            formatter: function(value, context) {
-                                const index = context.dataIndex;
-                                return porcentajes[index] + '%';
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            title: { display: true, text: 'Cantidad de Participantes', color: '#525149', font: { weight: 'bold', size: 13 } },
-                            grid: { color: '#f0f0f0' }
-                        },
-                        y: {
-                            title: { display: false },
-                            grid: { display: false },
-                            ticks: {
-                                font: { size: 12, weight: 'bold' },
-                                color: '#525149'
                             }
                         }
                     }
